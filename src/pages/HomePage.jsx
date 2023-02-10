@@ -7,7 +7,6 @@ import { makeStyles, styled } from '@mui/styles'
 import clsx from 'clsx'
 
 
-import DefaultLayout from '@layouts/DefaultLayout';
 import SpaceTag from '@components/SpaceTag';
 
 
@@ -34,11 +33,11 @@ function Dashboard(props) {
 	// console.log("data : ", userData)
 
 	return (
-		<DefaultLayout>
+		<>
 			<div className='grow'>
 				<h1> content </h1>
 			</div>
-		</DefaultLayout>
+		</>
 	)
 }
 

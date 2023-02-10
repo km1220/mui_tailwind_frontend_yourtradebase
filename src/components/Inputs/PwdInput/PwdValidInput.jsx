@@ -6,7 +6,7 @@ import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { _isStrEmpty } from '@utils'
 
-import InputComponent from '@components/Inputs/InputComponent'
+import InputComponent from '@components/inputs/InputComponent'
 
 const useStyles = makeStyles(theme => {
 	console.log(theme)

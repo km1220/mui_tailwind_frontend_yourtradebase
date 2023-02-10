@@ -19,7 +19,8 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: 'none',
-          borderRadius: '0'
+          borderRadius: '0',
+          padding: '0.5rem 1rem',
         }
       }
     },
@@ -166,7 +167,7 @@ export const theme = createTheme({
     button: {
       fontWeight: 800
     },
-    fontFamily: 'system-ui',
+    fontFamily: '"trade-gothic", "Helvetica Neue", Arial, Helvetica, sans-serif, system-ui',
     // fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
     body1: {
       fontFamily: 'system-ui, san-serif',

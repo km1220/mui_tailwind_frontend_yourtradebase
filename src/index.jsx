@@ -20,6 +20,7 @@ const store = _store;
 console.log("==============> : ", theme);
 
 const rootNode = document.getElementById('root');
+// const rootNode = document.querySelector('body');
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

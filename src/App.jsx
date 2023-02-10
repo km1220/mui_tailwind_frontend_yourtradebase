@@ -7,12 +7,21 @@ import clsx from 'clsx';
 
 // import AppRouter from './routes';
 
+const PrivateRoute = lazy(() => import('./layouts/auth/PrivateRoute'));
 import Loading from '@components/LoadingPage';
 const LogInPage = lazy(() => import('@pages/auth/LogInPage'));
 const SignUpPage = lazy(() => import('@pages/auth/SignUpPage'));
+
+const DefaultLayout = lazy(() => import('@layouts/DefaultLayout'));
 const HomePage = lazy(() => import('@pages/HomePage'));
 const DashboardPage = lazy(() => import('@pages/Dashboard'));
 const ContactUsPage = lazy(() => import('@pages/ContactUsPage'));
+
+const SettingLayout = lazy(() => import('@layouts/setting/SettingLayout'));
+const MaterialsPage = lazy(() => import('@pages/setting/MaterialsPage'));
+const LabourRatesPage = lazy(() => import('@pages/setting/LabourRatesPage'));
+const PriceListPage = lazy(() => import('@pages/setting/pricelist'));
+const AddPriceListPage = lazy(() => import('@pages/setting/pricelist/AddPriceList'));
 import TestComponent from './test.component';
 
 
@@ -34,14 +43,30 @@ function App(props) {
         <div className={clsx(classes.root, "App flex flex-col items-center")}>
           {/* <AppRouter /> */}
           <Routes>
-            <Route path="/" element={<Navigate to={userData.email_addr ? "/dashboard" : "/home"} replace />} />
+            <Route index element={<Navigate to={userData.email_addr ? "/dashboard" : "/home"} replace />} />
             <Route path="/login" element={<LogInPage />} />
             <Route path="/signup" element={<SignUpPage />} />
 
 
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/dashboard" element={<PrivateRoute> <DashboardPage /> </PrivateRoute>} />
-            <Route path="/contact_us" element={<ContactUsPage />} />
+
+            <Route path="/" element={<DefaultLayout />}>
+              <Route path="home" element={<HomePage />} />
+              <Route path="" element={<PrivateRoute />}>
+                <Route path="dashboard" element={<DashboardPage />} />
+              </Route>
+              <Route path="contact_us" element={<ContactUsPage />} />
+            </Route>
+
+            <Route path="/setting">
+              <Route element={<SettingLayout />}>
+                <Route path="materials" element={<MaterialsPage />} />
+                <Route path="labour_rates" element={<LabourRatesPage />} />
+                <Route path="price_list" element={<PriceListPage />} />
+                <Route index element={<Navigate to={"/setting/price_list"} replace />} />
+                <Route path="*" element={<Navigate to={"/setting"} replace />} />
+              </Route>
+              <Route path="price_list/new" element={<AddPriceListPage />} />
+            </Route>
 
             <Route path="/test" element={<TestComponent />} />
 
@@ -52,22 +77,5 @@ function App(props) {
     </Suspense>
   );
 }
-
-let isLogged = true;
-const PublicRoute = ({ children }) => (
-  children
-);
-const PrivateRoute = ({ children }) => {
-  const userData = useSelector(state => state.user)
-
-  return (
-    userData.email_addr ? children : <Navigate to='/login' replace />
-  )
-}
-
-const LoadingMessage = () => (
-  "I'm loading..."
-)
-
 
 export default App;

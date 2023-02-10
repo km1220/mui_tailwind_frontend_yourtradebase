@@ -8,8 +8,7 @@ import { Box, Paper, Button, Typography, Divider } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import clsx from 'clsx'
 
-import DefaultLayout from '@layouts/DefaultLayout';
-import InputComponent from '@components/Inputs/InputComponent';
+import InputComponent from '@components/inputs/InputComponent';
 import SpaceTag from '@components/SpaceTag';
 
 import dispatchers from '@store/dispatchers'
@@ -48,7 +47,7 @@ function Dashboard(props) {
 	const userData = useSelector(state => state.user)
 
 	return (
-		<DefaultLayout>
+		<>
 			<div className={clsx(classes.root, 'flex flex-col m-8')}>
 				<SpaceTag h={4} />
 				<Typography variant="h2"> Dashboard Page </Typography>
@@ -56,7 +55,7 @@ function Dashboard(props) {
 					<Typography variant="h1"> Welcome {userData.email_addr}!</Typography>
 				</Paper>
 			</div>
-		</DefaultLayout>
+		</>
 	)
 }
 

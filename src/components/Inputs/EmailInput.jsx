@@ -5,7 +5,7 @@ import { makeStyles } from '@mui/styles';
 import clsx from 'clsx'
 import { _isStrEmpty, validateEmail } from '@utils'
 
-import InputComponent from '@components/Inputs/InputComponent'
+import InputComponent from '@components/inputs/InputComponent';
 
 
 const useStyles = makeStyles(theme => ({
@@ -59,7 +59,7 @@ function EmailInput(props) {
 				/>
 			</div>
 			<Collapse in={!_isStrEmpty(value) && !emailValid} component='ul' className={clsx(classes.errorText, 'error')}>
-				<div className='sm:my-4 my-2'><Typography>Your input is not the email format</Typography></div>
+				<div className='my-2 sm:my-4'><Typography>Your input is not the email format</Typography></div>
 			</Collapse>
 		</div>
 	)

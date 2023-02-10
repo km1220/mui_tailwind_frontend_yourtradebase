@@ -7,9 +7,9 @@ import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
 import SelectRolePage from '@components/SelectRolePage'
-// import InputComponent from '@components/Inputs/InputComponent'
-import EmailInput from '@components/Inputs/EmailInput'
-import PwdInput from '@components/Inputs/PwdInput/PwdInput'
+// import InputComponent from '@components/inputs/InputComponent'
+import EmailInput from '@components/inputs/EmailInput'
+import PwdInput from '@components/inputs/PwdInput/PwdInput'
 
 import { SET_ALL_USER_INFO } from '@store/actions'
 import { validateEmail } from '@utils'

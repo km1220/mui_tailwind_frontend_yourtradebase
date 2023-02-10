@@ -2,19 +2,22 @@
 /* width */
 ::-webkit-scrollbar {
 	width: 5px;
+	height: 5px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-	background: #f1f1f1;
+	background: #bbb;
+	border-radius: 100px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
 	background: #004008;
+	border-radius: 100px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: #555;
+	background: #333;
 }

@@ -9,10 +9,10 @@ import clsx from 'clsx'
 // import FacebookLogo from '@assets/imgs/social/facebook.png'
 
 import SelectRolePage from '@components/SelectRolePage'
-import InputComponent from '@components/Inputs/InputComponent'
-import EmailInput from '@components/Inputs/EmailInput'
-import PwdValidInput from '@components/Inputs/PwdInput/PwdValidInput'
-import PwdConfirmInput from '@components/Inputs/PwdInput/PwdConfirmInput'
+import InputComponent from '@components/inputs/InputComponent'
+import EmailInput from '@components/inputs/EmailInput'
+import PwdValidInput from '@components/inputs/PwdInput/PwdValidInput'
+import PwdConfirmInput from '@components/inputs/PwdInput/PwdConfirmInput'
 
 const useStyles = makeStyles(theme => {
 	console.log(theme)

@@ -1,3 +1,11 @@
 * {
 	--x: 0;
 }
+
+
+
+input,
+textarea {
+	background: transparent;
+	outline: none;
+}
