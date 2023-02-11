@@ -48,11 +48,16 @@ const useStyles = makeStyles(theme => ({
 		color: theme.palette.common.black,
 		// padding: '0rem 1.5rem'
 	},
-	logoImg: {
+	logo: {
 		// background: theme.palette.common.white,
 		// padding: '0.5rem',
 		// borderRadius: '1rem',
 		// width: '3rem',
+		'& #header-domain': {
+			[theme.breakpoints.down('md')]: {
+				display: 'none',
+			}
+		}
 	}
 }))
 
@@ -60,7 +65,7 @@ const useStyles = makeStyles(theme => ({
 const HeaderBtn = props => {
 	const { className, style, children, ...others } = props
 	return React.createElement(Button, {
-		className: clsx("px-4 py-2 text-xs", className), component: props.to ? Link : 'button',
+		className: clsx("px-2 py-1 md:px-4 md:py-2 text-xs", className), component: props.to ? Link : 'button',
 		variant: "outlined", color: "inherit",
 		style: {
 			fontFamily: 'revert',
@@ -72,10 +77,18 @@ const HeaderBtn = props => {
 		children
 	)
 }
-const LinkBtn = ({ title, Icon, to }) => {
+// const LinkBtn = styled(Button)(({ theme }) => ({
+// 	'& .MuiButton-root': {
+// 		padding: '0.25rem 1.25rem',
+// 		[theme.breakpoints.down('md')]: {
+// 			padding: '0.25rem',
+// 		}
+// 	}
+// }));
+const HeaderLink = ({ title, Icon, to }) => {
 	return <Button className='flex flex-col' component={Link} to={to}>
 		<Icon className='text-sl' />
-		<Typography className='text-xs'>{title.toUpperCase()}</Typography>
+		<Typography className='hidden md:text-xs md:block'>{title.toUpperCase()}</Typography>
 	</Button>
 }
 const UserInfoList = styled(List)({
@@ -109,20 +122,20 @@ export default function Header(props) {
 	return (
 		// <ThemeProvider theme={headerTheme}>
 		<div className={clsx(classes.root, 'w-full flex items-center')}>
-			<Link to="/home" className="flex ml-8 align-middle">
-				<img className={clsx(classes.logoImg, 'w-4')} src={Logo} alt="logo" />
-				<Typography className="ml-4" variant="h6"> YourTradebase.com </Typography>
+			<Link to="/home" className={clsx(classes.logo, "flex ml-8 align-middle")}>
+				<img className='w-4' src={Logo} alt="logo" />
+				<Typography id="header-domain" className="ml-4" variant="h6"> YourTradebase.com </Typography>
 			</Link>
 
 			<div style={{ flexGrow: 1 }}></div>
 			<div className='flex justify-between grow'>
-				<LinkBtn to={"/"} title="Home" Icon={HomeOutlined} />
-				<LinkBtn to={"/customers"} title="Customers" Icon={WcOutlined} />
-				<LinkBtn to={"/quotes"} title="Quotes" Icon={DraftsOutlined} />
-				<LinkBtn to={"/jobs"} title="Jobs" Icon={WorkOutline} />
-				<LinkBtn to={"/invoices"} title="Invoices" Icon={DescriptionOutlined} />
-				<LinkBtn to={"/schedule"} title="Schedule" Icon={CalendarMonthOutlined} />
-				<LinkBtn to={"/tasks"} title="Tasks" Icon={FormatListBulletedOutlined} />
+				<HeaderLink to={"/"} title="Home" Icon={HomeOutlined} />
+				<HeaderLink to={"/customers"} title="Customers" Icon={WcOutlined} />
+				<HeaderLink to={"/quotes"} title="Quotes" Icon={DraftsOutlined} />
+				<HeaderLink to={"/jobs"} title="Jobs" Icon={WorkOutline} />
+				<HeaderLink to={"/invoices"} title="Invoices" Icon={DescriptionOutlined} />
+				<HeaderLink to={"/schedule"} title="Schedule" Icon={CalendarMonthOutlined} />
+				<HeaderLink to={"/tasks"} title="Tasks" Icon={FormatListBulletedOutlined} />
 			</div>
 			<div style={{ flexGrow: 1 }}></div>
 

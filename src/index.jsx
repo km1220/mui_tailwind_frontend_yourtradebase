@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore, { _store } from './store/configureStore.js'
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:1337/';
 
 import './styles/index.css';
 // import './styles/tailwind.css';

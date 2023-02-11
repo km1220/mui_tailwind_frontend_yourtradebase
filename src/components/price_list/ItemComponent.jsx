@@ -19,16 +19,18 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const ItemComponent = ({ className, style, children, ...others }) => {
+const ItemComponent = ({ className, contentClassName, style, children, ...others }) => {
 	const classes = useStyles(others);
 
 	return (
 		<Button
+			className={className}
 			sx={{ borderRadius: '0.25rem' }}
 			component="div" variant='outlined' disableRipple
 			style={{ ...style }} {...others}
+			tabIndex={-1}
 		>
-			<div className={clsx(classes.wrapper, className, '')}>
+			<div className={clsx(classes.wrapper, contentClassName, '')}>
 				{children}
 			</div>
 		</Button>

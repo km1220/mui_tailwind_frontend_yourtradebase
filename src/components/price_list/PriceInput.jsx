@@ -37,6 +37,7 @@ const PriceInput = (props) => {
 			sx={{ borderRadius: '0.25rem' }}
 			component="div" variant='outlined' disableRipple
 			style={{ ...style }} {...others}
+			tabIndex={-1}
 		>
 			<div className={clsx(classes.wrapper, '')}>
 				<p>$</p>

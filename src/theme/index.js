@@ -57,6 +57,10 @@ export const theme = createTheme({
     },
   },
   palette: {
+    common: {
+      black: '#202020',
+      white: '#e0e0e0',
+    },
     neutral: {
       100: '#F3F4F6',
       200: '#E5E7EB',
@@ -122,9 +126,9 @@ export const theme = createTheme({
       contrastText: '#FFFFFF'
     },
     error: {
-      main: '#df4444',
-      light: '#eda6a6',
-      dark: '#CC0000',
+      main: '#ff1111',
+      light: '#ff4a4a',
+      dark: '#880000',
       contrastText: '#FFFFFF'
     },
     text: {
@@ -183,12 +187,12 @@ export const theme = createTheme({
     },
     subtitle1: {
       fontSize: '1rem',
-      fontWeight: 500,
+      fontWeight: 700,
       lineHeight: 1.75
     },
     subtitle2: {
       fontSize: '0.875rem',
-      fontWeight: 500,
+      fontWeight: 700,
       lineHeight: 1.57
     },
     overline: {

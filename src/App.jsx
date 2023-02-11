@@ -14,14 +14,15 @@ const SignUpPage = lazy(() => import('@pages/auth/SignUpPage'));
 
 const DefaultLayout = lazy(() => import('@layouts/DefaultLayout'));
 const HomePage = lazy(() => import('@pages/HomePage'));
-const DashboardPage = lazy(() => import('@pages/Dashboard'));
+const DashboardPage = lazy(() => import('@pages/dashboard'));
 const ContactUsPage = lazy(() => import('@pages/ContactUsPage'));
 
 const SettingLayout = lazy(() => import('@layouts/setting/SettingLayout'));
 const MaterialsPage = lazy(() => import('@pages/setting/MaterialsPage'));
 const LabourRatesPage = lazy(() => import('@pages/setting/LabourRatesPage'));
-const PriceListPage = lazy(() => import('@pages/setting/pricelist'));
+const PriceListPage = lazy(() => import('@pages/setting/pricelist/index.jsx'));
 const AddPriceListPage = lazy(() => import('@pages/setting/pricelist/AddPriceList'));
+const EditPriceListPage = lazy(() => import('@pages/setting/pricelist/EditPriceList'));
 import TestComponent from './test.component';
 
 
@@ -66,6 +67,7 @@ function App(props) {
                 <Route path="*" element={<Navigate to={"/setting"} replace />} />
               </Route>
               <Route path="price_list/new" element={<AddPriceListPage />} />
+              <Route path="price_list/:id" element={<EditPriceListPage />} />
             </Route>
 
             <Route path="/test" element={<TestComponent />} />

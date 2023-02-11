@@ -1,20 +1,6 @@
 import * as types from './ActionTypes';
 
-// export function SET_ALL_USER_INFO() {
-//   console.log('12345678909-', arguments)
-//   if (arguments.length === 0) return;
-//   return { type: types.SET_ALL_USER_INFO, payload: arguments[0] };
-// }
 
-
-// export function SET_ALALYZED_DATA() {
-//   console.log('12345678909-', arguments)
-//   if (arguments.length === 0) return;
-//   return {
-//     type: types.SET_ALALYZED_DATA,
-//     payload: { results: arguments[0].results, stats: arguments[0].stats }
-//   };
-// }
 
 
 export const SET_ALL_USER_INFO = (data) => {
@@ -23,12 +9,38 @@ export const SET_ALL_USER_INFO = (data) => {
 export const RESET_USER_INFO = () => {
   return { type: types.RESET_USER_INFO };
 }
-
-
-
-
-
-// ---------------------------------------------------------
+// =======================================================================================================
+export const SET_PRICE_LISTS = (all_list) => ({ type: types.SET_PRICE_LISTS, payload: all_list });
+export const ADD_ITEM_IN_PRICE_LISTS = (item) => ({ type: types.ADD_ITEM_IN_PRICE_LISTS, payload: item });
+export const UPDATE_ITEM_IN_PRICE_LISTS = (item) => ({ type: types.UPDATE_ITEM_IN_PRICE_LISTS, payload: item });
+export const REMOVE_ITEM_IN_PRICE_LISTS = (id) => ({ type: types.REMOVE_ITEM_IN_PRICE_LISTS, payload: id });
+// =======================================================================================================
+export const SET_NEW_MATERIAL_LIST = (all_list) => {
+  return { type: types.SET_NEW_MATERIAL_LIST, payload: all_list }
+}
+export const ADD_ITEM_IN_NEW_MATERIAL_LIST = (item) => {
+  return { type: types.ADD_ITEM_IN_NEW_MATERIAL_LIST, payload: item }
+}
+export const REMOVE_ITEM_IN_NEW_MATERIAL_LIST = (item) => {
+  return { type: types.REMOVE_ITEM_IN_NEW_MATERIAL_LIST, payload: item }
+}
+export const UPDATE_ITEM_IN_NEW_MATERIAL_LIST = (id) => {
+  return { type: types.UPDATE_ITEM_IN_NEW_MATERIAL_LIST, payload: id }
+}
+// ------------------------------------------------------------------------------------------------------------
+export const SET_NEW_LABOUR_LIST = (all_list) => {
+  return { type: types.SET_NEW_LABOUR_LIST, payload: all_list }
+}
+export const ADD_ITEM_IN_NEW_LABOUR_LIST = (item) => {
+  return { type: types.ADD_ITEM_IN_NEW_LABOUR_LIST, payload: item }
+}
+export const REMOVE_ITEM_IN_NEW_LABOUR_LIST = (item) => {
+  return { type: types.REMOVE_ITEM_IN_NEW_LABOUR_LIST, payload: item }
+}
+export const UPDATE_ITEM_IN_NEW_LABOUR_LIST = (id) => {
+  return { type: types.UPDATE_ITEM_IN_NEW_LABOUR_LIST, payload: id }
+}
+// =======================================================================================================
 export function SET_ALALYZED_DATA(results, stats) {
   return {
     type: types.SET_ALALYZED_DATA,

@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+	SET_PRICE_LISTS,
 	SET_NEW_MATERIAL_LIST, ADD_ITEM_IN_NEW_MATERIAL_LIST, UPDATE_ITEM_IN_NEW_MATERIAL_LIST, REMOVE_ITEM_IN_NEW_MATERIAL_LIST,
 	SET_NEW_LABOUR_LIST, ADD_ITEM_IN_NEW_LABOUR_LIST, UPDATE_ITEM_IN_NEW_LABOUR_LIST, REMOVE_ITEM_IN_NEW_LABOUR_LIST,
 	ADD_ITEM_IN_PRICE_LISTS, UPDATE_ITEM_IN_PRICE_LISTS, REMOVE_ITEM_IN_PRICE_LISTS
@@ -52,15 +53,16 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-export default function AddPriceListPage(props) {
+export default function EditPriceList(props) {
+	const { id: paramID } = useParams();
 	const classes = useStyles(props);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	// const { material_list, labour_list } = useSelector(state => {
-	// 	let material_list = JSON.parse(state.material_labour_list.material_list);
-	// 	let labour_list = JSON.parse(state.material_labour_list.labour_list);
-	// 	return { material_list, labour_list };
-	// });
+
+
+
+	const [editTargetData, setEditTargetData] = useState();
+	const { price_lists: all_price_lists } = useSelector(state => state);
 	const { material_list, labour_list } = useSelector(state => state.material_labour_list);
 
 	const [materialModal, setMaterialModal] = useState(false);
@@ -72,19 +74,57 @@ export default function AddPriceListPage(props) {
 	const totalLabour = useRef({ price: 0, markup: 0 });
 	const [price, setPrice] = useState(0);
 
+	const _getAllPriceLists = async () => {
+		const res = await axios.get('/price_lists');
+		if (!res.data.price_lists) {
+			alert('Getting Price list data Error!');
+			return;
+		}
+		let all_list = res.data.price_lists.map(each => ({
+			...each,
+			material_list: JSON.parse(each.material_list),
+			labour_list: JSON.parse(each.labour_list),
+		}));
+		dispatch(SET_PRICE_LISTS(all_list));
+	}
 
 	useEffect(() => {
+		calcTotalMaterial();
+		calcTotalLabour();
+		if (all_price_lists.length === 0) {
+			_getAllPriceLists();
+		}
+
 		return () => {
 			dispatch(SET_NEW_MATERIAL_LIST([]));
 			dispatch(SET_NEW_LABOUR_LIST([]));
 		}
 	}, []);
 	useEffect(() => {
+		if (all_price_lists.length === 0) return;
+		const targetData = all_price_lists.filter(e => e.id === Number(paramID))[0];
+		if (!targetData) {
+			navigate('/setting/price_list');
+			return;
+		}
+		else {
+			setEditTargetData(targetData);
+			dispatch(SET_NEW_MATERIAL_LIST(targetData.material_list));
+			dispatch(SET_NEW_LABOUR_LIST(targetData.labour_list));
+		}
+	}, [all_price_lists, all_price_lists.length]);
+	useEffect(() => {
 		calcTotalMaterial();
 	}, [material_list, material_list.length]);
 	useEffect(() => {
 		calcTotalLabour();
 	}, [labour_list, labour_list.length]);
+	useEffect(() => {
+		if (!editTargetData) return;
+		setTitle(editTargetData.title);
+		setContent(editTargetData.content);
+		setPrice(editTargetData.price);
+	}, [editTargetData]);
 
 
 	const calcTotalMaterial = () => {
@@ -125,19 +165,24 @@ export default function AddPriceListPage(props) {
 	// 	dispatch(SET_NEW_MATERIAL_LIST(newList);
 	// };
 
-	const handleAddPriceList = () => {
+	const handleUpdatePriceList = () => {
 		const newItem = {
 			title: title, content: content,
 			material_list: JSON.stringify(material_list), labour_list: JSON.stringify(labour_list),
 			price: price
 		};
-		axios.post('/price_lists', newItem).then(res => {
+		axios.put(`/price_lists/${editTargetData.id}`, newItem).then(res => {
+			console.log('123123123 ', res);
+
 			if (res.data.affectedRows) {
-				dispatch(ADD_ITEM_IN_PRICE_LISTS({
-					id: res.data.insertId, title: title, content: content,
+				dispatch(UPDATE_ITEM_IN_PRICE_LISTS({
+					id: editTargetData.id, title: title, content: content,
 					material_list: material_list, labour_list: labour_list,
 					price: price
 				}));
+				dispatch(SET_NEW_MATERIAL_LIST([]));
+				dispatch(SET_NEW_LABOUR_LIST([]));
+
 				navigate('/setting/price_list');
 			}
 		}).catch(err => {
@@ -163,7 +208,7 @@ export default function AddPriceListPage(props) {
 		<>
 			<Box className={clsx(classes.root, 'w-3/5 min-h-screen, px-8, py-8')}>
 				<Typography variant='overline'>Price list</Typography>
-				<Typography variant='h5'>Add a price list item</Typography>
+				<Typography variant='h5'>Update a price list item</Typography>
 				<Typography variant='subtitle2'>Save work you do regularly to cost work faster.</Typography>
 				<Divider />
 				<SpaceTag h={1} />
@@ -196,7 +241,7 @@ export default function AddPriceListPage(props) {
 				<SpaceTag h={2} />
 
 				<div className='flex justify-center'>
-					<Button className='mx-4 rounded' color="secondary" variant="contained" onClick={handleAddPriceList}>Add to Price List</Button>
+					<Button className='mx-4 rounded' color="secondary" variant="contained" onClick={handleUpdatePriceList}>Update to Price List</Button>
 					<Button className='mx-4 rounded' color="inherit" variant="outlined" onClick={() => navigate('/setting/price_list')}>Discard</Button>
 				</div>
 			</Box>

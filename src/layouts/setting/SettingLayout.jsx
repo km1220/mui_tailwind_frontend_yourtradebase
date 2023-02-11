@@ -9,7 +9,7 @@ export default function SettingLayout() {
 		<Header />
 		<div className='flex justify-center w-full my-8 grow'>
 			<SideBar />
-			<div className='w-1/3'>
+			<div className=''>
 				<Outlet />
 			</div>
 		</div>
