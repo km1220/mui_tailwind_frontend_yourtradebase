@@ -64,8 +64,8 @@ export default function DefaultLayout(props) {
 	return <div id="setting-side-bar" className={clsx(classes.root, 'mx-8')}>
 		<SideBarList>
 			<Divider />
-			<SideBarLink to="/setting/materials" title="Materials" Icon={CategoryOutlined} />
-			<SideBarLink to="/setting/labour_rates" title="Labour rates" Icon={EngineeringOutlined} />
+			<SideBarLink to="/setting/material" title="Materials" Icon={CategoryOutlined} />
+			<SideBarLink to="/setting/labour_rate" title="Labour rates" Icon={EngineeringOutlined} />
 			<SideBarLink to="/setting/price_list" title="Price list" Icon={PriceChangeOutlined} />
 			<Divider />
 			<SideBarLink to="/setting" title="Setting">

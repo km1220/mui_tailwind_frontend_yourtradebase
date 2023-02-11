@@ -114,10 +114,7 @@ export default function Header(props) {
 
 
 	console.log('redux user data: ', userData);
-	const handleLogout = () => {
-		dispatch(RESET_USER_INFO())
-		console.log('redux user data: ', userData);
-	}
+	const handleLogout = () => dispatch(RESET_USER_INFO());
 
 	return (
 		// <ThemeProvider theme={headerTheme}>

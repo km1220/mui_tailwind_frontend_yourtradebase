@@ -24,7 +24,7 @@ const ItemComponent = ({ className, contentClassName, style, children, ...others
 
 	return (
 		<Button
-			className={className}
+			className={clsx(classes.root, className)}
 			sx={{ borderRadius: '0.25rem' }}
 			component="div" variant='outlined' disableRipple
 			style={{ ...style }} {...others}

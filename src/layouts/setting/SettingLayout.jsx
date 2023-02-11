@@ -9,7 +9,7 @@ export default function SettingLayout() {
 		<Header />
 		<div className='flex justify-center w-full my-8 grow'>
 			<SideBar />
-			<div className=''>
+			<div className='' style={{ minWidth: '40vw', }}>
 				<Outlet />
 			</div>
 		</div>

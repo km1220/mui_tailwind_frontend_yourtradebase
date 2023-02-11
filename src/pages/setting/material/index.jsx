@@ -2,16 +2,36 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { SET_PRICE_LISTS, REMOVE_ITEM_IN_PRICE_LISTS } from '@store/actions';
+import { SET_MATERIALS, REMOVE_ITEM_IN_MATERIALS } from '@store/actions';
 
-import { Button, List, ListItem, Typography } from '@mui/material';
+import {
+	Box, Paper, Divider,
+	Collapse, Button, List, ListItem, Typography
+} from '@mui/material';
 import { AddCircleOutlineOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
+import ItemComponent from '../../../components/price_list/ItemComponent';
 
 const useStyles = makeStyles(theme => ({
 	root: {
+	},
+	addBox: {
+		maxWidth: '40vw',
+		padding: '1rem',
+		border: `1px solid ${theme.palette.common.black}`,
+		borderRadius: '0.25rem',
+	},
+	inputsContainer: {
+		display: 'flex',
+		alignItems: 'end',
+		[theme.breakpoints.down('md')]: {
+			flexDirection: 'column'
+		},
+		'& > *:not(:first-child)': {
+			marginLeft: '1rem',
+		}
 	},
 	dataList: {
 		padding: '0 !important',
@@ -30,13 +50,6 @@ const useStyles = makeStyles(theme => ({
 		},
 	},
 	priceItem: {
-		// '&.MuiListItem-root': {
-		// 	padding: '0.5rem 1.5rem',
-		// 	[theme.breakpoints.down('md')]: {
-		// 		padding: '0.25rem 0.5rem',
-		// 	},
-		// },
-
 		'&:not(:first-child)': {
 			borderTop: `1px solid ${theme.palette.common.black}`,
 		},
@@ -60,43 +73,40 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-export default function PriceListPage(props) {
+export default function MaterialPage(props) {
 	const classes = useStyles(props);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { price_lists } = useSelector(state => state);
+	const materials = useSelector(state => state.materials);
 
 	const [searchText, setSearchText] = useState('');
 	const [showList, setShowList] = useState([]);
+	const [showAddBox, setShowAddBox] = useState(false);
 
-	const _getAllPriceLists = async () => {
-		const res = await axios.get('/price_lists');
-		if (!res.data.price_lists) {
+	const _getAllMaterials = async () => {
+		const res = await axios.get('/materials');
+		console.log(res)
+		if (!res.data.materials) {
 			alert('Getting Price list data Error!');
 			return;
 		}
-		let all_list = res.data.price_lists.map(each => ({
-			...each,
-			material_list: JSON.parse(each.material_list),
-			labour_list: JSON.parse(each.labour_list),
-		}));
-		dispatch(SET_PRICE_LISTS(all_list));
+		dispatch(SET_MATERIALS(res.data.materials));
 	}
 
 	useEffect(() => {
-		if (price_lists.length === 0) {
-			_getAllPriceLists();
+		if (materials.length === 0) {
+			_getAllMaterials();
 		}
 	}, []);
 	useEffect(() => {
-		// setShowList(price_lists);
+		// setShowList(materials);
 		handleSearch();
-	}, [price_lists]);
+	}, [materials]);
 
 	const handleSearch = () => {
 		let newShowList = [];
-		price_lists.map(each => {
-			if (each.title.includes(searchText) || each.content.includes(searchText) || each.price.toString().includes(searchText)) {
+		materials.map(each => {
+			if (each.product_code.includes(searchText) || each.title.includes(searchText) || each.price.toString().includes(searchText) || each.brand.includes(searchText)) {
 				newShowList.push(each);
 			}
 		});
@@ -104,9 +114,9 @@ export default function PriceListPage(props) {
 	};
 	const handleDelete = (id) => {
 		if (!confirm(`Do you really want to delete this item ?   ID: ${id}`)) return;
-		axios.delete(`/price_lists/${id}`).then(res => {
+		axios.delete(`/materials/${id}`).then(res => {
 			if (res.data.affectedRows) {
-				dispatch(REMOVE_ITEM_IN_PRICE_LISTS(id));
+				dispatch(REMOVE_ITEM_IN_MATERIALS(id));
 			}
 		});
 	};
@@ -114,13 +124,16 @@ export default function PriceListPage(props) {
 	return (
 		<>
 			<div>
-				<Button className='mb-4' onClick={() => navigate('/setting/price_list/new')} variant="contained" >
-					<AddIcon />Add a price list item
+				<Button className='mb-4' onClick={() => setShowAddBox(true)} variant="contained" >
+					<AddIcon />Add a new material
 				</Button>
+				<Collapse className='mb-4' in={showAddBox}>
+					
+				</Collapse>
 				<List className={clsx(classes.dataList, 'mb-4')}>
 					<ListItem key='search-bar' className={classes.searchBar}>
 						<SearchIcon onClick={() => handleSearch()} style={{ cursor: 'pointer' }} />
-						<input placeholder='Seach price list...' type='text'
+						<input placeholder='Seach material...' type='text'
 							value={searchText} onChange={e => setSearchText(e.target.value)}
 							onKeyDown={e => e.key === "Enter" ? handleSearch() : null}
 						/>
@@ -130,29 +143,16 @@ export default function PriceListPage(props) {
 						<ListItem className={classes.priceItem} key={each.id}>
 							<div className='flex flex-col'>
 								<Typography variant="subtitle1">{each.title}</Typography>
-								<Typography variant='caption'>{each.content}</Typography>
+								<Typography variant='caption'>{each.brand}</Typography>
 							</div>
 							<div style={{ flexGrow: 1 }} />
 							<div className='flex flex-col text-right'>
 								<Typography variant="subtitle2">${each.price}</Typography>
-								<Typography variant='caption'>
-									{
-										each.material_list.length > 0 ?
-											(each.material_list.length === 1 ? '1 material' : `${each.material_list.length} materials`)
-											: 'No Material'
-									},
-								</Typography>
-								<Typography variant='caption'>
-									{
-										each.labour_list.length > 0 ?
-											(each.labour_list.length === 1 ? '1 labour' : `Includes ${each.labour_list.length} labours`)
-											: 'No labour'
-									}
-								</Typography>
+								<Typography variant='caption'>{each.per ? `per ${each.per}` : ''} {each.markup > 0 ? `(+${each.markup}%)` : `(${each.markup}%)`}</Typography>
 							</div>
 							<div className={classes.actionBar}>
 								<Button className='rounded' variant="outlined"
-									onClick={() => navigate(`/setting/price_list/${each.id}`)}
+									onClick={() => navigate(`/setting/material/${each.id}`)}
 								>Edit</Button>
 								<Button className='rounded' variant="outlined" color='error'
 									onClick={() => handleDelete(each.id)}

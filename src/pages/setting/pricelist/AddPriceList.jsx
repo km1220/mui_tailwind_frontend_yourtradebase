@@ -3,17 +3,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-	SET_NEW_MATERIAL_LIST, ADD_ITEM_IN_NEW_MATERIAL_LIST, UPDATE_ITEM_IN_NEW_MATERIAL_LIST, REMOVE_ITEM_IN_NEW_MATERIAL_LIST,
-	SET_NEW_LABOUR_LIST, ADD_ITEM_IN_NEW_LABOUR_LIST, UPDATE_ITEM_IN_NEW_LABOUR_LIST, REMOVE_ITEM_IN_NEW_LABOUR_LIST,
-	ADD_ITEM_IN_PRICE_LISTS, UPDATE_ITEM_IN_PRICE_LISTS, REMOVE_ITEM_IN_PRICE_LISTS
-} from '../../../store/actions';
+	SET_NEW_MATERIAL_LIST, ADD_ITEM_IN_NEW_MATERIAL_LIST,
+	SET_NEW_LABOUR_LIST, ADD_ITEM_IN_NEW_LABOUR_LIST,
+	ADD_ITEM_IN_PRICE_LISTS
+} from '@store/actions';
 
-import {
-	Box, Paper, Divider,
-	Typography, Button,
-	Dialog
-} from '@mui/material';
-import { AddCircleOutlineOutlined as AddIcon } from '@mui/icons-material';
+import { Box, Paper, Divider, Typography, Button } from '@mui/material';
 import { makeStyles, styled } from '@mui/styles';
 import clsx from 'clsx';
 
@@ -24,9 +19,8 @@ import PriceInput from '@components/price_list/PriceInput';
 import PriceItem from '@components/price_list/PriceItem';
 import MaterialItem from '@components/price_list/MaterialItem';
 import LabourItem from '@components/price_list/LabourItem';
-import Draggable from 'react-draggable';
-import DraggableList from 'react-draggable-list';
 
+import MaterialLabourDialog from './MaterialLabourDialog';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -56,11 +50,6 @@ export default function AddPriceListPage(props) {
 	const classes = useStyles(props);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	// const { material_list, labour_list } = useSelector(state => {
-	// 	let material_list = JSON.parse(state.material_labour_list.material_list);
-	// 	let labour_list = JSON.parse(state.material_labour_list.labour_list);
-	// 	return { material_list, labour_list };
-	// });
 	const { material_list, labour_list } = useSelector(state => state.material_labour_list);
 
 	const [materialModal, setMaterialModal] = useState(false);
@@ -79,12 +68,8 @@ export default function AddPriceListPage(props) {
 			dispatch(SET_NEW_LABOUR_LIST([]));
 		}
 	}, []);
-	useEffect(() => {
-		calcTotalMaterial();
-	}, [material_list, material_list.length]);
-	useEffect(() => {
-		calcTotalLabour();
-	}, [labour_list, labour_list.length]);
+	useEffect(() => { calcTotalMaterial(); }, [material_list, material_list.length]);
+	useEffect(() => { calcTotalLabour(); }, [labour_list, labour_list.length]);
 
 
 	const calcTotalMaterial = () => {
@@ -108,22 +93,6 @@ export default function AddPriceListPage(props) {
 		})
 		totalLabour.current = resultTotal;
 	}
-	const handleMaterialDone = () => {
-		setMaterialModal(false);
-	}
-	const handleLabourDone = () => {
-		setLabourModal(false);
-	}
-	// const clarifyList = () => {
-	// 	let newList = [];
-	// 	material_list.map(each => {
-	// 		if (each.id > 100) // all [temp_blank] ids are over 100
-	// 			continue;
-	// 		else
-	// 			newList.push(each);
-	// 	});
-	// 	dispatch(SET_NEW_MATERIAL_LIST(newList);
-	// };
 
 	const handleAddPriceList = () => {
 		const newItem = {
@@ -145,19 +114,6 @@ export default function AddPriceListPage(props) {
 			else if (err.response.status === 403) alert(err.response.data);
 		});
 	};
-	const handleAddNewMaterial = () => {
-		dispatch(ADD_ITEM_IN_NEW_MATERIAL_LIST({
-			id: _generateNewID(material_list),	// a random id for [temp_blank] material item
-			product_code: '', title: '', price: '0.00',
-			foreach: '', markup: '0.00', brand: '', category_id: ''
-		}));
-	};
-	const handleAddNewLabour = () => {
-		dispatch(ADD_ITEM_IN_NEW_LABOUR_LIST({
-			id: _generateNewID(labour_list),	// a random id for [temp_blank] labour item
-			title: '', price: '0.00', per: '', markup: '0.00'
-		}));
-	};
 
 	return (
 		<>
@@ -171,7 +127,6 @@ export default function AddPriceListPage(props) {
 				<Paper className='flex flex-col input-list' elevation={8}>
 					<input className='input-text input-title' type="text" placeholder='Give this work a title'
 						value={title} onChange={e => setTitle(e.target.value)} />
-					{/* <input className='input-text' type="text" placeholder='Description of work...' /> */}
 					<textarea className='input-text input-description' placeholder='Description of work...' rows={6}
 						value={content} onChange={e => setContent(e.target.value)} />
 				</Paper>
@@ -202,59 +157,34 @@ export default function AddPriceListPage(props) {
 			</Box>
 
 
-
-			<Dialog open={materialModal} PaperComponent={PaperComponent}
-			// onClose={handleMaterialDone}
-			>
-				<div id="draggable-dialog-title" style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem', paddingBottom: '1rem', cursor: 'move' }}>
-					<div>
-						<Typography variant='h5'>Material Costs</Typography>
-						<Typography variant='body1'>${totalMaterial.current.price} - ${totalMaterial.current.markup} ex. markup</Typography>
-					</div>
-					<Button variant="outlined" onClick={handleMaterialDone}>Done</Button>
-				</div>
-				<div id="dialog-content" style={{ padding: '1.5rem', paddingTop: '0.5rem' }}>
-					<DraggableList list={material_list} itemKey="id" template={MaterialItem}
-						onMoveEnd={(newList) => dispatch(SET_NEW_MATERIAL_LIST(newList))}
-						commonProps={{}} />
-					<Button onClick={handleAddNewMaterial} variant="contained" >
-						<AddIcon /> Add a material item
-					</Button>
-				</div>
-			</Dialog>
-			<Dialog open={labourModal} PaperComponent={PaperComponent}
-			// onClose={handleLabourDone}
-			>
-				<div id="draggable-dialog-title" style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem', paddingBottom: '1rem', cursor: 'move' }}>
-					<div>
-						<Typography variant='h5'>Labour rates</Typography>
-						<Typography variant='body1'>${totalLabour.current.price} - ${totalLabour.current.markup} ex. markup</Typography>
-					</div>
-					<Button variant="outlined" onClick={handleLabourDone}>Done</Button>
-				</div>
-				<div id="dialog-content" style={{ padding: '1.5rem', paddingTop: '0.5rem' }}>
-					<DraggableList list={labour_list} itemKey="id" template={LabourItem}
-						onMoveEnd={(newList) => dispatch(SET_NEW_LABOUR_LIST(newList))}
-						commonProps={{}} />
-					<Button onClick={handleAddNewLabour} variant="contained" >
-						<AddIcon /> Add a labour item
-					</Button>
-				</div>
-			</Dialog>
+			<MaterialLabourDialog
+				itemList={material_list} itemTemplateComponent={MaterialItem}
+				title='Material costs' totalPrice={totalMaterial.current.price} totalMarkupPrice={totalMaterial.current.markup}
+				open={materialModal} onClose={() => setMaterialModal(false)} onMoveEnd={(newList) => dispatch(SET_NEW_MATERIAL_LIST(newList))}
+				onAddNewItem={() =>
+					dispatch(ADD_ITEM_IN_NEW_MATERIAL_LIST({
+						id: _generateNewID(material_list),	// a random id for [temp_blank] material item
+						product_code: '', title: '', price: '0.00',
+						foreach: '', markup: '0.00', brand: '', category_id: ''
+					}))
+				}
+			/>
+			<MaterialLabourDialog
+				itemList={labour_list} itemTemplateComponent={LabourItem}
+				title='Labour rates' totalPrice={totalLabour.current.price} totalMarkupPrice={totalLabour.current.markup}
+				open={labourModal} onClose={() => setLabourModal(false)} onMoveEnd={(newList) => dispatch(SET_NEW_LABOUR_LIST(newList))}
+				onAddNewItem={() =>
+					dispatch(ADD_ITEM_IN_NEW_LABOUR_LIST({
+						id: _generateNewID(labour_list),	// a random id for [temp_blank] labour item
+						title: '', price: '0.00', per: '', markup: '0.00'
+					}))
+				}
+			/>
 		</>
 	)
 }
 
 
-
-const PaperComponent = ({ style, ...others }) => (
-	<Draggable
-		handle="#draggable-dialog-title"
-		cancel={'[class*="MuiDialogContent-root"]'}
-	>
-		<Paper style={{ ...style, maxWidth: 'none', width: '80%', overflowY: 'auto' }} {...others} />
-	</Draggable>
-);
 
 const _generateNewID = (array_list) => {
 	let newID = getRandomInt(100, 1000);

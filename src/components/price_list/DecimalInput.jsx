@@ -5,7 +5,6 @@ const InputDecimal = ({ value, onSetValue, ...others }) => {
 	const handleChange = e => {
 		const selectionStart = e.target.selectionStart;
 		let val = e.target.value;
-		// console.log(val, val.charAt(0), val.length, val.charAt(val.length - 1));
 		if (val === '' || val.charAt(0) === '.' || val.charAt(val.length - 1) === '.') {
 			e.target.value = 0;
 			onSetValue(Number(0).toFixed(2));
@@ -18,7 +17,7 @@ const InputDecimal = ({ value, onSetValue, ...others }) => {
 		const value = match[1] + match[2];
 		e.target.value = value;
 		onSetValue(value);
-		console.log(val, value, match);
+		// console.log(val, value, match);
 
 		if (val.length > 0) {
 			e.target.value = Number(value).toFixed(2);

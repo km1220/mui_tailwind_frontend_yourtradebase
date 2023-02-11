@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { SET_NEW_LABOUR_LIST, ADD_ITEM_IN_NEW_LABOUR_LIST, UPDATE_ITEM_IN_NEW_LABOUR_LIST, REMOVE_ITEM_IN_NEW_LABOUR_LIST } from '../../store/actions';
+import { UPDATE_ITEM_IN_NEW_LABOUR_LIST, REMOVE_ITEM_IN_NEW_LABOUR_LIST } from '../../store/actions';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import { makeStyles } from '@mui/styles';
@@ -40,17 +40,17 @@ const useStyles = makeStyles(theme => ({
 const MaterialItem = props => {
 	const dispatch = useDispatch();
 	const { item, itemSelected, dragHandleProps, commonProps, ...others } = props;
-	const itemDataRef = useRef({ id: item.id, title: item.title, price: item.price, per: item.per, markup: item.markup });
+	const [itemData, setItemData] = useState(item);
 
 	const classes = useStyles(props);
 	const scale = itemSelected * 0.0001 + 1;
 	const shadow = itemSelected * 5 + 1;
 
-	const updateStore = () => dispatch(UPDATE_ITEM_IN_NEW_LABOUR_LIST(itemDataRef.current));
-	const handleDeleteItem = () => {
-		console.log(itemDataRef);
-		dispatch(REMOVE_ITEM_IN_NEW_LABOUR_LIST(itemDataRef.current.id));
-	};
+	const updateStore = () => dispatch(UPDATE_ITEM_IN_NEW_LABOUR_LIST(itemData));
+	const handleDeleteItem = () => dispatch(REMOVE_ITEM_IN_NEW_LABOUR_LIST(itemData.id));
+
+	useEffect(() => { updateStore() }, [itemData]);
+
 	return (
 		<div
 			className={clsx(classes.root, itemSelected !== 0 ? classes.selected : '')}
@@ -62,26 +62,14 @@ const MaterialItem = props => {
 			<DragIcon className={classes.dragIcon} {...dragHandleProps} />
 
 			<ItemComponent>
-				<input value={itemDataRef.current.title} onChange={e => {
-					itemDataRef.current.title = e.target.value;
-					updateStore();
-				}} />
+				<input value={itemData.title} onChange={e => setItemData({ ...itemData, title: e.target.value })} />
 			</ItemComponent>
-			<PriceInput value={itemDataRef.current.price} onValueChange={val => {
-				itemDataRef.current.price = val ? val : '0';
-				updateStore();
-			}} />
+			<PriceInput value={itemData.price} onValueChange={val => setItemData({ ...itemData, price: val ? val : '0' })} />
 			<ItemComponent>
-				<input value={itemDataRef.current.per} onChange={e => {
-					itemDataRef.current.per = e.target.value;
-					updateStore();
-				}} />
+				<input value={itemData.per} onChange={e => setItemData({ ...itemData, per: e.target.value })} />
 			</ItemComponent>
 			<ItemComponent>
-				<DecimalInput value={itemDataRef.current.markup} onSetValue={val => {
-					itemDataRef.current.markup = val;
-					updateStore();
-				}} />
+				<DecimalInput value={itemData.markup} onSetValue={val => setItemData({ ...itemData, markup: val })} />
 			</ItemComponent>
 
 			<DeleteIcon className={classes.deleteIcon} onClick={handleDeleteItem} />

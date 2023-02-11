@@ -18,9 +18,9 @@ const DashboardPage = lazy(() => import('@pages/dashboard'));
 const ContactUsPage = lazy(() => import('@pages/ContactUsPage'));
 
 const SettingLayout = lazy(() => import('@layouts/setting/SettingLayout'));
-const MaterialsPage = lazy(() => import('@pages/setting/MaterialsPage'));
-const LabourRatesPage = lazy(() => import('@pages/setting/LabourRatesPage'));
-const PriceListPage = lazy(() => import('@pages/setting/pricelist/index.jsx'));
+const MaterialsPage = lazy(() => import('@pages/setting/material'));
+const LabourRatesPage = lazy(() => import('@pages/setting/labour'));
+const PriceListPage = lazy(() => import('@pages/setting/pricelist'));
 const AddPriceListPage = lazy(() => import('@pages/setting/pricelist/AddPriceList'));
 const EditPriceListPage = lazy(() => import('@pages/setting/pricelist/EditPriceList'));
 import TestComponent from './test.component';
@@ -60,10 +60,10 @@ function App(props) {
 
             <Route path="/setting">
               <Route element={<SettingLayout />}>
-                <Route path="materials" element={<MaterialsPage />} />
-                <Route path="labour_rates" element={<LabourRatesPage />} />
+                <Route path="material" element={<MaterialsPage />} />
+                <Route path="labour_rate" element={<LabourRatesPage />} />
                 <Route path="price_list" element={<PriceListPage />} />
-                <Route index element={<Navigate to={"/setting/price_list"} replace />} />
+                <Route index element={<Navigate to={"/setting/material"} replace />} />
                 <Route path="*" element={<Navigate to={"/setting"} replace />} />
               </Route>
               <Route path="price_list/new" element={<AddPriceListPage />} />
