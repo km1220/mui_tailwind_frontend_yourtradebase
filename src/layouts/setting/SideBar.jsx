@@ -15,6 +15,11 @@ const useStyles = makeStyles(theme => ({
 
 
 const SideBarList = styled(List)(({ theme }) => ({
+	'& .MuiDivider-root': {
+		borderColor: theme.palette.common.black,
+		color: theme.palette.common.black,
+		background: theme.palette.common.black,
+	},
 	'& .MuiListItemButton-root': {
 		padding: '0.5rem 1.5rem',
 		[theme.breakpoints.down('md')]: {

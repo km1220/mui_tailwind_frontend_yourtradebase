@@ -8,42 +8,39 @@ import { _isStrEmpty } from '@utils'
 
 import InputComponent from '@components/inputs/InputComponent'
 
-const useStyles = makeStyles(theme => {
-	console.log(theme)
-	return ({
-		root: {
-		},
-		inputBase: {
-			'&.success': {
-				'& :first-child': {
-					borderColor: theme.palette.success.main,
-					color: theme.palette.success.main,
-				},
-				'& svg': {
-					color: theme.palette.success.main,
-				},
+const useStyles = makeStyles(theme => ({
+	root: {
+	},
+	inputBase: {
+		'&.success': {
+			'& :first-child': {
+				borderColor: theme.palette.success.main,
+				color: theme.palette.success.main,
 			},
-			'&.error': {
-				'& :first-child': {
-					backgroundColor: theme.palette.error.light,
-					color: theme.palette.error.dark,
-					borderColor: theme.palette.error.main,
-				},
-				'& svg': {
-					color: theme.palette.error.dark,
-				},
+			'& svg': {
+				color: theme.palette.success.main,
 			},
 		},
-		errorLists: {
-			listStyle: 'disc',
-			textAlign: 'left',
-			'& li': {
-				'&.info': { color: theme.palette.info.main },
-				'&.error': { color: theme.palette.error.main }
-			}
+		'&.error': {
+			'& :first-child': {
+				backgroundColor: theme.palette.error.light,
+				color: theme.palette.error.dark,
+				borderColor: theme.palette.error.main,
+			},
+			'& svg': {
+				color: theme.palette.error.dark,
+			},
+		},
+	},
+	errorLists: {
+		listStyle: 'disc',
+		textAlign: 'left',
+		'& li': {
+			'&.info': { color: theme.palette.info.main },
+			'&.error': { color: theme.palette.error.main }
 		}
-	})
-})
+	}
+}));
 
 const ErrorItem = (props) => {
 	const { text, ...others } = props
@@ -118,14 +115,14 @@ function PwdValidInput(props) {
 				/>
 				{
 					_isStrEmpty(value) ? '' : ruleError ?
-						<CancelIcon className='sm:text-5xl text-3xl pl-2' />
+						<CancelIcon className='pl-2 text-3xl sm:text-5xl' />
 						:
-						<CheckCircleIcon className='sm:text-5xl text-3xl pl-2' />
+						<CheckCircleIcon className='pl-2 text-3xl sm:text-5xl' />
 				}
 			</div>
 			<Collapse in={ruleError} component='ul' className={clsx(classes.errorLists)}>
 				{errorLists.length > 0 &&
-					<div className='sm:my-4 my-2'>{errorLists}</div>
+					<div className='my-2 sm:my-4'>{errorLists}</div>
 				}
 			</Collapse>
 		</div>

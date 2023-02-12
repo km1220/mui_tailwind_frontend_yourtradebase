@@ -1,37 +1,21 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { SET_MATERIALS, REMOVE_ITEM_IN_MATERIALS } from '@store/actions';
+import { SET_MATERIALS, ADD_ITEM_IN_MATERIALS, UPDATE_ITEM_IN_MATERIALS, REMOVE_ITEM_IN_MATERIALS } from '@store/actions';
 
-import {
-	Box, Paper, Divider,
-	Collapse, Button, List, ListItem, Typography
-} from '@mui/material';
+import { Box, Paper, Divider, Collapse, Button, List, ListItem, Typography } from '@mui/material';
 import { AddCircleOutlineOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
-import ItemComponent from '../../../components/price_list/ItemComponent';
+import MaterialBox from './MaterialBox';
+import { _generateNewID } from '@utils';
 
 const useStyles = makeStyles(theme => ({
 	root: {
 	},
-	addBox: {
+	itemDataBox: {
 		maxWidth: '40vw',
-		padding: '1rem',
-		border: `1px solid ${theme.palette.common.black}`,
-		borderRadius: '0.25rem',
-	},
-	inputsContainer: {
-		display: 'flex',
-		alignItems: 'end',
-		[theme.breakpoints.down('md')]: {
-			flexDirection: 'column'
-		},
-		'& > *:not(:first-child)': {
-			marginLeft: '1rem',
-		}
 	},
 	dataList: {
 		padding: '0 !important',
@@ -73,15 +57,19 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
+let initailItemData = { id: _generateNewID(), product_code: '', title: '', price: '0.00', foreach: '', markup: '0.00', brand: '', category_id: 1 };
 export default function MaterialPage(props) {
 	const classes = useStyles(props);
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const materials = useSelector(state => state.materials);
 
 	const [searchText, setSearchText] = useState('');
 	const [showList, setShowList] = useState([]);
+
 	const [showAddBox, setShowAddBox] = useState(false);
+	const [showUpdateBox, setShowUpdateBox] = useState(false);
+	const [newItemData, setNewItemData] = useState(initailItemData);
+	const [updateItemData, setUpdateItemData] = useState(initailItemData);
 
 	const _getAllMaterials = async () => {
 		const res = await axios.get('/materials');
@@ -92,11 +80,8 @@ export default function MaterialPage(props) {
 		}
 		dispatch(SET_MATERIALS(res.data.materials));
 	}
-
 	useEffect(() => {
-		if (materials.length === 0) {
-			_getAllMaterials();
-		}
+		if (materials.length === 0) _getAllMaterials();
 	}, []);
 	useEffect(() => {
 		// setShowList(materials);
@@ -106,7 +91,7 @@ export default function MaterialPage(props) {
 	const handleSearch = () => {
 		let newShowList = [];
 		materials.map(each => {
-			if (each.product_code.includes(searchText) || each.title.includes(searchText) || each.price.toString().includes(searchText) || each.brand.includes(searchText)) {
+			if (each.product_code.includes(searchText) || each.title.includes(searchText) || each.price.toString().includes(searchText) || each.foreach.includes(searchText) || each.brand.includes(searchText)) {
 				newShowList.push(each);
 			}
 		});
@@ -120,49 +105,102 @@ export default function MaterialPage(props) {
 			}
 		});
 	};
+	const onAddClick = () => {
+		setShowAddBox(true);
+		setShowUpdateBox(false);
+	}
+	const handleAdd = () => {
+		axios.post('/materials', newItemData).then(res => {
+			if (res.data.affectedRows) {
+				dispatch(ADD_ITEM_IN_MATERIALS({ ...newItemData, id: res.data.insertId }));
+
+				setShowAddBox(false);
+				setNewItemData(initailItemData);
+			}
+		}).catch(err => {
+			if (err.response.status === 400) alert(err.response.data);
+			else if (err.response.status === 403) alert(err.response.data);
+		});
+	};
+	const onEditClick = (data) => {
+		setUpdateItemData(data);
+		setShowAddBox(false);
+		setShowUpdateBox(true);
+	};
+	const handleUpdate = () => {
+		axios.put(`/materials/${updateItemData.id}`, updateItemData).then(res => {
+			if (res.data.affectedRows) {
+				dispatch(UPDATE_ITEM_IN_MATERIALS(updateItemData));
+
+				setShowUpdateBox(false);
+			}
+		}).catch(err => {
+			if (err.response.status === 400) alert(err.response.data);
+			else if (err.response.status === 403) alert(err.response.data);
+		});
+	};
+
 
 	return (
 		<>
 			<div>
-				<Button className='mb-4' onClick={() => setShowAddBox(true)} variant="contained" >
-					<AddIcon />Add a new material
-				</Button>
 				<Collapse className='mb-4' in={showAddBox}>
-					
+					<MaterialBox className={classes.itemDataBox}
+						itemData={newItemData} setItemData={setNewItemData}
+						saveBtnTitle="Add this material" handleSave={handleAdd}
+						handleDiscard={() => setShowAddBox(false)}
+					/>
 				</Collapse>
-				<List className={clsx(classes.dataList, 'mb-4')}>
-					<ListItem key='search-bar' className={classes.searchBar}>
-						<SearchIcon onClick={() => handleSearch()} style={{ cursor: 'pointer' }} />
-						<input placeholder='Seach material...' type='text'
-							value={searchText} onChange={e => setSearchText(e.target.value)}
-							onKeyDown={e => e.key === "Enter" ? handleSearch() : null}
-						/>
-						<CancelIcon onClick={() => setSearchText('')} style={{ cursor: 'pointer' }} />
-					</ListItem>
-					{showList.length > 0 && showList.map((each, index) => (
-						<ListItem className={classes.priceItem} key={each.id}>
-							<div className='flex flex-col'>
-								<Typography variant="subtitle1">{each.title}</Typography>
-								<Typography variant='caption'>{each.brand}</Typography>
-							</div>
-							<div style={{ flexGrow: 1 }} />
-							<div className='flex flex-col text-right'>
-								<Typography variant="subtitle2">${each.price}</Typography>
-								<Typography variant='caption'>{each.per ? `per ${each.per}` : ''} {each.markup > 0 ? `(+${each.markup}%)` : `(${each.markup}%)`}</Typography>
-							</div>
-							<div className={classes.actionBar}>
-								<Button className='rounded' variant="outlined"
-									onClick={() => navigate(`/setting/material/${each.id}`)}
-								>Edit</Button>
-								<Button className='rounded' variant="outlined" color='error'
-									onClick={() => handleDelete(each.id)}
-								>
-									Delete
-								</Button>
-							</div>
+				{!showAddBox ?
+					<Button className='mb-4' onClick={onAddClick} variant="contained">
+						<AddIcon />
+						<p className='ml-2'>Add a material</p>
+					</Button>
+					:
+					""
+				}
+				<Collapse className='mb-4' in={showUpdateBox}>
+					<MaterialBox className={classes.itemDataBox}
+						itemData={updateItemData} setItemData={setUpdateItemData}
+						saveBtnTitle="Update this material" handleSave={handleUpdate}
+						handleDiscard={() => setShowUpdateBox(false)}
+					/>
+				</Collapse>
+				{!showUpdateBox ?
+					<List className={clsx(classes.dataList, 'mb-4')}>
+						<ListItem key='search-bar' className={classes.searchBar}>
+							<SearchIcon onClick={() => handleSearch()} style={{ cursor: 'pointer' }} />
+							<input placeholder='Seach material...' type='text'
+								value={searchText} onChange={e => setSearchText(e.target.value)}
+								onKeyDown={e => e.key === "Enter" ? handleSearch() : null}
+							/>
+							<CancelIcon onClick={() => setSearchText('')} style={{ cursor: 'pointer' }} />
 						</ListItem>
-					))}
-				</List>
+						{showList.length > 0 && showList.map((each, index) => (
+							<ListItem className={classes.priceItem} key={each.id}>
+								<div className='flex flex-col'>
+									<Typography variant="subtitle1">{each.title}</Typography>
+									<Typography variant='caption'>{each.brand}</Typography>
+								</div>
+								<div style={{ flexGrow: 1 }} />
+								<div className='flex flex-col text-right'>
+									<Typography variant="subtitle2">${each.price}</Typography>
+									<Typography variant='caption'>{each.per ? `per ${each.per}` : ''} {each.markup > 0 ? `(+${each.markup}%)` : `(${each.markup}%)`}</Typography>
+								</div>
+								<div className={classes.actionBar}>
+									<Button className='rounded' variant="outlined" onClick={() => onEditClick(each)}>
+										Edit
+									</Button>
+									<Button className='rounded' variant="outlined" color='error' onClick={() => handleDelete(each.id)}>
+										Delete
+									</Button>
+								</div>
+							</ListItem>
+						))}
+					</List>
+					:
+					''
+				}
 			</div>
 		</>
 	)

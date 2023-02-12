@@ -12,7 +12,7 @@ import { Box, Paper, Divider, Typography, Button } from '@mui/material';
 import { makeStyles, styled } from '@mui/styles';
 import clsx from 'clsx';
 
-import { getRandomInt } from '@utils';
+import { _generateNewID } from '@utils';
 
 import SpaceTag from '@components/SpaceTag';
 import PriceInput from '@components/price_list/PriceInput';
@@ -183,14 +183,3 @@ export default function AddPriceListPage(props) {
 		</>
 	)
 }
-
-
-
-const _generateNewID = (array_list) => {
-	let newID = getRandomInt(100, 1000);
-	// check whether [random_new_id] already exist in naterial_list_in_redux
-	while (array_list.filter(e => e.id == newID).length > 0) {
-		newID = getRandomInt(100, 1000);
-	}
-	return newID;
-};

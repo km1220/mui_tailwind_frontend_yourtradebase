@@ -14,19 +14,16 @@ import EmailInput from '@components/inputs/EmailInput'
 import PwdValidInput from '@components/inputs/PwdInput/PwdValidInput'
 import PwdConfirmInput from '@components/inputs/PwdInput/PwdConfirmInput'
 
-const useStyles = makeStyles(theme => {
-	console.log(theme)
-	return ({
-		root: {
-		},
-		divider: {
-			fontSize: '1.25rem'
-		},
-		loginLink: {
-			color: theme.palette.warning.main
-		}
-	})
-})
+const useStyles = makeStyles(theme => ({
+	root: {
+	},
+	divider: {
+		fontSize: '1.25rem'
+	},
+	loginLink: {
+		color: theme.palette.warning.main
+	}
+}));
 
 
 
@@ -43,7 +40,7 @@ function SignUpPage(props) {
 
 	return (
 		<SelectRolePage className={"w-2/5"}>
-			<Typography className='my-10 font-extrabold sm:text-4xl text-2xl'>Welcome</Typography>
+			<Typography className='my-10 text-2xl font-extrabold sm:text-4xl'>Welcome</Typography>
 			<EmailInput className='mb-5' placeholder="E-mail*"
 				value={email} onChange={e => setEmail(e.target.value)}
 			/>
@@ -65,7 +62,7 @@ function SignUpPage(props) {
 			</Button>
 
 			{/* <Divider classes={{ root: classes.divider }} className='w-1/4 my-7' >OR</Divider>
-			<div className='flex justify-evenly w-3/4 mb-12'>
+			<div className='flex w-3/4 mb-12 justify-evenly'>
 				<img src={FacebookLogo} alt='FacebookLogo' />
 				<img src={LinkedInLogo} alt='LinkedInLogo' />
 				<img src={GoogleLogo} alt='GoogleLogo' />
@@ -73,7 +70,7 @@ function SignUpPage(props) {
 
 			<FormControlLabel
 				className='w-3/5 mb-11'
-				label={<Typography className='lg:text-sm text-xs'>By continuing with Google or Facebook, you are agreeing to our Terms + Conditions</Typography>}
+				label={<Typography className='text-xs lg:text-sm'>By continuing with Google or Facebook, you are agreeing to our Terms + Conditions</Typography>}
 				control={
 					<Checkbox />
 				}

@@ -69,7 +69,11 @@ const MaterialItem = props => {
 				<input value={itemData.per} onChange={e => setItemData({ ...itemData, per: e.target.value })} />
 			</ItemComponent>
 			<ItemComponent>
-				<DecimalInput value={itemData.markup} onSetValue={val => setItemData({ ...itemData, markup: val })} />
+				<p>%</p>
+				<DecimalInput
+					value={itemData.markup} onSetValue={val => setItemData({ ...itemData, markup: val })}
+					style={{ textAlign: 'right' }}
+				/>
 			</ItemComponent>
 
 			<DeleteIcon className={classes.deleteIcon} onClick={handleDeleteItem} />

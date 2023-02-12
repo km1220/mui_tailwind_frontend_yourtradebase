@@ -8,10 +8,6 @@ const initialState = {
 export default function user_info(state = initialState, action) {
   switch (action.type) {
     case SET_ALL_USER_INFO:
-      console.log("====: set-all-user-info :====", {
-        ...state,
-        ...action.payload
-      })
       return {
         ...state,
         // full_name: action.payload.name,

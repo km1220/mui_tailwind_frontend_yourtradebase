@@ -27,7 +27,7 @@ function MaterialLabourDialog(props) {
 
 	return (
 		<Dialog open={open} PaperComponent={PaperComponent}
-		// onClose={onClose}
+			onClose={onClose}
 		>
 			<div id="draggable-dialog-title" style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem', paddingBottom: '1rem', cursor: 'move' }}>
 				<div>

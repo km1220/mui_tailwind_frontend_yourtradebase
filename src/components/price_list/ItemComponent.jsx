@@ -5,6 +5,7 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles(theme => ({
 	root: {
+		width: '100%',
 		borderRadius: '0.25rem',
 	},
 	wrapper: {

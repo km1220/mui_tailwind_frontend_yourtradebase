@@ -3,8 +3,6 @@ import { Typography, Button } from '@mui/material';
 import { makeStyles, styled } from '@mui/styles';
 import clsx from 'clsx';
 
-import ItemComponent from './ItemComponent';
-
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',

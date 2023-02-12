@@ -9,6 +9,7 @@ import CurrencyInput from 'react-currency-input-field';
 
 const useStyles = makeStyles(theme => ({
 	root: {
+		width: '100%',
 		borderRadius: '0.25rem',
 	},
 	wrapper: {
@@ -33,7 +34,7 @@ const PriceInput = (props) => {
 
 	return (
 		<Button
-			className={className}
+			className={clsx(classes.root, className)}
 			sx={{ borderRadius: '0.25rem' }}
 			component="div" variant='outlined' disableRipple
 			style={{ ...style }} {...others}

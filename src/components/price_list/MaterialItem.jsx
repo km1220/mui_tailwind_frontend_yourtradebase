@@ -75,7 +75,11 @@ const MaterialItem = props => {
 				<input value={itemData.foreach} onChange={e => setItemData({ ...itemData, foreach: e.target.value })} />
 			</ItemComponent>
 			<ItemComponent>
-				<DecimalInput value={itemData.markup} onSetValue={val => setItemData({ ...itemData, markup: val })} />
+				<p>%</p>
+				<DecimalInput
+					value={itemData.markup} onSetValue={val => setItemData({ ...itemData, markup: val })}
+					style={{ textAlign: 'right' }}
+				/>
 			</ItemComponent>
 			<ItemComponent>
 				<input value={itemData.brand} onChange={e => setItemData({ ...itemData, brand: e.target.value })} />

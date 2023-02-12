@@ -40,3 +40,10 @@ export const getRandomInt = (min = 0, max = 100) => {
 	max = Math.floor(max);
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+export const _generateNewID = (array_list = [], min = 100, max = 1000) => {
+	let newID = getRandomInt(min, max);
+	// check whether [random_new_id] already exist in the [array_list]
+	while (array_list.filter(e => e.id == newID).length > 0)
+		newID = getRandomInt(min, max);
+	return newID;
+};

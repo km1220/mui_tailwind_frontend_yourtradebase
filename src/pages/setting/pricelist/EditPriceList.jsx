@@ -126,7 +126,6 @@ export default function EditPriceList(props) {
 			resultTotal.markup += price * markup;
 		})
 		totalMaterial.current = resultTotal;
-		// console.log(resultTotal, totalMaterial, materialList);
 	}
 	const calcTotalLabour = () => {
 		let resultTotal = { price: 0, markup: 0 };
@@ -140,14 +139,12 @@ export default function EditPriceList(props) {
 	}
 
 	const handleUpdatePriceList = () => {
-		const newItem = {
+		const updateData = {
 			title: title, content: content,
 			material_list: JSON.stringify(material_list), labour_list: JSON.stringify(labour_list),
 			price: price
 		};
-		axios.put(`/price_lists/${editTargetData.id}`, newItem).then(res => {
-			console.log('123123123 ', res);
-
+		axios.put(`/price_lists/${editTargetData.id}`, updateData).then(res => {
 			if (res.data.affectedRows) {
 				dispatch(UPDATE_ITEM_IN_PRICE_LISTS({
 					id: editTargetData.id, title: title, content: content,
