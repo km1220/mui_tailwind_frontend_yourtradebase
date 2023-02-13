@@ -49,7 +49,7 @@ function Dashboard(props) {
 				<SpaceTag h={4} />
 				<Typography variant="h2"> Dashboard Page </Typography>
 				<Paper className="flex flex-col items-center px-6 py-8 m-8 sm:m-12 sm:px-8 sm:py-12" elevation={24} >
-					<Typography variant="h1"> Welcome {userData.email_addr}!</Typography>
+					<Typography variant="h6"> Welcome {userData.email_addr}!</Typography>
 				</Paper>
 			</div>
 		</>

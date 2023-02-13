@@ -111,7 +111,8 @@ const useStyles = makeStyles(theme => ({
 	},
 	linkContainer: {
 		display: 'flex',
-		justifyContent: 'space-between',
+		justifyContent: 'center',
+		// justifyContent: 'space-between',
 		flexGrow: 1,
 		margin: '0 1rem',
 		overflow: 'auto',

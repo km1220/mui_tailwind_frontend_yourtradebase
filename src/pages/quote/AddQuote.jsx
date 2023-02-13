@@ -9,9 +9,11 @@ import {
 } from '@store/actions';
 
 
+import { AddCircleOutlined as AddIcon } from '@mui/icons-material';
 import { Box, Paper, Divider, Typography, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
+
 
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
@@ -22,7 +24,6 @@ import DecimalInput from '@components/price_list/DecimalInput';
 import PriceItem from '@components/price_list/PriceItem';
 import MaterialItem from '@components/price_list/MaterialItem';
 import LabourItem from '@components/price_list/LabourItem';
-
 import MaterialLabourDialog from '../setting/MaterialLabourDialog';
 
 import { _generateNewID, limitDecimal } from '@utils';
@@ -114,17 +115,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
+const initailPriceListItem = () => ({
+	id: _generateNewID(), title: '', content: '',
+	material_list: [], labour_list: [],
+	totalMaterial: { price: 0, markup_price: 0 },
+	totalLabour: { price: 0, markup_price: 0 },
+	price: 0, vat: 0
+});
 const initialData = {
 	// id: _generateNewID(),
-	pricelist_data_list: [
-		{
-			id: _generateNewID(), title: '', content: '',
-			material_list: [], labour_list: [],
-			totalMaterial: { price: 0, markup_price: 0 },
-			totalLabour: { price: 0, markup_price: 0 },
-			price: 0, vat: 0
-		}
-	],
+	pricelist_data_list: [initailPriceListItem()],
 	company_name: "",
 	building_number: "",
 	post_code: "",
@@ -194,6 +194,11 @@ export default function AddQuotePage(props) {
 		};
 	}
 
+	const onAddBlank = () => {
+		let buffList = newData.pricelist_data_list;
+		buffList.push(initailPriceListItem());
+		setNewData({ ...newData, pricelist_data_list: buffList });
+	};
 	const handleAddQuote = () => {
 		const newQuote = {
 			...newData,
@@ -295,8 +300,14 @@ export default function AddQuotePage(props) {
 								<Divider />
 							</div>
 						</div>
-					))}
-
+					))
+				}
+				<div>
+					<Button className='px-4 py-1 mb-4 rounded' onClick={onAddBlank} color="secondary">
+						<AddIcon />
+						<p className='ml-2'>Add blank item</p>
+					</Button>
+				</div>
 
 				<MaterialLabourDialog
 					title='Material costs'
