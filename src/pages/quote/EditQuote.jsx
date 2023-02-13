@@ -187,6 +187,7 @@ export default function EditQuotePage(props) {
 			allPriceListsRef.current = editData.pricelist_data_list;
 		}
 
+		selectedItem = allPriceListsRef.current[selectedIndex];
 		dispatch(SET_NEW_MATERIAL_LIST(selectedItem.material_list));
 		dispatch(SET_NEW_LABOUR_LIST(selectedItem.labour_list));
 	}, [editData]);
