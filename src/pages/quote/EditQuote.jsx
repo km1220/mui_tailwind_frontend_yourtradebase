@@ -185,11 +185,10 @@ export default function EditQuotePage(props) {
 		}
 		else {
 			allPriceListsRef.current = editData.pricelist_data_list;
-		}
 
-		selectedItem = allPriceListsRef.current[selectedIndex];
-		dispatch(SET_NEW_MATERIAL_LIST(selectedItem.material_list));
-		dispatch(SET_NEW_LABOUR_LIST(selectedItem.labour_list));
+			dispatch(SET_NEW_MATERIAL_LIST(editData.pricelist_data_list[selectedIndex].material_list));
+			dispatch(SET_NEW_LABOUR_LIST(editData.pricelist_data_list[selectedIndex].labour_list));
+		}
 	}, [editData]);
 	useEffect(() => {
 		dispatch(SET_NEW_MATERIAL_LIST(selectedItem.material_list));
