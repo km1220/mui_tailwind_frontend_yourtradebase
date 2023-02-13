@@ -73,7 +73,7 @@ PriceInput.propTypes = {
 	staticText: PropTypes.bool,
 };
 PriceInput.defaultProps = {
-	defaultValue: 0.00,
+	defaultValue: 0,
 	maxLength: 11,
 	decimalsLimit: 2,
 	disableGroupSeparators: true,

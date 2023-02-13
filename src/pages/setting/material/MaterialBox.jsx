@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Paper, Divider, Collapse, Button, List, ListItem, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
@@ -14,7 +14,7 @@ import { _generateNewID } from '@utils';
 const useStyles = makeStyles(theme => ({
 	root: {
 		padding: '1rem',
-		border: `1px solid ${theme.palette.common.black}`,
+		border: `1px solid ${theme.palette.divider}`,
 		borderRadius: '0.25rem',
 	},
 	inputsContainer: {
@@ -48,7 +48,7 @@ function MaterialBox(props) {
 	return (
 		<Box className={clsx(classes.root, 'flex flex-col', className)} {...others}>
 			<div className='mb-4'>
-				<Typography variant='subtitle2'>Code (optional)</Typography>
+				<Typography variant='subtitle2'>Code <Typography variant="caption">(optional)</Typography></Typography>
 				<ItemComponent className="mr-6">
 					<input placeholder='Product code'
 						value={itemData.product_code} onChange={(e) => setItemData({ ...itemData, product_code: e.target.value })}
@@ -71,7 +71,7 @@ function MaterialBox(props) {
 					/>
 				</div>
 				<div>
-					<Typography variant='subtitle2'>for each (optional)</Typography>
+					<Typography variant='subtitle2'>for each <Typography variant="caption">(optional)</Typography></Typography>
 					<ItemComponent className="">
 						<input placeholder=''
 							value={itemData.foreach} onChange={(e) => setItemData({ ...itemData, foreach: e.target.value })}
@@ -79,7 +79,7 @@ function MaterialBox(props) {
 					</ItemComponent>
 				</div>
 				<div>
-					<Typography variant='subtitle2'>Markup (optional)</Typography>
+					<Typography variant='subtitle2'>Markup <Typography variant="caption">(optional)</Typography></Typography>
 
 					<ItemComponent>
 						<p>%</p>
@@ -91,7 +91,7 @@ function MaterialBox(props) {
 				</div>
 			</div>
 			<div className='mb-4'>
-				<Typography variant='subtitle2'>Category (optional)</Typography>
+				<Typography variant='subtitle2'>Category <Typography variant="caption">(optional)</Typography></Typography>
 				<ItemComponent className="w-full">
 					<input placeholder='Category'
 						type="number"
@@ -100,7 +100,7 @@ function MaterialBox(props) {
 				</ItemComponent>
 			</div>
 			<div className='mb-4'>
-				<Typography variant='subtitle2'>Brand (optional)</Typography>
+				<Typography variant='subtitle2'>Brand <Typography variant="caption">(optional)</Typography></Typography>
 				<ItemComponent className="w-full">
 					<input placeholder='Brand Info'
 						value={itemData.brand} onChange={(e) => setItemData({ ...itemData, brand: e.target.value })}
@@ -109,7 +109,7 @@ function MaterialBox(props) {
 			</div>
 			<div className='flex justify-center'>
 				<Button className='mx-4 rounded' color="secondary" variant="contained" onClick={handleSave}>{saveBtnTitle}</Button>
-				<Button className='mx-4 rounded' color="inherit" variant="outlined" onClick={handleDiscard}>Discard</Button>
+				<Button className='mx-4 rounded' color="disabled" variant="outlined" onClick={handleDiscard}>Discard</Button>
 			</div>
 		</Box>
 	)
@@ -136,9 +136,9 @@ MaterialBox.defaultProps = {
 		id: _generateNewID(),
 		product_code: '',
 		title: '',
-		price: '0.00',
+		price: '0',
 		foreach: '',
-		markup: '0.00',
+		markup: '0',
 		brand: '',
 		category_id: 1
 	},

@@ -21,7 +21,7 @@ const PaperComponent = ({ style, ...others }) => (
 );
 
 function MaterialLabourDialog(props) {
-	const { open, onClose, title, totalPrice, totalMarkupPrice,
+	let { open, onClose, title, totalPrice, totalMarkupPrice,
 		itemList, itemTemplateComponent, onMoveEnd,
 		onAddNewItem } = props;
 

@@ -813,4 +813,47 @@ function EnhancedTable() {
 
 import Loading from './components/LoadingPage'
 
-export default Loading;
+// export default Loading;
+
+
+const xxx = () => {
+  const allPriceListsRef = React.useRef([
+    {
+      id: 111, title: '1', content: '',
+      material_list: [], labour_list: [],
+      totalMaterial: { price: 0, markup_price: 0 },
+      totalLabour: { price: 0, markup_price: 0 },
+      price: 0, vat: 0
+    },
+    {
+      id: 222, title: '2', content: '',
+      material_list: [], labour_list: [],
+      totalMaterial: { price: 0, markup_price: 0 },
+      totalLabour: { price: 0, markup_price: 0 },
+      price: 0, vat: 0
+    }
+  ]);
+
+  const test = () => {
+    let buff1 = allPriceListsRef.current[0];
+    buff1.title = '111111111111111111111';
+    console.log(buff1);
+    console.log(allPriceListsRef);
+  }
+  const [X, setX] = React.useState(false)
+
+  React.useEffect(() => {
+    // test();
+    console.log(typeof {}, typeof [], typeof '123213')
+    console.log('in useeffect !   ', allPriceListsRef)
+  }, [...allPriceListsRef.current]);
+  return <>
+    <button onClick={() => {
+      allPriceListsRef.current[0].title = '11111111111111';
+      setX(!X);
+    }}>xxxx</button>
+    {X && 'flag is true'}
+  </>
+}
+
+export default xxx;

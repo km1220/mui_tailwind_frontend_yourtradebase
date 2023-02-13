@@ -12,7 +12,8 @@ export default ({ mode }) => {
 		// 	}
 		// },
 		build: {
-			outDir: './build'
+			outDir: './build',
+			assetsDir: './source'
 		},
 		resolve: {
 			alias: {

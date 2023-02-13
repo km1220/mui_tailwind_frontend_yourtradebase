@@ -56,6 +56,18 @@ export const UPDATE_ITEM_IN_LABOURS = (item) => ({ type: types.UPDATE_ITEM_IN_LA
 export const REMOVE_ITEM_IN_LABOURS = (id) => ({ type: types.REMOVE_ITEM_IN_LABOURS, payload: id });
 // =======================================================================================================
 // =======================================================================================================
+export const SET_QUOTES = (all_list) => ({ type: types.SET_QUOTES, payload: all_list });
+export const ADD_ITEM_IN_QUOTES = (item) => ({ type: types.ADD_ITEM_IN_QUOTES, payload: item });
+export const UPDATE_ITEM_IN_QUOTES = (item) => ({ type: types.UPDATE_ITEM_IN_QUOTES, payload: item });
+export const REMOVE_ITEM_IN_QUOTES = (id) => ({ type: types.REMOVE_ITEM_IN_QUOTES, payload: id });
+// =======================================================================================================
+// =======================================================================================================
+export const SET_TASKS = (all_list) => ({ type: types.SET_TASKS, payload: all_list });
+export const ADD_ITEM_IN_TASKS = (item) => ({ type: types.ADD_ITEM_IN_TASKS, payload: item });
+export const UPDATE_ITEM_IN_TASKS = (item) => ({ type: types.UPDATE_ITEM_IN_TASKS, payload: item });
+export const REMOVE_ITEM_IN_TASKS = (id) => ({ type: types.REMOVE_ITEM_IN_TASKS, payload: id });
+// =======================================================================================================
+// =======================================================================================================
 export function SET_ALALYZED_DATA(results, stats) {
   return {
     type: types.SET_ALALYZED_DATA,

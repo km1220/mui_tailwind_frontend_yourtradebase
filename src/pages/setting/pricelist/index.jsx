@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { SET_PRICE_LISTS, REMOVE_ITEM_IN_PRICE_LISTS } from '@store/actions';
 
 import { Button, List, ListItem, Typography } from '@mui/material';
-import { AddCircleOutlineOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
+import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
@@ -15,8 +15,9 @@ const useStyles = makeStyles(theme => ({
 	},
 	dataList: {
 		padding: '0 !important',
-		border: `1px solid ${theme.palette.common.black}`,
+		border: `1px solid ${theme.palette.divider}`,
 		borderRadius: '0.25rem',
+		color: theme.palette.primary.main,
 	},
 	searchBar: {
 		display: 'flex',
@@ -29,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 			marginLeft: '1rem',
 		},
 	},
-	priceItem: {
+	priceListItem: {
 		// '&.MuiListItem-root': {
 		// 	padding: '0.5rem 1.5rem',
 		// 	[theme.breakpoints.down('md')]: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 		// },
 
 		'&:not(:first-child)': {
-			borderTop: `1px solid ${theme.palette.common.black}`,
+			borderTop: `1px solid ${theme.palette.divider}`,
 		},
 		'& > *:not(:first-child)': {
 			marginLeft: '1rem',
@@ -114,55 +115,62 @@ export default function PriceListPage(props) {
 	return (
 		<>
 			<div>
-				<Button className='mb-4' onClick={() => navigate('/setting/price_list/new')} variant="contained" >
+				<Button className='px-4 py-1 mb-4 rounded' onClick={() => navigate('/setting/price_list/new')} variant="contained" >
 					<AddIcon />Add a price list item
 				</Button>
-				<List className={clsx(classes.dataList, 'mb-4')}>
-					<ListItem key='search-bar' className={classes.searchBar}>
-						<SearchIcon onClick={() => handleSearch()} style={{ cursor: 'pointer' }} />
-						<input placeholder='Seach price list...' type='text'
-							value={searchText} onChange={e => setSearchText(e.target.value)}
-							onKeyDown={e => e.key === "Enter" ? handleSearch() : null}
-						/>
-						<CancelIcon onClick={() => setSearchText('')} style={{ cursor: 'pointer' }} />
-					</ListItem>
-					{showList.length > 0 && showList.map((each, index) => (
-						<ListItem className={classes.priceItem} key={each.id}>
-							<div className='flex flex-col'>
-								<Typography variant="subtitle1">{each.title}</Typography>
-								<Typography variant='caption'>{each.content}</Typography>
-							</div>
-							<div style={{ flexGrow: 1 }} />
-							<div className='flex flex-col text-right'>
-								<Typography variant="subtitle2">${each.price}</Typography>
-								<Typography variant='caption'>
-									{
-										each.material_list.length > 0 ?
-											(each.material_list.length === 1 ? '1 material' : `${each.material_list.length} materials`)
-											: 'No Material'
-									},
-								</Typography>
-								<Typography variant='caption'>
-									{
-										each.labour_list.length > 0 ?
-											(each.labour_list.length === 1 ? '1 labour' : `Includes ${each.labour_list.length} labours`)
-											: 'No labour'
-									}
-								</Typography>
-							</div>
-							<div className={classes.actionBar}>
-								<Button className='rounded' variant="outlined"
-									onClick={() => navigate(`/setting/price_list/${each.id}`)}
-								>Edit</Button>
-								<Button className='rounded' variant="outlined" color='error'
-									onClick={() => handleDelete(each.id)}
-								>
-									Delete
-								</Button>
-							</div>
+				<br />
+				{showList.length > 0 &&
+					<List className={clsx(classes.dataList, 'mb-4')}>
+						<ListItem key='search-bar' className={classes.searchBar}>
+							<SearchIcon onClick={() => handleSearch()} style={{ cursor: 'pointer' }} />
+							<input placeholder='Seach price list...' type='text'
+								value={searchText} onChange={e => setSearchText(e.target.value)}
+								onKeyDown={e => e.key === "Enter" ? handleSearch() : null}
+							/>
+							<CancelIcon onClick={() => setSearchText('')} style={{ cursor: 'pointer' }} />
 						</ListItem>
-					))}
-				</List>
+						{
+							showList.map(each => (
+								<ListItem className={classes.priceListItem} key={each.id}>
+									<div className='flex flex-col'>
+										<Typography variant="subtitle1">{each.title}</Typography>
+										<Typography variant='caption'>{each.content}</Typography>
+									</div>
+									<div style={{ flexGrow: 1 }} />
+									<div className='flex flex-col text-right'>
+										<Typography variant="subtitle2">${each.price}</Typography>
+										<Typography variant='caption'>
+											{
+												each.material_list.length > 0 ?
+													(each.material_list.length === 1 ? '1 material' : `${each.material_list.length} materials`)
+													: 'No Material'
+											},
+										</Typography>
+										<Typography variant='caption'>
+											{
+												each.labour_list.length > 0 ?
+													(each.labour_list.length === 1 ? '1 labour' : `Includes ${each.labour_list.length} labours`)
+													: 'No labour'
+											}
+										</Typography>
+									</div>
+									<div className={classes.actionBar}>
+										<Button className='rounded' variant="outlined"
+											onClick={() => navigate(`/setting/price_list/${each.id}`)}
+										>Edit</Button>
+										<Button className='rounded' variant="outlined" color='error'
+											onClick={() => handleDelete(each.id)}
+										>
+											Delete
+										</Button>
+									</div>
+								</ListItem>
+							))
+						}
+					</List>
+				}
+
+				{showList.length === 0 && <Typography variant='overline'>No data</Typography>}
 			</div>
 		</>
 	)

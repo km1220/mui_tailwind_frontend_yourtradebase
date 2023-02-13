@@ -1,10 +1,10 @@
 import axios from 'axios';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { SET_LABOURS, ADD_ITEM_IN_LABOURS, UPDATE_ITEM_IN_LABOURS, REMOVE_ITEM_IN_LABOURS } from '@store/actions';
 
-import { Box, Paper, Divider, Collapse, Button, List, ListItem, Typography } from '@mui/material';
-import { AddCircleOutlineOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
+import { Collapse, Button, List, ListItem, Typography } from '@mui/material';
+import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
@@ -16,11 +16,15 @@ const useStyles = makeStyles(theme => ({
 	},
 	itemDataBox: {
 		maxWidth: '40vw',
+		[theme.breakpoints.down('md')]: {
+			maxWidth: 'none',
+		}
 	},
 	dataList: {
 		padding: '0 !important',
-		border: `1px solid ${theme.palette.common.black}`,
+		border: `1px solid ${theme.palette.divider}`,
 		borderRadius: '0.25rem',
+		color: theme.palette.primary.main,
 	},
 	searchBar: {
 		display: 'flex',
@@ -33,9 +37,9 @@ const useStyles = makeStyles(theme => ({
 			marginLeft: '1rem',
 		},
 	},
-	priceItem: {
+	labourItem: {
 		'&:not(:first-child)': {
-			borderTop: `1px solid ${theme.palette.common.black}`,
+			borderTop: `1px solid ${theme.palette.divider}`,
 		},
 		'& > *:not(:first-child)': {
 			marginLeft: '1rem',
@@ -57,8 +61,8 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
-let initailItemData = { id: _generateNewID(), title: '', price: '0.00', per: '', markup: '0.00' };
-export default function MaterialPage(props) {
+let initailItemData = { id: _generateNewID(), title: '', price: '0', per: '', markup: '0' };
+export default function LabourPage(props) {
 	const classes = useStyles(props);
 	const dispatch = useDispatch();
 	const labours = useSelector(state => state.labours);
@@ -71,7 +75,7 @@ export default function MaterialPage(props) {
 	const [newItemData, setNewItemData] = useState(initailItemData);
 	const [updateItemData, setUpdateItemData] = useState(initailItemData);
 
-	const _getAllMaterials = async () => {
+	const _getAllLabours = async () => {
 		const res = await axios.get('/labours');
 		console.log(res)
 		if (!res.data.labours) {
@@ -81,7 +85,7 @@ export default function MaterialPage(props) {
 		dispatch(SET_LABOURS(res.data.labours));
 	}
 	useEffect(() => {
-		if (labours.length === 0) _getAllMaterials();
+		if (labours.length === 0) _getAllLabours();
 	}, []);
 	useEffect(() => {
 		// setShowList(labours);
@@ -152,7 +156,7 @@ export default function MaterialPage(props) {
 					/>
 				</Collapse>
 				{!showAddBox ?
-					<Button className='mb-4' onClick={onAddClick} variant="contained">
+					<Button className='px-4 py-1 mb-4 rounded' onClick={onAddClick} variant="contained">
 						<AddIcon />
 						<p className='ml-2'>Add a labour rates</p>
 					</Button>
@@ -167,40 +171,47 @@ export default function MaterialPage(props) {
 					/>
 				</Collapse>
 				{!showUpdateBox ?
-					<List className={clsx(classes.dataList, 'mb-4')}>
-						<ListItem key='search-bar' className={classes.searchBar}>
-							<SearchIcon onClick={() => handleSearch()} style={{ cursor: 'pointer' }} />
-							<input placeholder='Seach material...' type='text'
-								value={searchText} onChange={e => setSearchText(e.target.value)}
-								onKeyDown={e => e.key === "Enter" ? handleSearch() : null}
-							/>
-							<CancelIcon onClick={() => setSearchText('')} style={{ cursor: 'pointer' }} />
-						</ListItem>
-						{showList.length > 0 && showList.map((each, index) => (
-							<ListItem className={classes.priceItem} key={each.id}>
-								<div className='flex flex-col'>
-									<Typography variant="subtitle1">{each.title}</Typography>
-									<Typography variant='caption'>{each.brand}</Typography>
-								</div>
-								<div style={{ flexGrow: 1 }} />
-								<div className='flex flex-col text-right'>
-									<Typography variant="subtitle2">${each.price}</Typography>
-									<Typography variant='caption'>{each.per ? `per ${each.per}` : ''} {each.markup > 0 ? `(+${each.markup}%)` : `(${each.markup}%)`}</Typography>
-								</div>
-								<div className={classes.actionBar}>
-									<Button className='rounded' variant="outlined" onClick={() => onEditClick(each)}>
-										Edit
-									</Button>
-									<Button className='rounded' variant="outlined" color='error' onClick={() => handleDelete(each.id)}>
-										Delete
-									</Button>
-								</div>
+					(
+						showList.length > 0 &&
+						<List className={clsx(classes.dataList, 'mb-4')}>
+							<ListItem key='search-bar' className={classes.searchBar}>
+								<SearchIcon onClick={() => handleSearch()} style={{ cursor: 'pointer' }} />
+								<input placeholder='Seach material...' type='text'
+									value={searchText} onChange={e => setSearchText(e.target.value)}
+									onKeyDown={e => e.key === "Enter" ? handleSearch() : null}
+								/>
+								<CancelIcon onClick={() => setSearchText('')} style={{ cursor: 'pointer' }} />
 							</ListItem>
-						))}
-					</List>
+							{
+								showList.map(each => (
+									<ListItem className={classes.labourItem} key={each.id}>
+										<div className='flex flex-col'>
+											<Typography variant="subtitle1">{each.title}</Typography>
+											<Typography variant='caption'>{each.brand}</Typography>
+										</div>
+										<div style={{ flexGrow: 1 }} />
+										<div className='flex flex-col text-right'>
+											<Typography variant="subtitle2">${each.price}</Typography>
+											<Typography variant='caption'>{each.per ? `per ${each.per}` : ''} {each.markup > 0 ? `(+${each.markup}%)` : `(${each.markup}%)`}</Typography>
+										</div>
+										<div className={classes.actionBar}>
+											<Button className='rounded' variant="outlined" onClick={() => onEditClick(each)}>
+												Edit
+											</Button>
+											<Button className='rounded' variant="outlined" color='error' onClick={() => handleDelete(each.id)}>
+												Delete
+											</Button>
+										</div>
+									</ListItem>
+								))
+							}
+						</List>
+					)
 					:
 					''
 				}
+
+				{showList.length === 0 && <Typography variant='overline'>No data</Typography>}
 			</div>
 		</>
 	)

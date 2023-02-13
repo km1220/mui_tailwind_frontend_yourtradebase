@@ -62,11 +62,11 @@ const MaterialItem = props => {
 			<DragIcon className={classes.dragIcon} {...dragHandleProps} />
 
 			<ItemComponent>
-				<input value={itemData.title} onChange={e => setItemData({ ...itemData, title: e.target.value })} />
+				<input placeholder='Title' value={itemData.title} onChange={e => setItemData({ ...itemData, title: e.target.value })} />
 			</ItemComponent>
 			<PriceInput value={itemData.price} onValueChange={val => setItemData({ ...itemData, price: val ? val : '0' })} />
 			<ItemComponent>
-				<input value={itemData.per} onChange={e => setItemData({ ...itemData, per: e.target.value })} />
+				<input placeholder='per...' value={itemData.per} onChange={e => setItemData({ ...itemData, per: e.target.value })} />
 			</ItemComponent>
 			<ItemComponent>
 				<p>%</p>

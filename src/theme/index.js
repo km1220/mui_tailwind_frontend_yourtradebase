@@ -81,11 +81,13 @@ export const theme = createTheme({
       disabled: 'rgba(55, 65, 81, 0.26)'
     },
     background: {
-      default: '#3e3e3e',
+      default: '#f6f6f6',
       paper: '#F9FAFC',
       grey: ""
     },
-    divider: '#000',
+    
+    divider: '#c8cfd7',
+    // divider: '#3d4b59',
     primary: {
       main: '#3A4D81',
       light: '#2b56cd',
@@ -129,6 +131,12 @@ export const theme = createTheme({
       main: '#ff1111',
       light: '#ff4a4a',
       dark: '#880000',
+      contrastText: '#FFFFFF'
+    },
+    disabled: {
+      main: '#8f919d',
+      light: '#b9bac3',
+      dark: '#4e5062',
       contrastText: '#FFFFFF'
     },
     text: {
@@ -203,6 +211,7 @@ export const theme = createTheme({
       textTransform: 'uppercase'
     },
     caption: {
+      color: '#3d4b59',
       fontSize: '0.75rem',
       fontWeight: 400,
       lineHeight: 1.66

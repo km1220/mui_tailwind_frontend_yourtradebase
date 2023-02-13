@@ -65,14 +65,14 @@ const MaterialItem = props => {
 			<DragIcon className={classes.dragIcon} {...dragHandleProps} />
 
 			<ItemComponent>
-				<input value={itemData.product_code} onChange={e => setItemData({ ...itemData, product_code: e.target.value })} />
+				<input placeholder='Product Code' value={itemData.product_code} onChange={e => setItemData({ ...itemData, product_code: e.target.value })} />
 			</ItemComponent>
 			<ItemComponent>
-				<input value={itemData.title} onChange={e => setItemData({ ...itemData, title: e.target.value })} />
+				<input placeholder='Title' value={itemData.title} onChange={e => setItemData({ ...itemData, title: e.target.value })} />
 			</ItemComponent>
 			<PriceInput value={itemData.price} onValueChange={val => setItemData({ ...itemData, price: val ? val : '0' })} />
 			<ItemComponent>
-				<input value={itemData.foreach} onChange={e => setItemData({ ...itemData, foreach: e.target.value })} />
+				<input placeholder='for each' value={itemData.foreach} onChange={e => setItemData({ ...itemData, foreach: e.target.value })} />
 			</ItemComponent>
 			<ItemComponent>
 				<p>%</p>
@@ -82,10 +82,10 @@ const MaterialItem = props => {
 				/>
 			</ItemComponent>
 			<ItemComponent>
-				<input value={itemData.brand} onChange={e => setItemData({ ...itemData, brand: e.target.value })} />
+				<input placeholder='Brand' value={itemData.brand} onChange={e => setItemData({ ...itemData, brand: e.target.value })} />
 			</ItemComponent>
 			<ItemComponent>
-				<input value={itemData.category_id} onChange={e => setItemData({ ...itemData, category_id: e.target.value })} />
+				<input placeholder='Category' value={itemData.category_id} onChange={e => setItemData({ ...itemData, category_id: e.target.value })} />
 			</ItemComponent>
 
 			<DeleteIcon className={classes.deleteIcon} onClick={handleDeleteItem} />

@@ -29,8 +29,23 @@ export const validateEmail = (email) => {
 
 
 
-
-
+export const isJson = (str) => {
+	try {
+		let parseResult = JSON.parse(str);
+		if (typeof parseResult === "object")
+			return true;
+		else
+			return false;
+	} catch (e) {
+		return false;
+	}
+}
+export const limitDecimal = (num, limit = 2) => {
+	if (typeof num !== "number")
+		return false;
+	else
+		return Number(num.toFixed(limit));
+}
 
 export const getRandomArbitrary = (min = 0, max = 100) => {
 	return Math.random() * (max - min) + min;

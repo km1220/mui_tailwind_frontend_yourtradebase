@@ -1,4 +1,4 @@
-import { SET_LABOURS, ADD_ITEM_IN_LABOURS, UPDATE_ITEM_IN_LABOURS, REMOVE_ITEM_IN_LABOURS } from '../actions/ActionTypes';
+import { SET_MATERIALS, ADD_ITEM_IN_MATERIALS, UPDATE_ITEM_IN_MATERIALS, REMOVE_ITEM_IN_MATERIALS } from '@store/actions/ActionTypes';
 
 const initialState = [];
 
@@ -6,16 +6,16 @@ let buffAddedList;
 let buffUpdatedList;
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_LABOURS:
+    case SET_MATERIALS:
       return [...action.payload];
-    case ADD_ITEM_IN_LABOURS:
+    case ADD_ITEM_IN_MATERIALS:
       buffAddedList = state;
       buffAddedList.push(action.payload);
       return [...buffAddedList];
-    case UPDATE_ITEM_IN_LABOURS:
+    case UPDATE_ITEM_IN_MATERIALS:
       buffUpdatedList = state.map(each => each.id === action.payload.id ? action.payload : each);
       return [...buffUpdatedList];
-    case REMOVE_ITEM_IN_LABOURS:
+    case REMOVE_ITEM_IN_MATERIALS:
       buffUpdatedList = state;
       for (let i = 0; i < buffUpdatedList.length; i++) {
         if (buffUpdatedList[i].id === action.payload) {

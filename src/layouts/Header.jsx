@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { RESET_USER_INFO } from '@store/actions'
 
@@ -13,7 +13,7 @@ import {
 } from '@mui/icons-material';
 import clsx from 'clsx'
 
-import Logo from '@assets/imgs/app-logo.png';
+import Logo from '@assets/imgs/app-logo.svg';
 
 // const headerTheme = theme => createTheme({
 // 	components: {
@@ -41,25 +41,6 @@ import Logo from '@assets/imgs/app-logo.png';
 // 	},
 // })
 
-
-const useStyles = makeStyles(theme => ({
-	root: {
-		background: theme.palette.neutral[300],
-		color: theme.palette.common.black,
-		// padding: '0rem 1.5rem'
-	},
-	logo: {
-		// background: theme.palette.common.white,
-		// padding: '0.5rem',
-		// borderRadius: '1rem',
-		// width: '3rem',
-		'& #header-domain': {
-			[theme.breakpoints.down('md')]: {
-				display: 'none',
-			}
-		}
-	}
-}))
 
 
 const HeaderBtn = props => {
@@ -104,9 +85,40 @@ const UserInfoList = styled(List)({
 	},
 });
 
+
+
+
+const useStyles = makeStyles(theme => ({
+	root: {
+		display: 'flex',
+		alignItems: 'center',
+		width: '100%',
+		background: theme.palette.neutral[300],
+		color: theme.palette.common.black,
+		// padding: '0rem 1.5rem',
+	},
+	logo: {
+		display: 'flex',
+		alignItems: 'center',
+		'& #logo-icon': {
+			marginLeft: '1rem',
+		},
+		'& #header-domain': {
+			[theme.breakpoints.down('md')]: {
+				display: 'none',
+			}
+		}
+	},
+	linkContainer: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		flexGrow: 1,
+		margin: '0 1rem',
+		overflow: 'auto',
+	},
+}))
 export default function Header(props) {
 	const classes = useStyles(props)
-	const navigate = useNavigate()
 	const dispatch = useDispatch()
 	const userData = useSelector(state => state.user)
 	const [showUserInfoList, setShowUserInfoList] = useState(false);
@@ -118,23 +130,21 @@ export default function Header(props) {
 
 	return (
 		// <ThemeProvider theme={headerTheme}>
-		<div className={clsx(classes.root, 'w-full flex items-center')}>
-			<Link to="/home" className={clsx(classes.logo, "flex ml-8 align-middle")}>
-				<img className='w-4' src={Logo} alt="logo" />
+		<div className={clsx(classes.root, '')}>
+			<Link to="/home" className={classes.logo}>
+				<img id='logo-icon' src={Logo} alt="logo" />
 				<Typography id="header-domain" className="ml-4" variant="h6"> YourTradebase.com </Typography>
 			</Link>
 
-			<div style={{ flexGrow: 1 }}></div>
-			<div className='flex justify-between grow'>
+			<div className={classes.linkContainer}>
 				<HeaderLink to={"/"} title="Home" Icon={HomeOutlined} />
-				<HeaderLink to={"/customers"} title="Customers" Icon={WcOutlined} />
-				<HeaderLink to={"/quotes"} title="Quotes" Icon={DraftsOutlined} />
-				<HeaderLink to={"/jobs"} title="Jobs" Icon={WorkOutline} />
-				<HeaderLink to={"/invoices"} title="Invoices" Icon={DescriptionOutlined} />
+				<HeaderLink to={"/customer"} title="Customers" Icon={WcOutlined} />
+				<HeaderLink to={"/quote"} title="Quotes" Icon={DraftsOutlined} />
+				<HeaderLink to={"/job"} title="Jobs" Icon={WorkOutline} />
+				<HeaderLink to={"/invoice"} title="Invoices" Icon={DescriptionOutlined} />
 				<HeaderLink to={"/schedule"} title="Schedule" Icon={CalendarMonthOutlined} />
-				<HeaderLink to={"/tasks"} title="Tasks" Icon={FormatListBulletedOutlined} />
+				<HeaderLink to={"/task"} title="Tasks" Icon={FormatListBulletedOutlined} />
 			</div>
-			<div style={{ flexGrow: 1 }}></div>
 
 			<div className=''>
 				<HeaderBtn to={'/contact_us'} color='secondary' variant="contained">Contact Us</HeaderBtn>

@@ -29,7 +29,20 @@ export const SET_LABOURS = 'SET_LABOURS';
 export const ADD_ITEM_IN_LABOURS = 'ADD_ITEM_IN_LABOURS';
 export const UPDATE_ITEM_IN_LABOURS = 'UPDATE_ITEM_IN_LABOURS';
 export const REMOVE_ITEM_IN_LABOURS = 'REMOVE_ITEM_IN_LABOURS';
-
+// =======================================================================================================
+// =======================================================================================================
+export const SET_QUOTES = 'SET_QUOTES';
+export const ADD_ITEM_IN_QUOTES = 'ADD_ITEM_IN_QUOTES';
+export const UPDATE_ITEM_IN_QUOTES = 'UPDATE_ITEM_IN_QUOTES';
+export const REMOVE_ITEM_IN_QUOTES = 'REMOVE_ITEM_IN_QUOTES';
+// =======================================================================================================
+// =======================================================================================================
+export const SET_TASKS = 'SET_TASKS';
+export const ADD_ITEM_IN_TASKS = 'ADD_ITEM_IN_TASKS';
+export const UPDATE_ITEM_IN_TASKS = 'UPDATE_ITEM_IN_TASKS';
+export const REMOVE_ITEM_IN_TASKS = 'REMOVE_ITEM_IN_TASKS';
+// =======================================================================================================
+// =======================================================================================================
 
 
 

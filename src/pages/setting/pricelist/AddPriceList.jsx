@@ -9,18 +9,17 @@ import {
 } from '@store/actions';
 
 import { Box, Paper, Divider, Typography, Button } from '@mui/material';
-import { makeStyles, styled } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
 import { _generateNewID } from '@utils';
 
-import SpaceTag from '@components/SpaceTag';
 import PriceInput from '@components/price_list/PriceInput';
 import PriceItem from '@components/price_list/PriceItem';
 import MaterialItem from '@components/price_list/MaterialItem';
 import LabourItem from '@components/price_list/LabourItem';
 
-import MaterialLabourDialog from './MaterialLabourDialog';
+import MaterialLabourDialog from '../MaterialLabourDialog';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -57,8 +56,8 @@ export default function AddPriceListPage(props) {
 
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
-	const totalMaterial = useRef({ price: 0, markup: 0 });
-	const totalLabour = useRef({ price: 0, markup: 0 });
+	const totalMaterial = useRef({ price: 0, markup_price: 0 });
+	const totalLabour = useRef({ price: 0, markup_price: 0 });
 	const [price, setPrice] = useState(0);
 
 
@@ -68,28 +67,28 @@ export default function AddPriceListPage(props) {
 			dispatch(SET_NEW_LABOUR_LIST([]));
 		}
 	}, []);
-	useEffect(() => { calcTotalMaterial(); }, [material_list, material_list.length]);
-	useEffect(() => { calcTotalLabour(); }, [labour_list, labour_list.length]);
+	useEffect(() => { calcTotalMaterial(); }, [material_list]);
+	useEffect(() => { calcTotalLabour(); }, [labour_list]);
 
 
 	const calcTotalMaterial = () => {
-		let resultTotal = { price: 0, markup: 0 };
+		let resultTotal = { price: 0, markup_price: 0 };
 		material_list.map(each => {
 			let price = Number(each.price);
-			let markup = 1 + Number(each.markup);
+			let markup = 1 + Number(each.markup) / 100;
 			resultTotal.price += price;
-			resultTotal.markup += price * markup;
+			resultTotal.markup_price += price * markup;
 		})
 		totalMaterial.current = resultTotal;
 		// console.log(resultTotal, totalMaterial, materialList);
 	}
 	const calcTotalLabour = () => {
-		let resultTotal = { price: 0, markup: 0 };
+		let resultTotal = { price: 0, markup_price: 0 };
 		labour_list.map(each => {
 			let price = Number(each.price);
-			let markup = 1 + Number(each.markup);
+			let markup = 1 + Number(each.markup) / 100;
 			resultTotal.price += price;
-			resultTotal.markup += price * markup;
+			resultTotal.markup_price += price * markup;
 		})
 		totalLabour.current = resultTotal;
 	}
@@ -122,61 +121,58 @@ export default function AddPriceListPage(props) {
 				<Typography variant='h5'>Add a price list item</Typography>
 				<Typography variant='subtitle2'>Save work you do regularly to cost work faster.</Typography>
 				<Divider />
-				<SpaceTag h={1} />
 
-				<Paper className='flex flex-col input-list' elevation={8}>
+				<Paper className='flex flex-col my-4 input-list' elevation={8}>
 					<input className='input-text input-title' type="text" placeholder='Give this work a title'
 						value={title} onChange={e => setTitle(e.target.value)} />
 					<textarea className='input-text input-description' placeholder='Description of work...' rows={6}
 						value={content} onChange={e => setContent(e.target.value)} />
 				</Paper>
-				<SpaceTag h={1} />
 
 				<PriceItem className="w-1/2" label="Material" onClick={() => setMaterialModal(true)} >
 					<PriceInput className='w-1/3' value={totalMaterial.current.price} staticText={true} />
-					<PriceInput className='w-1/3' value={totalMaterial.current.markup} staticText={true} />
+					<PriceInput className='w-1/3' value={totalMaterial.current.markup_price} staticText={true} />
 				</PriceItem>
 				<PriceItem className="w-1/2" label="Labour" onClick={() => setLabourModal(true)}>
 					<PriceInput className='w-1/3' value={totalLabour.current.price} staticText={true} />
-					<PriceInput className='w-1/3' value={totalLabour.current.markup} staticText={true} />
+					<PriceInput className='w-1/3' value={totalLabour.current.markup_price} staticText={true} />
 				</PriceItem>
 				<PriceItem className="w-1/2" label="Price">
 					<PriceInput className='w-1/3' value={price} onValueChange={(value, name) => setPrice(value)} />
 				</PriceItem>
 				<PriceItem className="w-1/2" label="Total Price">
 					<PriceInput className='w-1/3' value={totalMaterial.current.price + totalLabour.current.price - price} staticText={true} />
-					<PriceInput className='w-1/3' value={totalMaterial.current.markup + totalLabour.current.markup - price} staticText={true} />
+					<PriceInput className='w-1/3' value={totalMaterial.current.markup_price + totalLabour.current.markup_price - price} staticText={true} />
 				</PriceItem>
 				<Divider />
-				<SpaceTag h={2} />
 
-				<div className='flex justify-center'>
+				<div className='flex justify-center mt-6'>
 					<Button className='mx-4 rounded' color="secondary" variant="contained" onClick={handleAddPriceList}>Add to Price List</Button>
-					<Button className='mx-4 rounded' color="inherit" variant="outlined" onClick={() => navigate('/setting/price_list')}>Discard</Button>
+					<Button className='mx-4 rounded' color="disabled" variant="outlined" onClick={() => navigate('/setting/price_list')}>Discard</Button>
 				</div>
 			</Box>
 
 
 			<MaterialLabourDialog
 				itemList={material_list} itemTemplateComponent={MaterialItem}
-				title='Material costs' totalPrice={totalMaterial.current.price} totalMarkupPrice={totalMaterial.current.markup}
+				title='Material costs' totalPrice={totalMaterial.current.price} totalMarkupPrice={totalMaterial.current.markup_price}
 				open={materialModal} onClose={() => setMaterialModal(false)} onMoveEnd={(newList) => dispatch(SET_NEW_MATERIAL_LIST(newList))}
 				onAddNewItem={() =>
 					dispatch(ADD_ITEM_IN_NEW_MATERIAL_LIST({
 						id: _generateNewID(material_list),	// a random id for [temp_blank] material item
-						product_code: '', title: '', price: '0.00',
-						foreach: '', markup: '0.00', brand: '', category_id: ''
+						product_code: '', title: '', price: '0',
+						foreach: '', markup: '0', brand: '', category_id: ''
 					}))
 				}
 			/>
 			<MaterialLabourDialog
 				itemList={labour_list} itemTemplateComponent={LabourItem}
-				title='Labour rates' totalPrice={totalLabour.current.price} totalMarkupPrice={totalLabour.current.markup}
+				title='Labour rates' totalPrice={totalLabour.current.price} totalMarkupPrice={totalLabour.current.markup_price}
 				open={labourModal} onClose={() => setLabourModal(false)} onMoveEnd={(newList) => dispatch(SET_NEW_LABOUR_LIST(newList))}
 				onAddNewItem={() =>
 					dispatch(ADD_ITEM_IN_NEW_LABOUR_LIST({
 						id: _generateNewID(labour_list),	// a random id for [temp_blank] labour item
-						title: '', price: '0.00', per: '', markup: '0.00'
+						title: '', price: '0', per: '', markup: '0'
 					}))
 				}
 			/>

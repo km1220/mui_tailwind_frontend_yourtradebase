@@ -7,7 +7,12 @@ const useStyles = makeStyles(theme => ({
 	root: {
 		display: 'flex',
 		alignItems: 'center',
-		padding: '0.5rem 0',
+		// padding: '0.5rem 0',
+		marginBottom: '0.5rem',
+
+		// '&:not(:first-child)': {
+		// 	marginTop: '0.5rem',
+		// },
 	}
 }));
 

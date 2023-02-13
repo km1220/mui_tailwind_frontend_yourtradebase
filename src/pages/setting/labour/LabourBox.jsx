@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Paper, Divider, Collapse, Button, List, ListItem, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
@@ -14,7 +14,7 @@ import { _generateNewID } from '@utils';
 const useStyles = makeStyles(theme => ({
 	root: {
 		padding: '1rem',
-		border: `1px solid ${theme.palette.common.black}`,
+		border: `1px solid ${theme.palette.divider}`,
 		borderRadius: '0.25rem',
 	},
 	inputsContainer: {
@@ -81,7 +81,7 @@ function LabourBox(props) {
 			</div>
 			<div className='flex justify-center'>
 				<Button className='mx-4 rounded' color="secondary" variant="contained" onClick={handleSave}>{saveBtnTitle}</Button>
-				<Button className='mx-4 rounded' color="inherit" variant="outlined" onClick={handleDiscard}>Discard</Button>
+				<Button className='mx-4 rounded' color="disabled" variant="outlined" onClick={handleDiscard}>Discard</Button>
 			</div>
 		</Box>
 	)
@@ -104,9 +104,9 @@ LabourBox.defaultProps = {
 	itemData: {
 		id: _generateNewID(),
 		title: '',
-		price: '0.00',
+		price: '0',
 		per: '',
-		markup: '0.00'
+		markup: '0'
 	}
 }
 

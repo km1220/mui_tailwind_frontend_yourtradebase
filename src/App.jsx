@@ -21,16 +21,29 @@ const SettingLayout = lazy(() => import('@layouts/setting/SettingLayout'));
 const MaterialsPage = lazy(() => import('@pages/setting/material'));
 const LabourRatesPage = lazy(() => import('@pages/setting/labour'));
 const PriceListPage = lazy(() => import('@pages/setting/pricelist'));
-const AddPriceListPage = lazy(() => import('@pages/setting/pricelist/AddPriceList'));
-const EditPriceListPage = lazy(() => import('@pages/setting/pricelist/EditPriceList'));
+const PriceListAddPage = lazy(() => import('@pages/setting/pricelist/AddPriceList'));
+const PriceListEditPage = lazy(() => import('@pages/setting/pricelist/EditPriceList'));
+
+
+const QuotePage = lazy(() => import('@pages/quote'));
+const QuoteAddPage = lazy(() => import('@pages/quote/AddQuote'));
+const QuoteEditPage = lazy(() => import('@pages/quote/EditQuote'));
+const TaskPage = lazy(() => import('@pages/task'));
+const TaskAddPage = lazy(() => import('@pages/task/AddTask'));
+const TaskEditPage = lazy(() => import('@pages/task/EditTask'));
 import TestComponent from './test.component';
 
 
 
 const useStyles = makeStyles(theme => ({
   root: {
+    // width: '100vw',
     minHeight: '100vh',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#f0f0f0',
+    // backgroundColor: theme.palette.background.default,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   }
 }))
 
@@ -41,7 +54,7 @@ function App(props) {
   return (
     <Suspense fallback={<Loading />}>
       <Router>
-        <div className={clsx(classes.root, "App flex flex-col items-center")}>
+        <div className={clsx(classes.root)}>
           {/* <AppRouter /> */}
           <Routes>
             <Route index element={<Navigate to={userData.email_addr ? "/dashboard" : "/home"} replace />} />
@@ -52,8 +65,14 @@ function App(props) {
 
             <Route path="/" element={<DefaultLayout />}>
               <Route path="home" element={<HomePage />} />
-              <Route path="" element={<PrivateRoute />}>
+              <Route element={<PrivateRoute />}>
                 <Route path="dashboard" element={<DashboardPage />} />
+                <Route path="quote" element={<QuotePage />} />
+                <Route path="quote/new" element={<QuoteAddPage />} />
+                <Route path="quote/:id" element={<QuoteEditPage />} />
+                <Route path="task" element={<TaskPage />} />
+                <Route path="task/new" element={<TaskAddPage />} />
+                <Route path="task/:id" element={<TaskEditPage />} />
               </Route>
               <Route path="contact_us" element={<ContactUsPage />} />
             </Route>
@@ -66,8 +85,8 @@ function App(props) {
                 <Route index element={<Navigate to={"/setting/material"} replace />} />
                 <Route path="*" element={<Navigate to={"/setting"} replace />} />
               </Route>
-              <Route path="price_list/new" element={<AddPriceListPage />} />
-              <Route path="price_list/:id" element={<EditPriceListPage />} />
+              <Route path="price_list/new" element={<PriceListAddPage />} />
+              <Route path="price_list/:id" element={<PriceListEditPage />} />
             </Route>
 
             <Route path="/test" element={<TestComponent />} />
