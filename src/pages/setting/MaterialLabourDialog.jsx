@@ -15,9 +15,7 @@ function MaterialLabourDialog(props) {
 		onAddNewItem } = props;
 
 	return (
-		<Dialog open={open} PaperComponent={DraggablePaper}
-			onClose={onClose}
-		>
+		<Dialog open={open} PaperComponent={DraggablePaper} onClose={onClose} PaperProps={{ style: { width: '60%' } }}>
 			<div id="draggable-dialog-title" style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem', paddingBottom: '1rem', cursor: 'move' }}>
 				<div>
 					<Typography variant='h5'>{title}</Typography>

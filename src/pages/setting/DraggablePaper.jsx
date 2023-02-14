@@ -9,7 +9,7 @@ const DraggablePaper = ({ style, ...others }) => (
 		handle="#draggable-dialog-title"
 		cancel={'[class*="MuiDialogContent-root"]'}
 	>
-		<Paper style={{ ...style, maxWidth: 'none', width: '80%', overflowY: 'auto' }} {...others} />
+		<Paper style={{ ...style, maxWidth: 'none', overflowY: 'auto' }} {...others} />
 	</Draggable>
 );
 

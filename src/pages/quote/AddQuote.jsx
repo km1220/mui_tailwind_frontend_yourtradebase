@@ -9,7 +9,7 @@ import {
 	ADD_ITEM_IN_QUOTES
 } from '@store/actions';
 
-import { AddCircleOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon, DeleteOutlined as DeleteIcon } from '@mui/icons-material';
+import { AddCircleOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon, DeleteOutlined as DeleteIcon, Height as HeightIcon } from '@mui/icons-material';
 import { Box, Paper, Divider, Typography, Button, Dialog } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
@@ -36,7 +36,7 @@ import { _generateNewID, limitDecimal, parseJSON } from '@utils/price';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		width: '45%',
+		width: '60%',
 		margin: '2rem',
 		padding: '3rem',
 		[theme.breakpoints.down('lg')]: {
@@ -72,17 +72,15 @@ const useStyles = makeStyles(theme => ({
 		},
 	},
 	priceListItemBox: {
+		padding: '1rem 1.5rem',
 		'&.drag-selected': {
 			background: theme.palette.neutral[300],
-			'& .price-list-item-container': {
-				borderTop: 0,
-			},
+			// '& .price-list-item-container': {
+			// },
 		},
 		'& .price-list-item-container': {
 			width: '100%',
 			display: 'flex',
-			padding: '1rem 1.5rem',
-			borderTop: `1px dashed ${theme.palette.divider}`,
 			[theme.breakpoints.down('md')]: {
 				flexDirection: 'column',
 				alignItems: 'center',
@@ -129,6 +127,14 @@ const useStyles = makeStyles(theme => ({
 				},
 			},
 		},
+		'& .action-bar': {
+			display: 'flex',
+			'& .MuiButton-root': {
+				padding: '0 0.5rem',
+				borderRadius: '0.2rem',
+				// px-2 py-0 rounded
+			},
+		}
 	},
 
 	priceListSearchBar: {
@@ -287,10 +293,11 @@ export default function AddQuotePage(props) {
 		const scale = itemSelected * 0.0001 + 1;
 		const shadow = itemSelected * 5 + 1;
 
+		const [forceItemRerender, setForceItemRerender] = useState(100);
+		const _forceItemRerender = () => setForceItemRerender(forceItemRerender + 1);
+
 		return (
-			<div key={item.id}
-				className={clsx(classes.priceListItemBox, itemSelected !== 0 ? 'drag-selected' : '')}
-				{...dragHandleProps}
+			<div key={item.id} className={clsx(classes.priceListItemBox, itemSelected !== 0 ? 'drag-selected' : '')}
 				style={{
 					transform: `scale(${scale})`,
 					boxShadow: `rgba(0, 0, 0, 0.3) 0px ${shadow}px ${2 * shadow}px 0px`,
@@ -302,14 +309,14 @@ export default function AddQuotePage(props) {
 							value={item.title}
 							onChange={e => {
 								item.title = e.target.value;
-								_forceRerender();
+								_forceItemRerender();
 							}}
 						/>
 						<textarea className='input-text input-pricelist-description' placeholder='Description of work...' rows={6}
 							value={item.content}
 							onChange={e => {
 								item.content = e.target.value;
-								_forceRerender();
+								_forceItemRerender();
 							}}
 						/>
 					</Paper>
@@ -334,7 +341,7 @@ export default function AddQuotePage(props) {
 							<PriceInput value={item.price}
 								onValueChange={(value, name) => {
 									item.price = value;
-									_forceRerender();
+									_forceItemRerender();
 								}}
 							/>
 						</PriceItem>
@@ -354,7 +361,7 @@ export default function AddQuotePage(props) {
 								<DecimalInput value={item.vat} style={{ textAlign: 'right' }}
 									onSetValue={val => {
 										item.vat = val;
-										_forceRerender();
+										_forceItemRerender();
 									}}
 								/>
 							</ItemComponent>
@@ -372,12 +379,15 @@ export default function AddQuotePage(props) {
 						<Divider />
 					</div>
 				</div>
-				<Button className='px-2 py-0 mb-4 rounded' variant="outlined"
-					onClick={() => onPriceListItemDelete(item.id)}
-				>
-					<DeleteIcon />
-					Delete
-				</Button>
+				<div className='action-bar'>
+					<Button variant="outlined" onClick={() => onPriceListItemDelete(item.id)}>
+						<DeleteIcon />
+						Delete
+					</Button>
+					<Button variant="outlined" onClick={() => onPriceListItemDelete(item.id)} {...dragHandleProps}>
+						<HeightIcon />
+					</Button>
+				</div>
 			</div>
 		);
 	}
@@ -386,6 +396,7 @@ export default function AddQuotePage(props) {
 			<Paper className={clsx(classes.root, 'min-h-screen')} elevation={4}>
 				<Typography variant='h5'>Add a new quote</Typography>
 				<Divider />
+				<br />
 
 
 				<DraggableList list={allPriceListsRef.current} itemKey="id" template={PriceListItemComponent}
@@ -492,7 +503,7 @@ export default function AddQuotePage(props) {
 				</div>
 
 
-				<Dialog open={priceListModal} PaperComponent={DraggablePaper} onClose={() => setPriceListModal(false)}>
+				<Dialog open={priceListModal} PaperComponent={DraggablePaper} onClose={() => setPriceListModal(false)} PaperProps={{ style: { width: '60%' } }}>
 					<div id="draggable-dialog-title" style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem', paddingBottom: '1rem', cursor: 'move' }}>
 						<Typography variant='h5'>Add from price list</Typography>
 						<Button variant="outlined" onClick={() => setPriceListModal(false)}>Close</Button>
