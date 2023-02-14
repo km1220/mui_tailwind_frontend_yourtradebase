@@ -216,6 +216,10 @@ export default function AddQuotePage(props) {
 	const [selectedIndex, setSelectedPriceListIndex] = useState(0);
 	let selectedItem = allPriceListsRef.current[selectedIndex];
 
+	const [searchText, setSearchText] = useState('');
+	const [searchedPriceLists, setSearchedPriceLists] = useState([]);
+
+
 
 	const _forceRerender = () => setForceRerender(forceRerender + 1);
 	const _getAllPriceLists = async () => {
@@ -252,6 +256,10 @@ export default function AddQuotePage(props) {
 		selectedItem.totalLabour = calcTotalPrice(labour_list);
 	}, [labour_list, labour_list.length]);
 
+	useEffect(() => {
+		setSearchedPriceLists(price_lists);
+	}, [price_lists]);
+
 
 
 	const selectedPriceList = (targetID) => {
@@ -287,6 +295,18 @@ export default function AddQuotePage(props) {
 		}
 		_forceRerender();
 	};
+
+
+
+	const handlePriceListSearch = () => {
+		let newShowList = [];
+		price_lists.map(each => {
+			if (each.title.includes(searchText) || each.content.toString().includes(searchText) || each.price.toString().includes(searchText)) {
+				newShowList.push(each);
+			}
+		});
+		setSearchedPriceLists(newShowList);
+	};
 	const handleAddQuote = () => {
 		const newQuote = {
 			...newData,
@@ -302,7 +322,6 @@ export default function AddQuotePage(props) {
 			else if (err.response.status === 403) alert(err.response.data);
 		});
 	};
-
 
 
 	const PriceListItemComponent = ({ item, itemSelected, dragHandleProps, ...others }) => {
@@ -529,14 +548,14 @@ export default function AddQuotePage(props) {
 						<div className={classes.priceListSearchBar}>
 							<SearchIcon onClick={() => { }} style={{ cursor: 'pointer' }} />
 							<input placeholder='Seach price list...' type='text'
-								// value={searchText} onChange={e => { }}
-								onKeyDown={e => e.key === "Enter" ? () => { } : null}
+								value={searchText} onChange={e => setSearchText(e.target.value)}
+								onKeyDown={e => e.key === "Enter" ? handlePriceListSearch() : null}
 							/>
 							<CancelIcon onClick={() => setSearchText('')} style={{ cursor: 'pointer' }} />
 						</div>
 						<br />
 						<List className={classes.priceListSelectBox}>
-							{price_lists.map(each => (
+							{searchedPriceLists.map(each => (
 								<ListItem key={each.id} className={classes.priceListItem}>
 									<div className='info-section-1'>
 										<Typography variant='h5'>{each.title}</Typography>

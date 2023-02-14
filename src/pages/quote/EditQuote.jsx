@@ -218,6 +218,9 @@ export default function EditQuotePage(props) {
 	const [selectedIndex, setSelectedPriceListIndex] = useState(0);
 	let selectedItem = allPriceListsRef.current[selectedIndex];
 
+	const [searchText, setSearchText] = useState('');
+	const [searchedPriceLists, setSearchedPriceLists] = useState([]);
+
 
 
 	const _getAllQuotes = async () => {
@@ -288,6 +291,11 @@ export default function EditQuotePage(props) {
 		selectedItem.totalLabour = calcTotalPrice(labour_list);
 	}, [labour_list, labour_list.length]);
 
+	useEffect(() => {
+		setSearchedPriceLists(price_lists);
+	}, [price_lists]);
+
+	
 
 	const selectedPriceList = (targetID) => {
 		const targetIndex = allPriceListsRef.current.findIndex(e => e.id === targetID);
@@ -321,6 +329,18 @@ export default function EditQuotePage(props) {
 			}
 		}
 		_forceRerender();
+	};
+
+
+
+	const handlePriceListSearch = () => {
+		let newShowList = [];
+		price_lists.map(each => {
+			if (each.title.includes(searchText) || each.content.toString().includes(searchText) || each.price.toString().includes(searchText)) {
+				newShowList.push(each);
+			}
+		});
+		setSearchedPriceLists(newShowList);
 	};
 	const handleUpdateQuote = () => {
 		const updateQuote = {
@@ -477,14 +497,14 @@ export default function EditQuotePage(props) {
 						<div className={classes.priceListSearchBar}>
 							<SearchIcon onClick={() => { }} style={{ cursor: 'pointer' }} />
 							<input placeholder='Seach price list...' type='text'
-								// value={searchText} onChange={e => { }}
-								onKeyDown={e => e.key === "Enter" ? () => { } : null}
+								value={searchText} onChange={e => setSearchText(e.target.value)}
+								onKeyDown={e => e.key === "Enter" ? handlePriceListSearch() : null}
 							/>
 							<CancelIcon onClick={() => setSearchText('')} style={{ cursor: 'pointer' }} />
 						</div>
 						<br />
 						<List className={classes.priceListSelectBox}>
-							{price_lists.map(each => (
+							{searchedPriceLists.map(each => (
 								<ListItem key={each.id} className={classes.priceListItem}>
 									<div className='info-section-1'>
 										<Typography variant='h5'>{each.title}</Typography>
