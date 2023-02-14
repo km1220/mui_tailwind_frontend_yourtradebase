@@ -10,7 +10,7 @@ import {
 } from '@store/actions';
 
 import { AddCircleOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon, DeleteOutlined as DeleteIcon, Height as HeightIcon } from '@mui/icons-material';
-import { Box, Paper, Divider, Typography, Button, Dialog } from '@mui/material';
+import { Box, Paper, Divider, Typography, Button, Dialog, List, ListItem } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
@@ -140,6 +140,9 @@ const useStyles = makeStyles(theme => ({
 	priceListSearchBar: {
 		display: 'flex',
 		color: theme.palette.neutral[400],
+		padding: '0.5rem',
+		border: `1px solid ${theme.palette.divider}`,
+		borderRadius: '0.25rem',
 		'& input': {
 			flexGrow: 1,
 			color: theme.palette.common.black,
@@ -148,17 +151,30 @@ const useStyles = makeStyles(theme => ({
 			marginLeft: '1rem',
 		},
 	},
+	priceListSelectBox: {
+		padding: '0 !important',
+		border: `1px solid ${theme.palette.divider}`,
+		borderRadius: '0.25rem',
+		color: theme.palette.primary.main,
+	},
 	priceListItem: {
 		display: 'flex',
 		alignItems: 'center',
 		width: '100%',
+		'&:not(:first-child)': {
+			borderTop: `1px solid ${theme.palette.divider}`,
+		},
+		'& > *:not(:first-child)': {
+			marginLeft: '1rem',
+		},
+
 		'& > .info-section-1': {
 			flexGrow: 1
 		},
 		'& > .info-section-2': {
 		},
 		'& > .add-item-btn': {
-			padding: '0.25rem 0.5rem',
+			// padding: '0.25rem 0.5rem',
 			borderRadius: '0.25rem',
 		},
 	},
@@ -509,7 +525,6 @@ export default function AddQuotePage(props) {
 						<Button variant="outlined" onClick={() => setPriceListModal(false)}>Close</Button>
 					</div>
 					<br />
-					<br />
 					<div id="dialog-content" style={{ padding: '1.5rem', paddingTop: '0.5rem' }}>
 						<div className={classes.priceListSearchBar}>
 							<SearchIcon onClick={() => { }} style={{ cursor: 'pointer' }} />
@@ -519,23 +534,25 @@ export default function AddQuotePage(props) {
 							/>
 							<CancelIcon onClick={() => setSearchText('')} style={{ cursor: 'pointer' }} />
 						</div>
+						<br />
+						<List className={classes.priceListSelectBox}>
+							{price_lists.map(each => (
+								<ListItem key={each.id} className={classes.priceListItem}>
+									<div className='info-section-1'>
+										<Typography variant='h5'>{each.title}</Typography>
+										<Typography variant='caption'>{each.content}</Typography>
+									</div>
+									<div className='info-section-2'>
+										<Typography variant='h5'>$ {each.price}</Typography>
+									</div>
 
-						{price_lists.map(each => (
-							<div key={each.id} className={classes.priceListItem}>
-								<div className='info-section-1'>
-									<Typography variant='h5'>{each.title}</Typography>
-									<Typography variant='caption'>{each.content}</Typography>
-								</div>
-								<div className='info-section-2'>
-									<Typography variant='h5'>$ {each.price}</Typography>
-								</div>
-
-								<Button className='add-item-btn' onClick={() => onPriceListItemAdd(each)} color="secondary">
-									<AddIcon />
-									<p className='ml-2'>Add this item</p>
-								</Button>
-							</div>
-						))}
+									<Button className='add-item-btn' onClick={() => onPriceListItemAdd(each)} color="secondary">
+										<AddIcon />
+										<p className='ml-2'>Add this item</p>
+									</Button>
+								</ListItem>
+							))}
+						</List>
 					</div>
 				</Dialog>
 
@@ -582,6 +599,8 @@ export default function AddQuotePage(props) {
 
 
 
+				<Divider />
+				<br />
 				<div className={classes.inputsContainer}>
 					<div>
 						<Typography variant='subtitle2'>Company name <Typography variant="caption">(optional)</Typography></Typography>

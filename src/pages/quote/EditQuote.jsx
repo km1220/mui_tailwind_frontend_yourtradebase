@@ -138,15 +138,12 @@ const useStyles = makeStyles(theme => ({
 		}
 	},
 
-	priceListSelectBox: {
-		padding: '0 !important',
-		border: `1px solid ${theme.palette.divider}`,
-		borderRadius: '0.25rem',
-		color: theme.palette.primary.main,
-	},
 	priceListSearchBar: {
 		display: 'flex',
 		color: theme.palette.neutral[400],
+		padding: '0.5rem',
+		border: `1px solid ${theme.palette.divider}`,
+		borderRadius: '0.25rem',
 		'& input': {
 			flexGrow: 1,
 			color: theme.palette.common.black,
@@ -154,6 +151,12 @@ const useStyles = makeStyles(theme => ({
 		'& > *:not(:first-child)': {
 			marginLeft: '1rem',
 		},
+	},
+	priceListSelectBox: {
+		padding: '0 !important',
+		border: `1px solid ${theme.palette.divider}`,
+		borderRadius: '0.25rem',
+		color: theme.palette.primary.main,
 	},
 	priceListItem: {
 		display: 'flex',
@@ -470,7 +473,6 @@ export default function EditQuotePage(props) {
 						<Button variant="outlined" onClick={() => setPriceListModal(false)}>Close</Button>
 					</div>
 					<br />
-					<br />
 					<div id="dialog-content" style={{ padding: '1.5rem', paddingTop: '0.5rem' }}>
 						<div className={classes.priceListSearchBar}>
 							<SearchIcon onClick={() => { }} style={{ cursor: 'pointer' }} />
@@ -480,7 +482,7 @@ export default function EditQuotePage(props) {
 							/>
 							<CancelIcon onClick={() => setSearchText('')} style={{ cursor: 'pointer' }} />
 						</div>
-
+						<br />
 						<List className={classes.priceListSelectBox}>
 							{price_lists.map(each => (
 								<ListItem key={each.id} className={classes.priceListItem}>
@@ -543,6 +545,10 @@ export default function EditQuotePage(props) {
 					}}
 				/>
 
+
+
+				<Divider />
+				<br />
 				<div className={classes.inputsContainer}>
 					<div>
 						<Typography variant='subtitle2'>Company name <Typography variant="caption">(optional)</Typography></Typography>
