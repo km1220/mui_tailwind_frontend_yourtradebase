@@ -29,24 +29,6 @@ export const validateEmail = (email) => {
 
 
 
-export const isJson = (str) => {
-	try {
-		let parseResult = JSON.parse(str);
-		if (typeof parseResult === "object")
-			return true;
-		else
-			return false;
-	} catch (e) {
-		return false;
-	}
-}
-export const limitDecimal = (num, limit = 2) => {
-	if (typeof num !== "number")
-		return false;
-	else
-		return Number(num.toFixed(limit));
-}
-
 export const getRandomArbitrary = (min = 0, max = 100) => {
 	return Math.random() * (max - min) + min;
 }
@@ -55,10 +37,3 @@ export const getRandomInt = (min = 0, max = 100) => {
 	max = Math.floor(max);
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-export const _generateNewID = (array_list = [], min = 100, max = 1000) => {
-	let newID = getRandomInt(min, max);
-	// check whether [random_new_id] already exist in the [array_list]
-	while (array_list.filter(e => e.id == newID).length > 0)
-		newID = getRandomInt(min, max);
-	return newID;
-};

@@ -835,17 +835,14 @@ const xxx = () => {
   ]);
 
   const test = () => {
-    let buff1 = allPriceListsRef.current[0];
-    buff1.title = '111111111111111111111';
-    console.log(buff1);
-    console.log(allPriceListsRef);
+    let buff1 = allPriceListsRef.current.splice(0, 2);
+    console.log(allPriceListsRef, buff1);
   }
   const [X, setX] = React.useState(false)
 
   React.useEffect(() => {
-    // test();
-    console.log(typeof {}, typeof [], typeof '123213')
-    console.log('in useeffect !   ', allPriceListsRef)
+    test();
+    // console.log('in useeffect !   ', allPriceListsRef)
   }, [...allPriceListsRef.current]);
   return <>
     <button onClick={() => {

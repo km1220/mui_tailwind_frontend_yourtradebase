@@ -13,7 +13,7 @@ import { Box, Paper, Divider, Typography, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
-import { _generateNewID } from '@utils';
+import { _generateNewID, parseJSON } from '@utils/price';
 
 import PriceInput from '@components/price_list/PriceInput';
 import PriceItem from '@components/price_list/PriceItem';
@@ -76,8 +76,8 @@ export default function EditPriceListPage(props) {
 		}
 		let all_list = res.data.price_lists.map(each => ({
 			...each,
-			material_list: JSON.parse(each.material_list),
-			labour_list: JSON.parse(each.labour_list),
+			material_list: parseJSON(each.material_list),
+			labour_list: parseJSON(each.labour_list),
 		}));
 		dispatch(SET_PRICE_LISTS(all_list));
 	}

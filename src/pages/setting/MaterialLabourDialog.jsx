@@ -1,24 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Paper, Typography, Button, Dialog } from '@mui/material';
+import { Typography, Button, Dialog } from '@mui/material';
 import { AddCircleOutlineOutlined as AddIcon } from '@mui/icons-material';
-import { makeStyles, styled } from '@mui/styles';
-import clsx from 'clsx';
 
-import Draggable from 'react-draggable';
+import DraggablePaper from './DraggablePaper';
 import DraggableList from 'react-draggable-list';
 
 
-
-const PaperComponent = ({ style, ...others }) => (
-	<Draggable
-		handle="#draggable-dialog-title"
-		cancel={'[class*="MuiDialogContent-root"]'}
-	>
-		<Paper style={{ ...style, maxWidth: 'none', width: '80%', overflowY: 'auto' }} {...others} />
-	</Draggable>
-);
 
 function MaterialLabourDialog(props) {
 	let { open, onClose, title, totalPrice, totalMarkupPrice,
@@ -26,7 +15,7 @@ function MaterialLabourDialog(props) {
 		onAddNewItem } = props;
 
 	return (
-		<Dialog open={open} PaperComponent={PaperComponent}
+		<Dialog open={open} PaperComponent={DraggablePaper}
 			onClose={onClose}
 		>
 			<div id="draggable-dialog-title" style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem', paddingBottom: '1rem', cursor: 'move' }}>

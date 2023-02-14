@@ -9,6 +9,8 @@ import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
+import { parseJSON } from './@utils';
+
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -78,8 +80,8 @@ export default function PriceListPage(props) {
 		}
 		let all_list = res.data.price_lists.map(each => ({
 			...each,
-			material_list: JSON.parse(each.material_list),
-			labour_list: JSON.parse(each.labour_list),
+			material_list: parseJSON(each.material_list),
+			labour_list: parseJSON(each.labour_list),
 		}));
 		dispatch(SET_PRICE_LISTS(all_list));
 	}
