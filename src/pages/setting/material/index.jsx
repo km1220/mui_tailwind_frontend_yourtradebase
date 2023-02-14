@@ -9,7 +9,7 @@ import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
 import MaterialBox from './MaterialBox';
-import { _generateNewID } from '@utils';
+import { _generateNewID } from '@utils/price';
 
 const useStyles = makeStyles(theme => ({
 	root: {

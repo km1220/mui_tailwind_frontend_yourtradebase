@@ -5,6 +5,7 @@ import materialLabourList from './pricelist/material_labour_list';
 import priceLists from './pricelist/price_lists';
 import materials from './pricelist/materials';
 import labours from './pricelist/labours';
+import customers from './customers';
 import quotes from './quotes';
 import tasks from './tasks';
 
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     price_lists: priceLists,
     materials,
     labours,
+    customers,
     quotes,
     tasks,
 });

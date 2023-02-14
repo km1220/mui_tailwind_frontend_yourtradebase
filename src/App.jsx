@@ -25,6 +25,9 @@ const PriceListAddPage = lazy(() => import('@pages/setting/pricelist/AddPriceLis
 const PriceListEditPage = lazy(() => import('@pages/setting/pricelist/EditPriceList'));
 
 
+const CustomerPage = lazy(() => import('@pages/customer'));
+const CustomerAddPage = lazy(() => import('@pages/customer/AddCustomer'));
+// const CustomerEditPage = lazy(() => import('@pages/customer/EditQuote'));
 const QuotePage = lazy(() => import('@pages/quote'));
 const QuoteAddPage = lazy(() => import('@pages/quote/AddQuote'));
 const QuoteEditPage = lazy(() => import('@pages/quote/EditQuote'));
@@ -67,6 +70,9 @@ function App(props) {
               <Route path="home" element={<HomePage />} />
               <Route element={<PrivateRoute />}>
                 <Route path="dashboard" element={<DashboardPage />} />
+                <Route path="customer" element={<CustomerPage />} />
+                <Route path="customer/new" element={<CustomerAddPage />} />
+                {/* <Route path="customer/:id" element={<QuoteEditPage />} /> */}
                 <Route path="quote" element={<QuotePage />} />
                 <Route path="quote/new" element={<QuoteAddPage />} />
                 <Route path="quote/:id" element={<QuoteEditPage />} />

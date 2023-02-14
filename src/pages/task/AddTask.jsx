@@ -10,7 +10,7 @@ import clsx from 'clsx';
 
 import ItemComponent from '@components/price_list/ItemComponent';
 
-import { _generateNewID } from '@utils';
+import { _generateNewID } from '@utils/price';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -68,7 +68,7 @@ export default function AddTaskPage(props) {
         <div className={clsx(classes.inputsContainer, 'my-4')}>
           <div>
             <Typography variant='subtitle2'>What's the task?</Typography>
-            <ItemComponent className="">
+            <ItemComponent>
               <input placeholder='e.g. Arrange customer survey'
                 value={title} onChange={e => setTitle(e.target.value)}
               />
@@ -76,7 +76,7 @@ export default function AddTaskPage(props) {
           </div>
           <div>
             <Typography variant='subtitle2'>Description <Typography variant="caption">(optional)</Typography></Typography>
-            <ItemComponent className="">
+            <ItemComponent>
               <input value={desc} onChange={e => setDesc(e.target.value)} />
             </ItemComponent>
           </div>

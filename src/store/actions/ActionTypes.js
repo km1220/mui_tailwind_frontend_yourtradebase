@@ -31,6 +31,12 @@ export const UPDATE_ITEM_IN_LABOURS = 'UPDATE_ITEM_IN_LABOURS';
 export const REMOVE_ITEM_IN_LABOURS = 'REMOVE_ITEM_IN_LABOURS';
 // =======================================================================================================
 // =======================================================================================================
+export const SET_CUSTOMERS = 'SET_CUSTOMERS';
+export const ADD_ITEM_IN_CUSTOMERS = 'ADD_ITEM_IN_CUSTOMERS';
+export const UPDATE_ITEM_IN_CUSTOMERS = 'UPDATE_ITEM_IN_CUSTOMERS';
+export const REMOVE_ITEM_IN_CUSTOMERS = 'REMOVE_ITEM_IN_CUSTOMERS';
+// =======================================================================================================
+// =======================================================================================================
 export const SET_QUOTES = 'SET_QUOTES';
 export const ADD_ITEM_IN_QUOTES = 'ADD_ITEM_IN_QUOTES';
 export const UPDATE_ITEM_IN_QUOTES = 'UPDATE_ITEM_IN_QUOTES';

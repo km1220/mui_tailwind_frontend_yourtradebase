@@ -9,7 +9,7 @@ import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
-import { parseJSON } from './@utils';
+import { parseJSON } from '@utils/price';
 
 
 const useStyles = makeStyles(theme => ({

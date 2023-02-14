@@ -9,7 +9,7 @@ import {
 	SET_QUOTES, UPDATE_ITEM_IN_QUOTES
 } from '@store/actions';
 
-import { AddCircleOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
+import { AddCircleOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon, DeleteOutlined as DeleteIcon } from '@mui/icons-material';
 import { Box, Paper, Divider, Typography, Button, Dialog } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
@@ -25,6 +25,7 @@ import PriceItem from '@components/price_list/PriceItem';
 import MaterialItem from '@components/price_list/MaterialItem';
 import LabourItem from '@components/price_list/LabourItem';
 
+import DraggableList from 'react-draggable-list';
 import DraggablePaper from '../setting/DraggablePaper';
 import MaterialLabourDialog from '../setting/MaterialLabourDialog';
 
@@ -36,9 +37,11 @@ import { _generateNewID, limitDecimal, parseJSON } from '@utils/price';
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		width: '100%',
-		padding: '3rem 10rem',
-		[theme.breakpoints.down('md')]: {
+		width: '45%',
+		margin: '2rem',
+		padding: '3rem',
+		[theme.breakpoints.down('lg')]: {
+			width: '100%',
 			padding: '1rem 2rem',
 		},
 	},
@@ -69,53 +72,63 @@ const useStyles = makeStyles(theme => ({
 			},
 		},
 	},
-	priceListContainer: {
-		width: '100%',
-		display: 'flex',
-		padding: '1rem 1.5rem',
-		[theme.breakpoints.down('md')]: {
-			flexDirection: 'column',
-			alignItems: 'center',
+	priceListItemBox: {
+		'&.drag-selected': {
+			background: theme.palette.neutral[300],
+			'& .price-list-item-container': {
+				borderTop: 0,
+			},
 		},
-	},
-	priceListSection1: {
-		display: 'flex',
-		flexDirection: 'column',
-		flexGrow: 1,
-		padding: '0.75rem 1rem',
-		height: 'fit-content',
-		[theme.breakpoints.down('md')]: {
+		'& .price-list-item-container': {
 			width: '100%',
-		},
-		'& .input-text': {
-			padding: '0.25rem 0',
-			fontSize: '0.875rem',
-		},
-		'& .input-pricelist-title': {
-			fontSize: '1.125rem',
-			fontWeight: 700,
-		},
-		'& .input-pricelist-description': {
-			resize: 'none',
-		}
-	},
-	priceListSection2: {
-		flexBasis: '35%',
-		[theme.breakpoints.down('md')]: {
-			marginTop: '1rem',
-			marginBottom: '1rem',
-			minWidth: '80%',
-		},
-		'& > *': {
-			marginLeft: '2rem',
-			marginRight: '2rem',
-			'& > .MuiButton-root, .MuiTypography-button': {
-				width: '40%',
-				padding: '0.25rem 0.5rem',
+			display: 'flex',
+			padding: '1rem 1.5rem',
+			borderTop: `1px dashed ${theme.palette.divider}`,
+			[theme.breakpoints.down('md')]: {
+				flexDirection: 'column',
+				alignItems: 'center',
+			},
+
+			'& .section-1': {
+				display: 'flex',
+				flexDirection: 'column',
+				flexGrow: 1,
+				padding: '0.75rem 1rem',
+				height: 'fit-content',
 				[theme.breakpoints.down('md')]: {
-					width: '50%',
+					width: '100%',
 				},
-			}
+				'& .input-text': {
+					padding: '0.25rem 0',
+					fontSize: '0.875rem',
+				},
+				'& .input-pricelist-title': {
+					fontSize: '1.125rem',
+					fontWeight: 700,
+				},
+				'& .input-pricelist-description': {
+					resize: 'none',
+				}
+			},
+			'& .section-2': {
+				flexBasis: '35%',
+				[theme.breakpoints.down('md')]: {
+					marginTop: '1rem',
+					marginBottom: '1rem',
+					minWidth: '80%',
+				},
+				'& > *': {
+					marginLeft: '2rem',
+					// marginRight: '2rem',
+					'& > .MuiButton-root, .MuiTypography-button': {
+						width: '40%',
+						padding: '0.25rem 0.5rem',
+						[theme.breakpoints.down('md')]: {
+							width: '50%',
+						},
+					}
+				},
+			},
 		},
 	},
 	priceListSearchBar: {
@@ -253,6 +266,11 @@ export default function EditQuotePage(props) {
 	}, [labour_list, labour_list.length]);
 
 
+	const selectedPriceList = (targetID) => {
+		const targetIndex = allPriceListsRef.current.findIndex(e => e.id === targetID);
+		if (targetIndex !== -1)
+			setSelectedPriceListIndex(targetIndex);
+	};
 	const onAddBlank = () => {
 		let buffList = editData.pricelist_data_list;
 		buffList.push(initailPriceListItem());
@@ -301,95 +319,114 @@ export default function EditQuotePage(props) {
 	};
 
 
+	const PriceListItemComponent = ({ item, itemSelected, dragHandleProps, ...others }) => {
+		const scale = itemSelected * 0.0001 + 1;
+		const shadow = itemSelected * 5 + 1;
+
+		return (
+			<div key={item.id}
+				className={clsx(classes.priceListItemBox, itemSelected !== 0 ? 'drag-selected' : '')}
+				{...dragHandleProps}
+				style={{
+					transform: `scale(${scale})`,
+					boxShadow: `rgba(0, 0, 0, 0.3) 0px ${shadow}px ${2 * shadow}px 0px`,
+				}}
+			>
+				<div className='price-list-item-container'>
+					<Paper className='section-1' elevation={8}>
+						<input className='input-text input-pricelist-title' type="text" placeholder='Give this work a title'
+							value={item.title}
+							onChange={e => {
+								item.title = e.target.value;
+								_forceRerender();
+							}}
+						/>
+						<textarea className='input-text input-pricelist-description' placeholder='Description of work...' rows={6}
+							value={item.content}
+							onChange={e => {
+								item.content = e.target.value;
+								_forceRerender();
+							}}
+						/>
+					</Paper>
+					<div className='section-2'>
+						<PriceItem label="Material"
+							onClick={() => {
+								setMaterialModal(true);
+								selectedPriceList(item.id);
+							}}
+						>
+							<PriceInput value={item.totalMaterial.markup_price} staticText={true} />
+						</PriceItem>
+						<PriceItem label="Labour"
+							onClick={() => {
+								setLabourModal(true);
+								selectedPriceList(item.id);
+							}}
+						>
+							<PriceInput value={item.totalLabour.markup_price} staticText={true} />
+						</PriceItem>
+						<PriceItem label="Price">
+							<PriceInput value={item.price}
+								onValueChange={(value, name) => {
+									item.price = value;
+									_forceRerender();
+								}}
+							/>
+						</PriceItem>
+						<PriceItem label="Sub Total">
+							<Typography className='w-auto' color='primary' variant='button' align='right'>
+								$ {
+									limitDecimal(
+										item.totalMaterial.markup_price + item.totalLabour.markup_price
+										- item.price
+									)
+								}
+							</Typography>
+						</PriceItem>
+						<PriceItem label="VAT">
+							<ItemComponent>
+								<p>%</p>
+								<DecimalInput value={item.vat} style={{ textAlign: 'right' }}
+									onSetValue={val => {
+										item.vat = val;
+										_forceRerender();
+									}}
+								/>
+							</ItemComponent>
+						</PriceItem>
+						<PriceItem label="Total">
+							<Typography className='w-auto' color='primary' variant='button' align='right'>
+								$ {
+									limitDecimal(
+										(item.totalMaterial.markup_price + item.totalLabour.markup_price - item.price)
+										* (1 + item.vat / 100)
+									)
+								}
+							</Typography>
+						</PriceItem>
+						<Divider />
+					</div>
+				</div>
+				<Button className='px-2 py-0 mb-4 rounded' variant="outlined"
+					onClick={() => onPriceListItemDelete(item.id)}
+				>
+					<DeleteIcon />
+					Delete
+				</Button>
+			</div>
+		);
+	}
 	return (
 		<>
-			<Box className={clsx(classes.root, 'min-h-screen')}>
+			<Paper className={clsx(classes.root, 'min-h-screen')} elevation={4}>
 				<Typography variant='h5'>Update a quote</Typography>
 				<Divider />
 
-				{allPriceListsRef.current.map(
-					(each, index) => (
-						<>
-							<div key={each.id} className={classes.priceListContainer} style={{ borderTop: '1px dashed #000' }}>
-								<Paper className={classes.priceListSection1} elevation={8}>
-									<input className='input-text input-pricelist-title' type="text" placeholder='Give this work a title'
-										value={each.title}
-										onChange={e => {
-											each.title = e.target.value;
-											_forceRerender();
-										}}
-									/>
-									<textarea className='input-text input-pricelist-description' placeholder='Description of work...' rows={6}
-										value={each.content}
-										onChange={e => {
-											each.content = e.target.value;
-											_forceRerender();
-										}}
-									/>
-								</Paper>
-								<div className={classes.priceListSection2}>
-									<PriceItem label="Material"
-										onClick={() => {
-											setMaterialModal(true);
-											setSelectedPriceListIndex(index);
-										}}
-									>
-										<PriceInput value={each.totalMaterial.markup_price} staticText={true} />
-									</PriceItem>
-									<PriceItem label="Labour"
-										onClick={() => {
-											setLabourModal(true);
-											setSelectedPriceListIndex(index);
-										}}
-									>
-										<PriceInput value={each.totalLabour.markup_price} staticText={true} />
-									</PriceItem>
-									<PriceItem label="Price">
-										<PriceInput value={each.price}
-											onValueChange={(value, name) => {
-												each.price = value;
-												_forceRerender();
-											}}
-										/>
-									</PriceItem>
-									<PriceItem label="Sub Total">
-										<Typography color='primary' variant='button' align='right'>
-											$ {
-												limitDecimal(
-													each.totalMaterial.markup_price + each.totalLabour.markup_price
-													- each.price
-												)
-											}
-										</Typography>
-									</PriceItem>
-									<PriceItem label="VAT">
-										<ItemComponent>
-											<p>%</p>
-											<DecimalInput value={each.vat} style={{ textAlign: 'right' }}
-												onSetValue={val => {
-													each.vat = val;
-													_forceRerender();
-												}}
-											/>
-										</ItemComponent>
-									</PriceItem>
-									<PriceItem label="Total">
-										<Typography color='primary' variant='button' align='right'>
-											$ {
-												limitDecimal(
-													(each.totalMaterial.markup_price + each.totalLabour.markup_price - each.price)
-													* (1 + each.vat / 100)
-												)
-											}
-										</Typography>
-									</PriceItem>
-									<Divider />
-								</div>
-							</div>
-							<Button onClick={() => onPriceListItemDelete(each.id)}>Delete</Button>
-						</>
-					))
-				}
+				<DraggableList list={allPriceListsRef.current} itemKey="id" template={PriceListItemComponent}
+					onMoveEnd={(newList) => { allPriceListsRef.current = newList; _forceRerender(); }}
+				/>
+
 				<div>
 					<Button className='px-4 py-1 mb-4 rounded' onClick={onAddBlank} color="secondary">
 						<AddIcon />
@@ -482,7 +519,7 @@ export default function EditQuotePage(props) {
 				<div className={classes.inputsContainer}>
 					<div>
 						<Typography variant='subtitle2'>Company name <Typography variant="caption">(optional)</Typography></Typography>
-						<ItemComponent className="">
+						<ItemComponent>
 							<input placeholder='e.g. ***. Inc'
 								value={editData.company_name} onChange={e => setNewData({ ...editData, company_name: e.target.value })}
 							/>
@@ -519,7 +556,7 @@ export default function EditQuotePage(props) {
 					<Button className='mx-4 rounded' color="secondary" variant="contained" onClick={handleUpdateQuote}>Update this quote</Button>
 					<Button className='mx-4 rounded' color="disabled" variant="outlined" onClick={() => navigate('/quote')}>Discard</Button>
 				</div>
-			</Box>
+			</Paper>
 		</>
 	)
 }

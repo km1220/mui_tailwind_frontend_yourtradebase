@@ -8,7 +8,7 @@ import ItemComponent from '@components/price_list/ItemComponent';
 import PriceInput from '@components/price_list/PriceInput';
 import DecimalInput from '@components/price_list/DecimalInput';
 
-import { _generateNewID } from '@utils';
+import { _generateNewID } from '@utils/price';
 
 
 const useStyles = makeStyles(theme => ({

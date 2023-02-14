@@ -56,6 +56,12 @@ export const UPDATE_ITEM_IN_LABOURS = (item) => ({ type: types.UPDATE_ITEM_IN_LA
 export const REMOVE_ITEM_IN_LABOURS = (id) => ({ type: types.REMOVE_ITEM_IN_LABOURS, payload: id });
 // =======================================================================================================
 // =======================================================================================================
+export const SET_CUSTOMERS = (all_list) => ({ type: types.SET_CUSTOMERS, payload: all_list });
+export const ADD_ITEM_IN_CUSTOMERS = (item) => ({ type: types.ADD_ITEM_IN_CUSTOMERS, payload: item });
+export const UPDATE_ITEM_IN_CUSTOMERS = (item) => ({ type: types.UPDATE_ITEM_IN_CUSTOMERS, payload: item });
+export const REMOVE_ITEM_IN_CUSTOMERS = (id) => ({ type: types.REMOVE_ITEM_IN_CUSTOMERS, payload: id });
+// =======================================================================================================
+// =======================================================================================================
 export const SET_QUOTES = (all_list) => ({ type: types.SET_QUOTES, payload: all_list });
 export const ADD_ITEM_IN_QUOTES = (item) => ({ type: types.ADD_ITEM_IN_QUOTES, payload: item });
 export const UPDATE_ITEM_IN_QUOTES = (item) => ({ type: types.UPDATE_ITEM_IN_QUOTES, payload: item });

@@ -25,6 +25,12 @@ import MaterialLabourDialog from '../MaterialLabourDialog';
 
 const useStyles = makeStyles(theme => ({
 	root: {
+		width: '60%',
+		padding: '3rem',
+		[theme.breakpoints.down('lg')]: {
+			width: '100%',
+			padding: '1rem 2rem',
+		},
 		'& .input-list': {
 			padding: '0.625rem 1rem',
 			'& .input-text': {
@@ -44,7 +50,15 @@ const useStyles = makeStyles(theme => ({
 		'& ::-webkit-scrollbar-track': { background: 'transparent', opacity: 0.5, },
 		'& ::-webkit-scrollbar-thumb': { background: theme.palette.primary.dark, },
 		'& ::-webkit-scrollbar-thumb:hover': { background: '#555', },
-	}
+	},
+	priceListContainer: {
+		'& > *:not(:last-child)': {
+			width: '50%',
+			[theme.breakpoints.down(['md'])]: {
+				width: '100%',
+			}
+		}
+	},
 }));
 
 export default function EditPriceListPage(props) {
@@ -158,13 +172,13 @@ export default function EditPriceListPage(props) {
 
 	return (
 		<>
-			<Box className={clsx(classes.root, 'w-3/5 min-h-screen, px-8, py-8')}>
+			<Box className={clsx(classes.root, 'min-h-screen')}>
 				<Typography variant='overline'>Price list</Typography>
 				<Typography variant='h5'>Update a price list item</Typography>
 				<Typography variant='subtitle2'>Save work you do regularly to cost work faster.</Typography>
 				<Divider />
 
-				<Paper className='flex flex-col my-4 input-list' elevation={8}>
+				<Paper className='flex flex-col my-4 input-list' elevation={16}>
 					<input className='input-text input-title' type="text" placeholder='Give this work a title'
 						value={title} onChange={e => setTitle(e.target.value)} />
 					{/* <input className='input-text' type="text" placeholder='Description of work...' /> */}
@@ -172,22 +186,24 @@ export default function EditPriceListPage(props) {
 						value={content} onChange={e => setContent(e.target.value)} />
 				</Paper>
 
-				<PriceItem className="w-1/2" label="Material" onClick={() => setMaterialModal(true)} >
-					<PriceInput className='w-1/3' value={totalMaterial.current.price} staticText={true} />
-					<PriceInput className='w-1/3' value={totalMaterial.current.markup_price} staticText={true} />
-				</PriceItem>
-				<PriceItem className="w-1/2" label="Labour" onClick={() => setLabourModal(true)}>
-					<PriceInput className='w-1/3' value={totalLabour.current.price} staticText={true} />
-					<PriceInput className='w-1/3' value={totalLabour.current.markup_price} staticText={true} />
-				</PriceItem>
-				<PriceItem className="w-1/2" label="Price">
-					<PriceInput className='w-1/3' value={price} onValueChange={(value, name) => setPrice(value)} />
-				</PriceItem>
-				<PriceItem className="w-1/2" label="Total Price">
-					<PriceInput className='w-1/3' value={totalMaterial.current.price + totalLabour.current.price - price} staticText={true} />
-					<PriceInput className='w-1/3' value={totalMaterial.current.markup_price + totalLabour.current.markup_price - price} staticText={true} />
-				</PriceItem>
-				<Divider />
+				<div className={classes.priceListContainer}>
+					<PriceItem label="Material" onClick={() => setMaterialModal(true)} >
+						<PriceInput className='w-1/3' value={totalMaterial.current.price} staticText={true} />
+						<PriceInput className='w-1/3' value={totalMaterial.current.markup_price} staticText={true} />
+					</PriceItem>
+					<PriceItem label="Labour" onClick={() => setLabourModal(true)}>
+						<PriceInput className='w-1/3' value={totalLabour.current.price} staticText={true} />
+						<PriceInput className='w-1/3' value={totalLabour.current.markup_price} staticText={true} />
+					</PriceItem>
+					<PriceItem label="Price">
+						<PriceInput className='w-1/3' value={price} onValueChange={(value, name) => setPrice(value)} />
+					</PriceItem>
+					<PriceItem label="Total Price">
+						<PriceInput className='w-1/3' value={totalMaterial.current.price + totalLabour.current.price - price} staticText={true} />
+						<PriceInput className='w-1/3' value={totalMaterial.current.markup_price + totalLabour.current.markup_price - price} staticText={true} />
+					</PriceItem>
+					<Divider />
+				</div>
 
 				<div className='flex justify-center mt-6'>
 					<Button className='mx-4 rounded' color="secondary" variant="contained" onClick={handleUpdatePriceList}>Update to Price List</Button>

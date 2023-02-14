@@ -8,7 +8,7 @@ import ItemComponent from '@components/price_list/ItemComponent';
 import PriceInput from '@components/price_list/PriceInput';
 import DecimalInput from '@components/price_list/DecimalInput';
 
-import { _generateNewID } from '@utils';
+import { _generateNewID } from '@utils/price';
 
 
 const useStyles = makeStyles(theme => ({
@@ -72,7 +72,7 @@ function MaterialBox(props) {
 				</div>
 				<div>
 					<Typography variant='subtitle2'>for each <Typography variant="caption">(optional)</Typography></Typography>
-					<ItemComponent className="">
+					<ItemComponent>
 						<input placeholder=''
 							value={itemData.foreach} onChange={(e) => setItemData({ ...itemData, foreach: e.target.value })}
 						/>
