@@ -4,10 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { SET_CUSTOMERS, REMOVE_ITEM_IN_CUSTOMERS } from '@store/actions';
 
-import { Box, Paper, Divider, Collapse, Button, List, ListItem, Typography } from '@mui/material';
-import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
+import { Box, Paper, Divider, Collapse, Button, IconButton, List, ListItem, Typography } from '@mui/material';
+import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon, EditOutlined, DeleteOutlined } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
+
+import { parseJSON } from '@utils/price';
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -53,6 +56,15 @@ const useStyles = makeStyles(theme => ({
         padding: '0.25rem 0.5rem',
       },
     },
+    '& .MuiIconButton-root': {
+      margin: '0 0.5rem',
+      border: `1px solid`,
+      // borderColor: theme.palette.secondary.main,
+      // color: theme.palette.secondary.main,
+      [theme.breakpoints.down('md')]: {
+        margin: '0.25rem 0',
+      },
+    },
   }
 }));
 
@@ -71,7 +83,12 @@ export default function CustomerPage(props) {
       alert('Getting Price list data Error!');
       return;
     }
-    dispatch(SET_CUSTOMERS(res.data.customers));
+    let all_list = res.data.customers.map(each => ({
+      ...each,
+      contact_info_list: parseJSON(each.contact_info_list),
+      extra_info_list: parseJSON(each.extra_info_list),
+    }));
+    dispatch(SET_CUSTOMERS(all_list));
   }
   useEffect(() => {
     if (all_customers.length === 0) _getAllCustomers();
@@ -84,7 +101,7 @@ export default function CustomerPage(props) {
   const handleSearch = () => {
     let newShowList = [];
     all_customers.map(each => {
-      if (each.company_name.includes(searchText) || each.building_number.toString().includes(searchText) || each.post_code.includes(searchText) || each.email.includes(searchText) || each.phone.includes(searchText))
+      if (each.full_name.includes(searchText) || each.friendly_name.includes(searchText) || each.company_name.includes(searchText) || each.address.toString().includes(searchText) || each.post_code.includes(searchText))
         newShowList.push(each);
     });
     setShowList(newShowList);
@@ -97,6 +114,7 @@ export default function CustomerPage(props) {
       }
     });
   };
+  console.log(all_customers)
 
   return (
     <div className={classes.root}>
@@ -111,14 +129,18 @@ export default function CustomerPage(props) {
       {showList.length > 0 &&
         <List className={clsx(classes.dataList, 'mb-4')}>
           <>
-            <ListItem className={classes.searchBar}>
-              <SearchIcon onClick={() => handleSearch()} style={{ cursor: 'pointer' }} />
+            <div className={classes.searchBar}>
+              <IconButton style={{ cursor: 'pointer' }} disableRipple disableFocusRipple >
+                <SearchIcon />
+              </IconButton>
               <input placeholder='Seach material...' type='text'
                 value={searchText} onChange={e => setSearchText(e.target.value)}
                 onKeyDown={e => e.key === "Enter" ? handleSearch() : null}
               />
-              <CancelIcon onClick={() => setSearchText('')} style={{ cursor: 'pointer' }} />
-            </ListItem>
+              <IconButton onClick={() => setSearchText('')} style={{ cursor: 'pointer' }}>
+                <CancelIcon />
+              </IconButton>
+            </div>
             <ListItem className={clsx(classes.customerItem, 'py-0')}>
               {showList.length} customers
             </ListItem>
@@ -127,21 +149,40 @@ export default function CustomerPage(props) {
             showList.map(each => (
               <ListItem className={classes.customerItem} key={each.id}>
                 <div className='flex flex-col'>
-                  <Typography variant="subtitle1">Company: {each.company_name}</Typography>
-                  <Typography variant='caption'>Building number: {each.building_number} <Typography variant='caption'>Postcode: {each.post_code}</Typography></Typography>
+                  <Typography variant='h5'>Friendly name: {each.friendly_name} <Typography variant='caption'>Full name: {each.full_name}</Typography></Typography>
+                  <Typography variant='body2'>Company: {each.company_name}</Typography>
+                  <Typography variant='body2'>Address: {each.address} <Typography variant='caption'>Postcode: {each.post_code}</Typography></Typography>
                 </div>
                 <div style={{ flexGrow: 1 }} />
-                <div className='flex flex-col'>
-                  <Typography variant="subtitle1">Email: {each.email}</Typography>
-                  <Typography variant='caption'>Phone: {each.phone}</Typography>
+                <div className='flex flex-col self-end'>
+                  <div className='flex flex-col'>
+                    <Typography variant="subtitle2">Contact Info</Typography>
+                    <div className='flex items-baseline justify-end'>
+                      <Typography className='ml-6' variant="overline">{each.contact_info_list[0]?.type.toUpperCase()}: </Typography>
+                      <Typography className='ml-2' variant="caption">{each.contact_info_list[0]?.data}</Typography>
+                    </div>
+                  </div>
+                  <div className='flex flex-col'>
+                    <Typography variant='subtitle2'>Extra Info</Typography>
+                    <div className='flex items-baseline justify-end'>
+                      <Typography className='ml-6' variant="overline">{each.extra_info_list[0]?.type}: </Typography>
+                      <Typography className='ml-2' variant="caption">{each.extra_info_list[0]?.data}</Typography>
+                    </div>
+                  </div>
                 </div>
                 <div className={classes.actionBar}>
-                  <Button className='rounded' variant="outlined" onClick={() => navigate(`/customer/${each.id}`)}>
+                  {/* <Button className='rounded' variant="outlined" onClick={() => navigate(`/customer/${each.id}`)}>
                     Edit
                   </Button>
                   <Button className='rounded' variant="outlined" color='error' onClick={() => handleDelete(each.id)}>
                     Delete
-                  </Button>
+                  </Button> */}
+                  <IconButton onClick={() => navigate(`/customer/${each.id}`)}>
+                    <EditOutlined />
+                  </IconButton>
+                  <IconButton color='error' onClick={() => handleDelete(each.id)}>
+                    <DeleteOutlined />
+                  </IconButton>
                 </div>
               </ListItem>
             ))}

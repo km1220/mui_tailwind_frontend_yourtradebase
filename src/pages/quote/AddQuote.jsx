@@ -3,14 +3,14 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-	SET_PRICE_LISTS, REMOVE_ITEM_IN_PRICE_LISTS,
+	SET_PRICE_LISTS,
 	SET_NEW_MATERIAL_LIST, ADD_ITEM_IN_NEW_MATERIAL_LIST,
 	SET_NEW_LABOUR_LIST, ADD_ITEM_IN_NEW_LABOUR_LIST,
 	ADD_ITEM_IN_QUOTES
 } from '@store/actions';
 
 import { AddCircleOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon, DeleteOutlined as DeleteIcon, Height as HeightIcon } from '@mui/icons-material';
-import { Box, Paper, Divider, Typography, Button, Dialog, List, ListItem } from '@mui/material';
+import { Box, Paper, Divider, Typography, Button, IconButton, Dialog, List, ListItem } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 			padding: '1rem 2rem',
 		},
 	},
-	inputsContainer: {
+	inputsWrapper: {
 		display: 'flex',
 		flexDirection: 'column',
 
@@ -140,7 +140,6 @@ const useStyles = makeStyles(theme => ({
 	priceListSearchBar: {
 		display: 'flex',
 		color: theme.palette.neutral[400],
-		padding: '0.5rem',
 		border: `1px solid ${theme.palette.divider}`,
 		borderRadius: '0.25rem',
 		'& input': {
@@ -236,8 +235,10 @@ export default function AddQuotePage(props) {
 		dispatch(SET_PRICE_LISTS(all_list));
 	}
 	useEffect(() => {
+		dispatch(SET_PRICE_LISTS([]));
 		if (price_lists.length === 0) _getAllPriceLists();
 		return () => {
+			dispatch(SET_PRICE_LISTS([]));
 			dispatch(SET_NEW_MATERIAL_LIST([]));
 			dispatch(SET_NEW_LABOUR_LIST([]));
 		}
@@ -265,7 +266,12 @@ export default function AddQuotePage(props) {
 	const selectedPriceList = (targetID) => {
 		const targetIndex = allPriceListsRef.current.findIndex(e => e.id === targetID);
 		if (targetIndex !== -1)
-			setSelectedPriceListIndex(targetIndex);
+			if (targetIndex === selectedIndex) {
+				dispatch(SET_NEW_MATERIAL_LIST(selectedItem.material_list));
+				dispatch(SET_NEW_LABOUR_LIST(selectedItem.labour_list));
+			}
+			else
+				setSelectedPriceListIndex(targetIndex);
 	};
 	const onAddBlank = () => {
 		let buffList = newData.pricelist_data_list;
@@ -546,12 +552,16 @@ export default function AddQuotePage(props) {
 					<br />
 					<div id="dialog-content" style={{ padding: '1.5rem', paddingTop: '0.5rem' }}>
 						<div className={classes.priceListSearchBar}>
-							<SearchIcon onClick={() => { }} style={{ cursor: 'pointer' }} />
+							<IconButton style={{ cursor: 'pointer' }} disableRipple disableFocusRipple >
+								<SearchIcon />
+							</IconButton>
 							<input placeholder='Seach price list...' type='text'
 								value={searchText} onChange={e => setSearchText(e.target.value)}
 								onKeyDown={e => e.key === "Enter" ? handlePriceListSearch() : null}
 							/>
-							<CancelIcon onClick={() => setSearchText('')} style={{ cursor: 'pointer' }} />
+							<IconButton onClick={() => setSearchText('')} style={{ cursor: 'pointer' }}>
+								<CancelIcon />
+							</IconButton>
 						</div>
 						<br />
 						<List className={classes.priceListSelectBox}>
@@ -620,7 +630,7 @@ export default function AddQuotePage(props) {
 
 				<Divider />
 				<br />
-				<div className={classes.inputsContainer}>
+				<div className={classes.inputsWrapper}>
 					<div>
 						<Typography variant='subtitle2'>Company name <Typography variant="caption">(optional)</Typography></Typography>
 						<ItemComponent>
@@ -647,9 +657,7 @@ export default function AddQuotePage(props) {
 								<input placeholder="example@gmail.com" value={newData.email} onChange={e => setNewData({ ...newData, email: e.target.value })} />
 							</ItemComponent>
 							<ItemComponent>
-								<PhoneInput placeholder="+359 ** *** ****" defaultCountry="BG"
-									value={newData.phone} onChange={val => setNewData({ ...newData, phone: val })}
-								/>
+								<PhoneInput value={newData.phone} onChange={val => setNewData({ ...newData, phone: val })} />
 							</ItemComponent>
 						</div>
 					</div>

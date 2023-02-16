@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 		border: `1px solid ${theme.palette.divider}`,
 		borderRadius: '0.25rem',
 	},
-	inputsContainer: {
+	inputsWrapper: {
 		display: 'flex',
 		alignItems: 'end',
 		'& > *:not(:first-child)': {
@@ -55,7 +55,7 @@ function LabourBox(props) {
 					/>
 				</ItemComponent>
 			</div>
-			<div className={clsx(classes.inputsContainer, 'mb-4')}>
+			<div className={clsx(classes.inputsWrapper, 'mb-4')}>
 				<div>
 					<Typography variant='subtitle2'>Price</Typography>
 					<PriceInput placeholder='Price'

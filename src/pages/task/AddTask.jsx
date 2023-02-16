@@ -15,7 +15,7 @@ import { _generateNewID } from '@utils/price';
 const useStyles = makeStyles(theme => ({
   root: {
   },
-  inputsContainer: {
+  inputsWrapper: {
     display: 'flex',
     flexDirection: 'column',
 
@@ -65,7 +65,7 @@ export default function AddTaskPage(props) {
         <Typography variant='h5'>Add a new task</Typography>
         <Divider />
 
-        <div className={clsx(classes.inputsContainer, 'my-4')}>
+        <div className={clsx(classes.inputsWrapper, 'my-4')}>
           <div>
             <Typography variant='subtitle2'>What's the task?</Typography>
             <ItemComponent>

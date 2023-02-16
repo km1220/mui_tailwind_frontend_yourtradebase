@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { SET_QUOTES, REMOVE_ITEM_IN_QUOTES } from '@store/actions';
 
-import { Box, Paper, Divider, Collapse, Button, List, ListItem, Typography } from '@mui/material';
+import { Box, Paper, Divider, Collapse, Button, IconButton, List, ListItem, Typography } from '@mui/material';
 import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
+
+import { parseJSON } from '@utils/price';
 
 
 const useStyles = makeStyles(theme => ({
@@ -37,7 +39,7 @@ const useStyles = makeStyles(theme => ({
       borderTop: `1px solid ${theme.palette.divider}`,
     },
     '& > *:not(:first-child)': {
-      marginLeft: '1rem',
+      marginLeft: '2rem',
     },
   },
   actionBar: {
@@ -65,13 +67,18 @@ export default function QuotePage(props) {
   const [searchText, setSearchText] = useState('');
   const [showList, setShowList] = useState([]);
 
+
   const _getAllQuotes = async () => {
     const res = await axios.get('/quotes');
     if (!res.data.quotes) {
       alert('Getting Price list data Error!');
       return;
     }
-    dispatch(SET_QUOTES(res.data.quotes));
+    let all_list = res.data.quotes.map(each => ({
+      ...each,
+      pricelist_data_list: parseJSON(each.pricelist_data_list),
+    }));
+    dispatch(SET_QUOTES(all_list));
   }
   useEffect(() => {
     if (all_quotes.length === 0) _getAllQuotes();
@@ -111,14 +118,18 @@ export default function QuotePage(props) {
       {showList.length > 0 &&
         <List className={clsx(classes.dataList, 'mb-4')}>
           <>
-            <ListItem className={classes.searchBar}>
-              <SearchIcon onClick={() => handleSearch()} style={{ cursor: 'pointer' }} />
+            <div className={classes.searchBar}>
+              <IconButton style={{ cursor: 'pointer' }} disableRipple disableFocusRipple >
+                <SearchIcon />
+              </IconButton>
               <input placeholder='Seach material...' type='text'
                 value={searchText} onChange={e => setSearchText(e.target.value)}
                 onKeyDown={e => e.key === "Enter" ? handleSearch() : null}
               />
-              <CancelIcon onClick={() => setSearchText('')} style={{ cursor: 'pointer' }} />
-            </ListItem>
+              <IconButton onClick={() => setSearchText('')} style={{ cursor: 'pointer' }}>
+                <CancelIcon />
+              </IconButton>
+            </div>
             <ListItem className={clsx(classes.quoteItem, 'py-0')}>
               {showList.length} quotes
             </ListItem>
@@ -128,11 +139,11 @@ export default function QuotePage(props) {
               <ListItem className={classes.quoteItem} key={each.id}>
                 <div className='flex flex-col'>
                   <Typography variant="subtitle1">Company: {each.company_name}</Typography>
-                  <Typography variant='caption'>Building number: {each.building_number} <Typography variant='caption'>Postcode: {each.post_code}</Typography></Typography>
+                  <Typography variant='body2'>Building number: {each.building_number} <Typography variant='caption'>Postcode: {each.post_code}</Typography></Typography>
                 </div>
                 <div style={{ flexGrow: 1 }} />
-                <div className='flex flex-col'>
-                  <Typography variant="subtitle1">Email: {each.email}</Typography>
+                <div className='flex flex-col self-end'>
+                  <Typography variant="caption">Email: {each.email}</Typography>
                   <Typography variant='caption'>Phone: {each.phone}</Typography>
                 </div>
                 <div className={classes.actionBar}>

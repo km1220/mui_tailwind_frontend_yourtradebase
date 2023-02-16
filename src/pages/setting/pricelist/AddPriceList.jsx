@@ -3,9 +3,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+	SET_PRICE_LISTS, ADD_ITEM_IN_PRICE_LISTS,
 	SET_NEW_MATERIAL_LIST, ADD_ITEM_IN_NEW_MATERIAL_LIST,
 	SET_NEW_LABOUR_LIST, ADD_ITEM_IN_NEW_LABOUR_LIST,
-	ADD_ITEM_IN_PRICE_LISTS
 } from '@store/actions';
 
 import { Box, Paper, Divider, Typography, Button } from '@mui/material';
@@ -74,6 +74,19 @@ export default function AddPriceListPage(props) {
 	const totalLabour = useRef({ price: 0, markup_price: 0 });
 	const [price, setPrice] = useState(0);
 
+	const _getAllPriceLists = async () => {
+		const res = await axios.get('/price_lists');
+		if (!res.data.price_lists) {
+			alert('Getting Price list data Error!');
+			return;
+		}
+		let all_list = res.data.price_lists.map(each => ({
+			...each,
+			material_list: parseJSON(each.material_list),
+			labour_list: parseJSON(each.labour_list),
+		}));
+		dispatch(SET_PRICE_LISTS(all_list));
+	}
 
 	useEffect(() => {
 		return () => {
@@ -115,6 +128,7 @@ export default function AddPriceListPage(props) {
 		};
 		axios.post('/price_lists', newItem).then(res => {
 			if (res.data.affectedRows) {
+				_getAllPriceLists();
 				dispatch(ADD_ITEM_IN_PRICE_LISTS({
 					id: res.data.insertId, title: title, content: content,
 					material_list: material_list, labour_list: labour_list,

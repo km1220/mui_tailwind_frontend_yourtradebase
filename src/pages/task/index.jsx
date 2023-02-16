@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
       borderTop: `1px solid ${theme.palette.divider}`,
     },
     '& > *:not(:first-child)': {
-      marginLeft: '1rem',
+      marginLeft: '2rem',
     },
   },
   actionBar: {
