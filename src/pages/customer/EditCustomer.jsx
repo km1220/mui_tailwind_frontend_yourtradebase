@@ -2,7 +2,10 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_CUSTOMERS, UPDATE_ITEM_IN_CUSTOMERS } from '@store/actions';
+import {
+	SET_CUSTOMERS, UPDATE_ITEM_IN_CUSTOMERS,
+	LOADING
+} from '@store/actions';
 
 import { AddCircleOutlined as AddIcon, AddOutlined, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon, DeleteOutlined as DeleteIcon } from '@mui/icons-material';
 import { Box, Paper, Divider, Typography, Button, IconButton, Dialog, Select, MenuItem } from '@mui/material';
@@ -137,18 +140,20 @@ export default function EditCustomerPage(props) {
 
 
 	const _getAllCustomers = async () => {
-		const res = await axios.get('/customers');
-		if (!res.data.customers) {
-			alert('Getting Price list data Error!');
-			return;
-		}
-		let all_list = res.data.customers.map(each => ({
-			...each,
-			contact_info_list: parseJSON(each.contact_info_list),
-			extra_info_list: parseJSON(each.extra_info_list),
-			invoice_due_in: formatDate(each.invoice_due_in)
-		}));
-		dispatch(SET_CUSTOMERS(all_list));
+		dispatch(LOADING(true));
+		axios.get('/customers').then(res => {
+			if (!res.data.customers) {
+				alert('Getting Price list data Error!');
+				return;
+			}
+			let all_list = res.data.customers.map(each => ({
+				...each,
+				contact_info_list: parseJSON(each.contact_info_list),
+				extra_info_list: parseJSON(each.extra_info_list),
+			}));
+			dispatch(SET_CUSTOMERS(all_list));
+			dispatch(LOADING(false));
+		}).catch(err => console.log(err));
 	}
 	useEffect(() => {
 		if (all_customers.length === 0) _getAllCustomers();

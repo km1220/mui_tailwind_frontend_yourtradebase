@@ -1,7 +1,10 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { SET_LABOURS, ADD_ITEM_IN_LABOURS, UPDATE_ITEM_IN_LABOURS, REMOVE_ITEM_IN_LABOURS } from '@store/actions';
+import {
+	SET_LABOURS, ADD_ITEM_IN_LABOURS, UPDATE_ITEM_IN_LABOURS, REMOVE_ITEM_IN_LABOURS,
+	LOADING
+} from '@store/actions';
 
 import { Collapse, Button, List, ListItem, Typography } from '@mui/material';
 import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
@@ -76,13 +79,16 @@ export default function LabourPage(props) {
 	const [updateItemData, setUpdateItemData] = useState(initailItemData);
 
 	const _getAllLabours = async () => {
-		const res = await axios.get('/labours');
-		console.log(res)
-		if (!res.data.labours) {
-			alert('Getting Price list data Error!');
-			return;
-		}
-		dispatch(SET_LABOURS(res.data.labours));
+		dispatch(LOADING(true));
+		axios.get('/labours').then(res => {
+			console.log(res)
+			if (!res.data.labours) {
+				alert('Getting Price list data Error!');
+				return;
+			}
+			dispatch(SET_LABOURS(res.data.labours));
+			dispatch(LOADING(false));
+		}).catch(err => console.log(err));
 	}
 	useEffect(() => {
 		if (labours.length === 0) _getAllLabours();

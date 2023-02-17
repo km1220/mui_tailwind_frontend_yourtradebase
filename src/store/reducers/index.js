@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import user_info from './user_info';
+import loading from './loading';
 
 import materialLabourList from './pricelist/material_labour_list';
 import priceLists from './pricelist/price_lists';
@@ -11,6 +12,8 @@ import tasks from './tasks';
 
 const rootReducer = combineReducers({
     user: user_info,
+    loading_status: loading,
+
     material_labour_list: materialLabourList,
     price_lists: priceLists,
     materials,

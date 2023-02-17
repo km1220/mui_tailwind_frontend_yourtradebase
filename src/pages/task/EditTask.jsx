@@ -2,7 +2,10 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { SET_TASKS, UPDATE_ITEM_IN_TASKS } from '@store/actions';
+import {
+  SET_TASKS, UPDATE_ITEM_IN_TASKS,
+  LOADING
+} from '@store/actions';
 
 import { Box, Divider, Typography, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -34,12 +37,15 @@ export default function EditTaskPage(props) {
   const [editTargetData, setEditTargetData] = useState({ id: _generateNewID(), title: '', desc: '', due: '', job_id: 0 });
 
   const _getAllTasks = async () => {
-    const res = await axios.get('/tasks');
-    if (!res.data.tasks) {
-      alert('Getting Price list data Error!');
-      return;
-    }
-    dispatch(SET_TASKS(res.data.tasks));
+    dispatch(LOADING(true));
+    axios.get('/tasks').then(res => {
+      if (!res.data.tasks) {
+        alert('Getting Price list data Error!');
+        return;
+      }
+      dispatch(SET_TASKS(res.data.tasks));
+      dispatch(LOADING(false));
+    }).catch(err => console.log(err));
   }
   useEffect(() => {
     if (all_tasks.length === 0) _getAllTasks();

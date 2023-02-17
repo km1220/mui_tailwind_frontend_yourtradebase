@@ -53,62 +53,70 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function App(props) {
-  const classes = useStyles(props)
-  const userData = useSelector(state => state.user)
+  const classes = useStyles(props);
+  const userData = useSelector(state => state.user);
+  const isLoading = useSelector(state => state.loading_status);
+  console.log('------------------  ', isLoading);
 
   return (
     <Suspense fallback={<Loading />}>
-      <Router>
-        <div className={clsx(classes.root)}>
-          {/* <AppRouter /> */}
-          <Routes>
-            <Route index element={<Navigate to={userData.email_addr ? "/dashboard" : "/home"} replace />} />
-            <Route path="/login" element={<LogInPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
+
+      {isLoading ? <Loading /> :
+        <Router>
+          <div className={clsx(classes.root)}>
+            {/* <AppRouter /> */}
+            <Routes>
+              <Route index element={<Navigate to={userData.email_addr ? "/dashboard" : "/home"} replace />} />
+              <Route path="/login" element={<LogInPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
 
 
 
-            <Route path="/" element={<DefaultLayout />}>
-              <Route path="home" element={<HomePage />} />
-              <Route element={<PrivateRoute />}>
-                <Route path="dashboard" element={<DashboardPage />} />
+              <Route path="/" element={<DefaultLayout />}>
+                <Route path="home" element={<HomePage />} />
+                <Route element={<PrivateRoute />}>
+                  <Route path="dashboard" element={<DashboardPage />} />
 
-                <Route path="customer" element={<CustomerPage />} />
-                <Route path="customer/new" element={<CustomerAddPage />} />
-                <Route path="customer/:id" element={<CustomerEditPage />} />
+                  <Route path="customer" element={<CustomerPage />} />
+                  <Route path="customer/new" element={<CustomerAddPage />} />
+                  <Route path="customer/:id" element={<CustomerEditPage />} />
 
-                <Route path="quote" element={<QuotePage />} />
-                <Route path="quote/new" element={<QuoteAddPage />} />
-                <Route path="quote/:id" element={<QuoteEditPage />} />
+                  <Route path="quote" element={<QuotePage />} />
+                  <Route path="quote/new" element={<QuoteAddPage />} />
+                  <Route path="quote/:id" element={<QuoteEditPage />} />
 
-                <Route path="task" element={<TaskPage />} />
-                <Route path="task/new" element={<TaskAddPage />} />
-                <Route path="task/:id" element={<TaskEditPage />} />
+                  <Route path="task" element={<TaskPage />} />
+                  <Route path="task/new" element={<TaskAddPage />} />
+                  <Route path="task/:id" element={<TaskEditPage />} />
+                </Route>
+                <Route path="contact_us" element={<ContactUsPage />} />
               </Route>
-              <Route path="contact_us" element={<ContactUsPage />} />
-            </Route>
 
-            <Route path="/setting">
-              <Route element={<SettingLayout />}>
-                <Route path="material" element={<MaterialsPage />} />
-                <Route path="labour_rate" element={<LabourRatesPage />} />
-                <Route path="price_list" element={<PriceListPage />} />
-                <Route path="team" element={<TeamManagePage />} />
+              <Route path="/setting">
+                <Route element={<PrivateRoute />}>
+                  <Route element={<SettingLayout />}>
+                    <Route path="material" element={<MaterialsPage />} />
+                    <Route path="labour_rate" element={<LabourRatesPage />} />
+                    <Route path="price_list" element={<PriceListPage />} />
+                    <Route path="team" element={<TeamManagePage />} />
 
-                <Route index element={<Navigate to={"/setting/material"} replace />} />
-                <Route path="*" element={<Navigate to={"/setting"} replace />} />
+                    <Route index element={<Navigate to={"/setting/material"} replace />} />
+                    <Route path="*" element={<Navigate to={"/setting"} replace />} />
+                  </Route>
+                  <Route path="price_list/new" element={<PriceListAddPage />} />
+                  <Route path="price_list/:id" element={<PriceListEditPage />} />
+                  <Route path="team/new" element={<TeamAddPage />} />
+                </Route>
               </Route>
-              <Route path="price_list/new" element={<PriceListAddPage />} />
-              <Route path="price_list/:id" element={<PriceListEditPage />} />
-              <Route path="team/new" element={<TeamAddPage />} />
-            </Route>
 
-            <Route path="/test" element={<TestComponent />} />
-            <Route path="*" element={<Navigate to={"/"} replace />} />
-          </Routes>
-        </div>
-      </Router>
-    </Suspense>
+              <Route path="/test" element={<TestComponent />} />
+              <Route path="*" element={<Navigate to={"/"} replace />} />
+            </Routes>
+          </div>
+        </Router>
+      }
+
+    </Suspense >
   );
 }
 

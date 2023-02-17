@@ -3,12 +3,11 @@ import * as types from './ActionTypes';
 
 
 
-export const SET_ALL_USER_INFO = (data) => {
-  return { type: types.SET_ALL_USER_INFO, payload: data };
-}
-export const RESET_USER_INFO = () => {
-  return { type: types.RESET_USER_INFO };
-}
+export const LOADING = (flag = true) => ({ type: flag ? types.SET_LOADING : types.REMOVE_LOADING });
+// =======================================================================================================
+// =======================================================================================================
+export const SET_ALL_USER_INFO = (data) => ({ type: types.SET_ALL_USER_INFO, payload: data });
+export const RESET_USER_INFO = () => ({ type: types.RESET_USER_INFO });
 // =======================================================================================================
 // =======================================================================================================
 export const SET_PRICE_LISTS = (all_list) => ({ type: types.SET_PRICE_LISTS, payload: all_list });

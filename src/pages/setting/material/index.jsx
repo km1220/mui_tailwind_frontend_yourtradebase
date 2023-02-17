@@ -1,7 +1,10 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { SET_MATERIALS, ADD_ITEM_IN_MATERIALS, UPDATE_ITEM_IN_MATERIALS, REMOVE_ITEM_IN_MATERIALS } from '@store/actions';
+import {
+	SET_MATERIALS, ADD_ITEM_IN_MATERIALS, UPDATE_ITEM_IN_MATERIALS, REMOVE_ITEM_IN_MATERIALS,
+	LOADING
+} from '@store/actions';
 
 import { Collapse, Button, List, ListItem, Typography } from '@mui/material';
 import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
@@ -76,13 +79,16 @@ export default function MaterialPage(props) {
 	const [updateItemData, setUpdateItemData] = useState(initailItemData);
 
 	const _getAllMaterials = async () => {
-		const res = await axios.get('/materials');
-		console.log(res)
-		if (!res.data.materials) {
-			alert('Getting Price list data Error!');
-			return;
-		}
-		dispatch(SET_MATERIALS(res.data.materials));
+		dispatch(LOADING(true));
+		axios.get('/materials').then(res => {
+			console.log(res)
+			if (!res.data.materials) {
+				alert('Getting Price list data Error!');
+				return;
+			}
+			dispatch(SET_MATERIALS(res.data.materials));
+			dispatch(LOADING(false));
+		}).catch(err => console.log(err));
 	}
 	useEffect(() => {
 		if (materials.length === 0) _getAllMaterials();

@@ -2,7 +2,10 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { SET_TASKS, REMOVE_ITEM_IN_TASKS } from '@store/actions';
+import {
+  SET_TASKS, REMOVE_ITEM_IN_TASKS,
+  LOADING
+} from '@store/actions';
 
 import { Button, List, ListItem, Typography } from '@mui/material';
 import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
@@ -66,13 +69,16 @@ export default function TaskPage(props) {
   const [showList, setShowList] = useState([]);
 
   const _getAllTasks = async () => {
-    const res = await axios.get('/tasks');
-    if (!res.data.tasks) {
-      alert('Getting Price list data Error!');
-      return;
-    }
-    dispatch(SET_TASKS(res.data.tasks));
-  }
+    dispatch(LOADING(true));
+    axios.get('/tasks').then(res => {
+      if (!res.data.tasks) {
+        alert('Getting Price list data Error!');
+        return;
+      }
+      dispatch(SET_TASKS(res.data.tasks));
+      dispatch(LOADING(false));
+    }).catch(err => console.log(err));
+  };
   useEffect(() => {
     if (tasks.length === 0) _getAllTasks();
   }, []);

@@ -2,7 +2,10 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { SET_QUOTES, REMOVE_ITEM_IN_QUOTES } from '@store/actions';
+import {
+  SET_QUOTES, REMOVE_ITEM_IN_QUOTES,
+  LOADING
+} from '@store/actions';
 
 import { Box, Paper, Divider, Collapse, Button, IconButton, List, ListItem, Typography } from '@mui/material';
 import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
@@ -69,16 +72,19 @@ export default function QuotePage(props) {
 
 
   const _getAllQuotes = async () => {
-    const res = await axios.get('/quotes');
-    if (!res.data.quotes) {
-      alert('Getting Price list data Error!');
-      return;
-    }
-    let all_list = res.data.quotes.map(each => ({
-      ...each,
-      pricelist_data_list: parseJSON(each.pricelist_data_list),
-    }));
-    dispatch(SET_QUOTES(all_list));
+    dispatch(LOADING(true));
+    axios.get('/quotes').then(res => {
+      if (!res.data.quotes) {
+        alert('Getting Price list data Error!');
+        return;
+      }
+      let all_list = res.data.quotes.map(each => ({
+        ...each,
+        pricelist_data_list: parseJSON(each.pricelist_data_list),
+      }));
+      dispatch(SET_QUOTES(all_list));
+      dispatch(LOADING(false));
+    }).catch(err => console.log(err));
   }
   useEffect(() => {
     if (all_quotes.length === 0) _getAllQuotes();

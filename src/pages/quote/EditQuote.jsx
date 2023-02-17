@@ -6,7 +6,8 @@ import {
 	SET_PRICE_LISTS,
 	SET_NEW_MATERIAL_LIST, ADD_ITEM_IN_NEW_MATERIAL_LIST,
 	SET_NEW_LABOUR_LIST, ADD_ITEM_IN_NEW_LABOUR_LIST,
-	SET_QUOTES, UPDATE_ITEM_IN_QUOTES
+	SET_QUOTES, UPDATE_ITEM_IN_QUOTES,
+	LOADING  
 } from '@store/actions';
 
 import { AddCircleOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon, DeleteOutlined as DeleteIcon, Height as HeightIcon } from '@mui/icons-material';
@@ -222,30 +223,36 @@ export default function EditQuotePage(props) {
 
 
 	const _getAllQuotes = async () => {
-		const res = await axios.get('/quotes');
-		if (!res.data.quotes) {
-			alert('Getting Price list data Error!');
-			return;
-		}
-		let all_list = res.data.quotes.map(each => ({
-			...each,
-			pricelist_data_list: parseJSON(each.pricelist_data_list),
-		}));
-		dispatch(SET_QUOTES(all_list));
+		dispatch(LOADING(true));
+		axios.get('/quotes').then(res => {
+			if (!res.data.quotes) {
+				alert('Getting Price list data Error!');
+				return;
+			}
+			let all_list = res.data.quotes.map(each => ({
+				...each,
+				pricelist_data_list: parseJSON(each.pricelist_data_list),
+			}));
+			dispatch(SET_QUOTES(all_list));
+			dispatch(LOADING(false));
+		}).catch(err => console.log(err));
 	}
 	const _getAllPriceLists = async () => {
-		const res = await axios.get('/price_lists');
-		if (!res.data.price_lists) {
-			alert('Getting Price list data Error!');
-			return;
-		}
-		let all_list = res.data.price_lists.map(each => ({
-			...each,
-			material_list: parseJSON(each.material_list),
-			labour_list: parseJSON(each.labour_list),
-		}));
-		dispatch(SET_PRICE_LISTS(all_list));
-	}
+		dispatch(LOADING(true));
+		axios.get('/price_lists').then(res => {
+			if (!res.data.price_lists) {
+				alert('Getting Price list data Error!');
+				return;
+			}
+			let all_list = res.data.price_lists.map(each => ({
+				...each,
+				material_list: parseJSON(each.material_list),
+				labour_list: parseJSON(each.labour_list),
+			}));
+			dispatch(SET_PRICE_LISTS(all_list));
+			dispatch(LOADING(false));
+		}).catch(err => console.log(err));
+	};
 
 	const _forceRerender = () => setForceRerender(forceRerender + 1);
 	useEffect(() => {

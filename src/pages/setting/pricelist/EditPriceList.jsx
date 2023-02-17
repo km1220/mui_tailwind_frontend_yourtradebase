@@ -6,6 +6,7 @@ import {
 	SET_PRICE_LISTS, UPDATE_ITEM_IN_PRICE_LISTS,
 	SET_NEW_MATERIAL_LIST, ADD_ITEM_IN_NEW_MATERIAL_LIST,
 	SET_NEW_LABOUR_LIST, ADD_ITEM_IN_NEW_LABOUR_LIST,
+	LOADING
 } from '@store/actions';
 
 import { Box, Paper, Divider, Typography, Button } from '@mui/material';
@@ -82,17 +83,20 @@ export default function EditPriceListPage(props) {
 	const [price, setPrice] = useState(0);
 
 	const _getAllPriceLists = async () => {
-		const res = await axios.get('/price_lists');
-		if (!res.data.price_lists) {
-			alert('Getting Price list data Error!');
-			return;
-		}
-		let all_list = res.data.price_lists.map(each => ({
-			...each,
-			material_list: parseJSON(each.material_list),
-			labour_list: parseJSON(each.labour_list),
-		}));
-		dispatch(SET_PRICE_LISTS(all_list));
+		dispatch(LOADING(true));
+		axios.get('/price_lists').then(res => {
+			if (!res.data.price_lists) {
+				alert('Getting Price list data Error!');
+				return;
+			}
+			let all_list = res.data.price_lists.map(each => ({
+				...each,
+				material_list: parseJSON(each.material_list),
+				labour_list: parseJSON(each.labour_list),
+			}));
+			dispatch(SET_PRICE_LISTS(all_list));
+			dispatch(LOADING(false));
+		}).catch(err => console.log(err));
 	}
 
 	useEffect(() => {

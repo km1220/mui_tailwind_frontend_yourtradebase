@@ -2,7 +2,10 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { SET_CUSTOMERS, REMOVE_ITEM_IN_CUSTOMERS } from '@store/actions';
+import {
+  SET_CUSTOMERS, REMOVE_ITEM_IN_CUSTOMERS,
+  LOADING
+} from '@store/actions';
 
 import { Box, Paper, Divider, Collapse, Button, IconButton, List, ListItem, Typography } from '@mui/material';
 import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon, EditOutlined, DeleteOutlined } from '@mui/icons-material';
@@ -77,18 +80,22 @@ export default function CustomerPage(props) {
   const [searchText, setSearchText] = useState('');
   const [showList, setShowList] = useState([]);
 
+
   const _getAllCustomers = async () => {
-    const res = await axios.get('/customers');
-    if (!res.data.customers) {
-      alert('Getting Price list data Error!');
-      return;
-    }
-    let all_list = res.data.customers.map(each => ({
-      ...each,
-      contact_info_list: parseJSON(each.contact_info_list),
-      extra_info_list: parseJSON(each.extra_info_list),
-    }));
-    dispatch(SET_CUSTOMERS(all_list));
+    dispatch(LOADING(true));
+    axios.get('/customers').then(res => {
+      if (!res.data.customers) {
+        alert('Getting Price list data Error!');
+        return;
+      }
+      let all_list = res.data.customers.map(each => ({
+        ...each,
+        contact_info_list: parseJSON(each.contact_info_list),
+        extra_info_list: parseJSON(each.extra_info_list),
+      }));
+      dispatch(SET_CUSTOMERS(all_list));
+      dispatch(LOADING(false));
+    }).catch(err => console.log(err));
   }
   useEffect(() => {
     if (all_customers.length === 0) _getAllCustomers();

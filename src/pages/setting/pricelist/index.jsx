@@ -2,7 +2,10 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { SET_PRICE_LISTS, REMOVE_ITEM_IN_PRICE_LISTS } from '@store/actions';
+import {
+	SET_PRICE_LISTS, REMOVE_ITEM_IN_PRICE_LISTS,
+	LOADING
+} from '@store/actions';
 
 import { Button, List, ListItem, Typography } from '@mui/material';
 import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
@@ -73,18 +76,21 @@ export default function PriceListPage(props) {
 	const [showList, setShowList] = useState([]);
 
 	const _getAllPriceLists = async () => {
-		const res = await axios.get('/price_lists');
-		if (!res.data.price_lists) {
-			alert('Getting Price list data Error!');
-			return;
-		}
-		let all_list = res.data.price_lists.map(each => ({
-			...each,
-			material_list: parseJSON(each.material_list),
-			labour_list: parseJSON(each.labour_list),
-		}));
-		dispatch(SET_PRICE_LISTS(all_list));
-	}
+		dispatch(LOADING(true));
+		axios.get('/price_lists').then(res => {
+			if (!res.data.price_lists) {
+				alert('Getting Price list data Error!');
+				return;
+			}
+			let all_list = res.data.price_lists.map(each => ({
+				...each,
+				material_list: parseJSON(each.material_list),
+				labour_list: parseJSON(each.labour_list),
+			}));
+			dispatch(SET_PRICE_LISTS(all_list));
+			dispatch(LOADING(false));
+		}).catch(err => console.log(err));
+	};
 
 	useEffect(() => {
 		if (price_lists.length === 0) {
