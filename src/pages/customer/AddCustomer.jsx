@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { ADD_ITEM_IN_CUSTOMERS } from '@store/actions';
@@ -18,6 +18,17 @@ import DraggablePaper from '../setting/DraggablePaper';
 
 import { _generateNewID } from '@utils/price';
 
+
+
+
+
+const formatDate = (date_str = '') => {
+	let date = new Date(date_str);
+	if (date == 'Invalid Date')
+		date = new Date();
+
+	return date.toISOString().split("T")[0];
+}
 
 
 
@@ -121,6 +132,12 @@ export default function AddCustomerPage(props) {
 	const [newData, setNewData] = useState(initialData);
 	const [extraInfoTypeModal, setExtraInfoTypeModal] = useState(false);
 	const [newExtraInfoType, setNewExtraInfoType] = useState('');
+
+	useEffect(() => {
+		return () => {
+			setNewData(initialData);
+		}
+	}, []);
 
 
 	const onAddContactInfo = () => {
@@ -302,7 +319,7 @@ export default function AddCustomerPage(props) {
 						<div className='input-container'>
 							<Typography className='w-auto input-label' variant='subtitle1'>Invoices due in: </Typography>
 							<ItemComponent className='w-auto'>
-								<input type='date' value={newData.invoice_due_in} onChange={e => setNewData({ ...newData, invoice_due_in: e.target.value })} />
+								<input type='date' value={newData.invoice_due_in} onChange={e => setNewData({ ...newData, invoice_due_in: formatDate(e.target.value) })} />
 							</ItemComponent>
 						</div>
 						{

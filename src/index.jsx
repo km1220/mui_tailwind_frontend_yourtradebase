@@ -5,9 +5,9 @@ import configureStore, { _store } from './store/configureStore.js'
 import axios from 'axios';
 
 // if (process.env.NODE_ENV === 'production')
-  axios.defaults.baseURL = 'http://localhost:1337/';
+axios.defaults.baseURL = 'http://localhost:1337/';
 // else
-//   axios.defaults.baseURL = 'http://68.178.165.197:3000/';
+// axios.defaults.baseURL = 'http://68.178.165.197:3000/';
 
 
 import './styles/index.css';

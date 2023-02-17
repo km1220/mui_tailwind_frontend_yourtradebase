@@ -152,6 +152,9 @@ export default function EditCustomerPage(props) {
 	}
 	useEffect(() => {
 		if (all_customers.length === 0) _getAllCustomers();
+		return () => {
+			setEditData(initialData);
+		}
 	}, []);
 	useEffect(() => {
 		if (all_customers.length === 0) return;
