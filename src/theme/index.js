@@ -99,13 +99,13 @@ export const theme = createTheme({
       contrastText: '#FFFFFF'
     },
     secondary: {
-      // main: '#14B8A6',
-      // light: '#43C6B7',
-      // dark: '#0E8074',
+      main: '#14B8A6',
+      light: '#43C6B7',
+      dark: '#0E8074',
 
-      main: '#027e5e',
-      light: '#44814e',
-      dark: '#004008',
+      // main: '#027e5e',
+      // light: '#44814e',
+      // dark: '#004008',
       contrastText: '#FFFFFF'
     },
     success: {

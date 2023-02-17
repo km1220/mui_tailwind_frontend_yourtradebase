@@ -9,6 +9,7 @@ import clsx from 'clsx';
 
 const PrivateRoute = lazy(() => import('./layouts/auth/PrivateRoute'));
 import Loading from '@components/LoadingPage';
+import { ClimbingBoxLoader } from 'react-spinners';
 const LogInPage = lazy(() => import('@pages/auth/LogInPage'));
 const SignUpPage = lazy(() => import('@pages/auth/SignUpPage'));
 
@@ -61,7 +62,11 @@ function App(props) {
   return (
     <Suspense fallback={<Loading />}>
 
-      {isLoading ? <Loading /> :
+      {isLoading ?
+        <div className='flex items-center justify-center w-full min-h-screen'>
+          <ClimbingBoxLoader size='1.5rem' color="#36d7b7" />
+        </div>
+        :
         <Router>
           <div className={clsx(classes.root)}>
             {/* <AppRouter /> */}

@@ -812,46 +812,50 @@ function EnhancedTable() {
 
 
 import Loading from './components/LoadingPage'
+import { ClimbingBoxLoader } from 'react-spinners';
 
-// export default Loading;
+export default () =>
+  <div className='flex items-center justify-center w-full h-full grow'>
+    <ClimbingBoxLoader color="#36d7b7" />
+  </div>;
 
 
-const xxx = () => {
-  const allPriceListsRef = React.useRef([
-    {
-      id: 111, title: '1', content: '',
-      material_list: [], labour_list: [],
-      totalMaterial: { price: 0, markup_price: 0 },
-      totalLabour: { price: 0, markup_price: 0 },
-      price: 0, vat: 0
-    },
-    {
-      id: 222, title: '2', content: '',
-      material_list: [], labour_list: [],
-      totalMaterial: { price: 0, markup_price: 0 },
-      totalLabour: { price: 0, markup_price: 0 },
-      price: 0, vat: 0
-    }
-  ]);
+// const xxx = () => {
+//   const allPriceListsRef = React.useRef([
+//     {
+//       id: 111, title: '1', content: '',
+//       material_list: [], labour_list: [],
+//       totalMaterial: { price: 0, markup_price: 0 },
+//       totalLabour: { price: 0, markup_price: 0 },
+//       price: 0, vat: 0
+//     },
+//     {
+//       id: 222, title: '2', content: '',
+//       material_list: [], labour_list: [],
+//       totalMaterial: { price: 0, markup_price: 0 },
+//       totalLabour: { price: 0, markup_price: 0 },
+//       price: 0, vat: 0
+//     }
+//   ]);
 
-  const test = () => {
-    let buff1 = allPriceListsRef.current.splice(0, 2);
-    console.log(allPriceListsRef, buff1);
-    console.log(new Date());
-  }
-  const [X, setX] = React.useState(false)
+//   const test = () => {
+//     let buff1 = allPriceListsRef.current.splice(0, 2);
+//     console.log(allPriceListsRef, buff1);
+//     console.log(new Date());
+//   }
+//   const [X, setX] = React.useState(false)
 
-  React.useEffect(() => {
-    test();
-    // console.log('in useeffect !   ', allPriceListsRef)
-  }, [...allPriceListsRef.current]);
-  return <>
-    <button onClick={() => {
-      allPriceListsRef.current[0].title = '11111111111111';
-      setX(!X);
-    }}>xxxx</button>
-    {X && 'flag is true'}
-  </>
-}
+//   React.useEffect(() => {
+//     test();
+//     // console.log('in useeffect !   ', allPriceListsRef)
+//   }, [...allPriceListsRef.current]);
+//   return <>
+//     <button onClick={() => {
+//       allPriceListsRef.current[0].title = '11111111111111';
+//       setX(!X);
+//     }}>xxxx</button>
+//     {X && 'flag is true'}
+//   </>
+// }
 
-export default xxx;
+// export default xxx;
