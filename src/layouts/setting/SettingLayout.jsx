@@ -7,9 +7,19 @@ import SideBar from './SideBar';
 export default function SettingLayout() {
 	return <>
 		<Header />
-		<div className='flex justify-center w-full my-8 grow'>
+		<div className=''
+			style={{
+				minWidth: '75%',
+				display: 'flex',
+				justifyContent: 'center',
+				flexGrow: 1,
+				margin: '2rem 0',
+			}}
+		>
 			<SideBar />
-			<div className='' style={{ minWidth: '40vw', }}>
+			<div className=''
+				style={{ flexGrow: 1, }}
+			>
 				<Outlet />
 			</div>
 		</div>

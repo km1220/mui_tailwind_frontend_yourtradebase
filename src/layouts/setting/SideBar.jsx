@@ -1,15 +1,17 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { Tooltip, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { CategoryOutlined, EngineeringOutlined, PriceChangeOutlined } from '@mui/icons-material';
+import { Tooltip, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { CategoryOutlined, EngineeringOutlined, PriceChangeOutlined, GroupOutlined } from '@mui/icons-material';
 import { makeStyles, styled } from '@mui/styles';
 import clsx from 'clsx';
 
 
 const useStyles = makeStyles(theme => ({
 	root: {
-		'&': {}
+		'& .nav-header': {
+			padding: '0 1.5rem',
+		}
 	}
 }));
 
@@ -52,13 +54,17 @@ const SideBarList = styled(List)(({ theme }) => ({
 const SideBarLink = ({ to, Icon, title, children }) => {
 	const location = useLocation();
 	return (
-		<ListItemButton component={Link} to={to} className={location.pathname === to ? 'active' : ''} >
+		<ListItemButton component={Link} to={to} className={clsx(
+			location.pathname === to ? 'active' : '',
+			// Icon ? '' : 'ml-9'
+		)}>
 			{Icon &&
 				<Tooltip title={title}>
 					<Icon />
 				</Tooltip>
 			}
 			{title && <ListItemText className={clsx(Icon ? '' : 'ml-9')} primary={title} />}
+			{/* {title && <ListItemText primary={title} />} */}
 			{children}
 		</ListItemButton>
 	)
@@ -69,15 +75,22 @@ export default function DefaultLayout(props) {
 	return <div id="setting-side-bar" className={clsx(classes.root, 'mx-8')}>
 		<SideBarList>
 			<Divider />
+			<Typography className='nav-header' variant='overline'>Prices</Typography>
 			<SideBarLink to="/setting/material" title="Materials" Icon={CategoryOutlined} />
 			<SideBarLink to="/setting/labour_rate" title="Labour rates" Icon={EngineeringOutlined} />
 			<SideBarLink to="/setting/price_list" title="Price list" Icon={PriceChangeOutlined} />
+
 			<Divider />
-			<SideBarLink to="/setting" title="Setting">
-				<h5>text</h5>
+			<Typography className='nav-header' variant='overline'>Account</Typography>
+			<SideBarLink to="/setting/team" title="Manage team" Icon={GroupOutlined} />
+
+			<Divider />
+			<Typography className='nav-header' variant='overline'>TEST</Typography>
+			<SideBarLink title="Setting">
+				<h5>test 1</h5>
 			</SideBarLink>
-			<SideBarLink to="/setting" title="Setting" />
-			<ListItem></ListItem>
+			<SideBarLink title="Setting test 2" />
+			<ListItem>test 3</ListItem>
 		</SideBarList>
 	</div>
 }

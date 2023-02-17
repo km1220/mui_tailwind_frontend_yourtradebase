@@ -60,6 +60,7 @@ export const theme = createTheme({
     common: {
       black: '#202020',
       white: '#e0e0e0',
+      grey: "#979797",
     },
     neutral: {
       100: '#F3F4F6',
@@ -83,9 +84,8 @@ export const theme = createTheme({
     background: {
       default: '#f6f6f6',
       paper: '#F9FAFC',
-      grey: ""
     },
-    
+
     divider: '#c8cfd7',
     // divider: '#3d4b59',
     primary: {
@@ -109,9 +109,9 @@ export const theme = createTheme({
       contrastText: '#FFFFFF'
     },
     success: {
-      main: '#78A352',
-      light: '#9bc17a',
-      dark: '#477024',
+      main: '#48c15b',
+      light: '#9fc5a5',
+      dark: '#086e1a',
       contrastText: '#FFFFFF'
     },
     info: {

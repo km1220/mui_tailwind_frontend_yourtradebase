@@ -111,10 +111,10 @@ const useStyles = makeStyles(theme => ({
 	},
 	linkContainer: {
 		display: 'flex',
-		justifyContent: 'center',
-		// justifyContent: 'space-between',
-		flexGrow: 1,
-		margin: '0 1rem',
+		margin: 'auto',
+		// justifyContent: 'center',
+		// flexGrow: 1,
+		// margin: '0 1rem',
 		overflow: 'auto',
 	},
 }))
@@ -141,9 +141,14 @@ export default function Header(props) {
 				<HeaderLink to={"/"} title="Home" Icon={HomeOutlined} />
 				<HeaderLink to={"/customer"} title="Customers" Icon={WcOutlined} />
 				<HeaderLink to={"/quote"} title="Quotes" Icon={DraftsOutlined} />
-				<HeaderLink to={"/job"} title="Jobs" Icon={WorkOutline} />
+
+				{/* <HeaderLink to={"/job"} title="Jobs" Icon={WorkOutline} />
 				<HeaderLink to={"/invoice"} title="Invoices" Icon={DescriptionOutlined} />
-				<HeaderLink to={"/schedule"} title="Schedule" Icon={CalendarMonthOutlined} />
+				<HeaderLink to={"/schedule"} title="Schedule" Icon={CalendarMonthOutlined} /> */}
+				<HeaderLink title="Jobs" Icon={WorkOutline} />
+				<HeaderLink title="Invoices" Icon={DescriptionOutlined} />
+				<HeaderLink title="Schedule" Icon={CalendarMonthOutlined} />
+
 				<HeaderLink to={"/task"} title="Tasks" Icon={FormatListBulletedOutlined} />
 			</div>
 
@@ -180,7 +185,7 @@ export default function Header(props) {
 								<ListItemIcon> <SettingsOutlined /> </ListItemIcon>
 								<ListItemText primary="Setting" />
 							</ListItemButton>
-							<ListItemButton component={Link} to="/manage_team">
+							<ListItemButton component={Link} to="/setting/team">
 								<ListItemIcon> <GroupOutlined /> </ListItemIcon>
 								<ListItemText primary="Manage Team" />
 							</ListItemButton>

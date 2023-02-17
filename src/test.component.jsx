@@ -837,6 +837,7 @@ const xxx = () => {
   const test = () => {
     let buff1 = allPriceListsRef.current.splice(0, 2);
     console.log(allPriceListsRef, buff1);
+    console.log(new Date());
   }
   const [X, setX] = React.useState(false)
 

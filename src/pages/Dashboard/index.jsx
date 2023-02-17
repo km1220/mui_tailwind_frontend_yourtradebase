@@ -11,29 +11,31 @@ import clsx from 'clsx'
 import SpaceTag from '@components/SpaceTag';
 import { _isObjEmpty } from '@utils'
 
+
+import BGImg1 from '../../assets/imgs/bg/marketing-wallpapers-1.jpg';
+import BGImg2 from '../../assets/imgs/bg/marketing-wallpapers-2.jpg';
+import BGImg3 from '../../assets/imgs/bg/digital-marketing-courses.jpg';
+import BGImg4 from '../../assets/imgs/bg/marketing-manager.jpg';
+
+
+
+
 const useStyles = makeStyles(theme => ({
 	root: {
-		// margin: '5%',
+		padding: '2%',
+		background: `url(${BGImg1}) left top no-repeat`,
+		backgroundSize: '100% 100%',
+		width: '100%',
+		height: '100%',
+		display: 'flex',
+		flexColumn: 'column',
+		flexGrow: 1,
+		justifyContent: 'center',
+		// alignItems: 'center',
+		alignItems: 'start',
 
-		'& table.analyzed-data-table': {
-			width: '100%',
-			padding: '5%',
-			border: '#007f8f dashed 3px',
-			borderRadius: '10px',
-			// '& tr': {
-			// 	'&:not(:last-child)': {
-			// 		borderBottom: '#333 solid 3px',
-			// 	},
-			// 	'& > th, & > td': {
-			// 		textAlign: 'center',
-			// 		'&:not(:last-child)': {
-			// 			borderRight: '#333 solid 3px',
-			// 		}
-			// 	},
-			// 	'& th.horizontal-table-title': {
-			// 		background: '#888'
-			// 	}
-			// },
+		'& .MuiTypography-root': {
+			color: theme.palette.primary.dark,
 		}
 	},
 }))
@@ -45,11 +47,19 @@ function Dashboard(props) {
 
 	return (
 		<>
-			<div className={clsx(classes.root, 'flex flex-col m-8')}>
-				<SpaceTag h={4} />
-				<Typography variant="h2"> Dashboard Page </Typography>
-				<Paper className="flex flex-col items-center px-6 py-8 m-8 sm:m-12 sm:px-8 sm:py-12" elevation={24} >
-					<Typography variant="h6"> Welcome {userData.email_addr}!</Typography>
+			<div className={classes.root}>
+				{/* <Typography variant="h2"> Dashboard Page </Typography> */}
+				<Paper className="flex flex-col items-center px-12 py-8" elevation={24}
+					style={{
+						// backgroundImage: `url(${BGImg})`,
+						// background: 'transparent',
+						background: '#F3F4F6',
+						// opacity: 0.65,
+						boxShadow: `0 0.25rem 0.5rem 0.05rem #555`,
+						color: '#000',
+					}}
+				>
+					<Typography variant="h4"> Welcome {userData.email_addr}!</Typography>
 				</Paper>
 			</div>
 		</>

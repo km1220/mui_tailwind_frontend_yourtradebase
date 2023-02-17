@@ -3,7 +3,12 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import configureStore, { _store } from './store/configureStore.js'
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:1337/';
+
+// if (process.env.NODE_ENV === 'production')
+  axios.defaults.baseURL = 'http://localhost:1337/';
+// else
+//   axios.defaults.baseURL = 'http://68.178.165.197:3000/';
+
 
 import './styles/index.css';
 // import './styles/tailwind.css';

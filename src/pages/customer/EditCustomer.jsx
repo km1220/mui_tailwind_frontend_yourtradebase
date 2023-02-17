@@ -21,6 +21,17 @@ import { _generateNewID, limitDecimal, parseJSON } from '@utils/price';
 
 
 
+const formatDate = (date_str = '') => {
+	let date = new Date(date_str);
+	if (date == 'Invalid Date')
+		date = new Date();
+
+	return date.toISOString().split("T")[0];
+}
+
+
+
+
 const useStyles = makeStyles(theme => ({
 	root: {
 		width: '45%',
@@ -97,7 +108,6 @@ const useStyles = makeStyles(theme => ({
 		},
 	},
 }));
-
 const initialData = {
 	// id: _generateNewID(),
 	full_name: '',
@@ -111,7 +121,7 @@ const initialData = {
 	extra_info_list: [
 		// { type: 'home', data: 'home address 11' }
 	],
-	invoice_due_in: new Date().toISOString().split("T")[0]
+	invoice_due_in: formatDate()
 }
 export default function EditCustomerPage(props) {
 	const { id: paramID } = useParams();
@@ -136,6 +146,7 @@ export default function EditCustomerPage(props) {
 			...each,
 			contact_info_list: parseJSON(each.contact_info_list),
 			extra_info_list: parseJSON(each.extra_info_list),
+			invoice_due_in: formatDate(each.invoice_due_in)
 		}));
 		dispatch(SET_CUSTOMERS(all_list));
 	}
@@ -150,7 +161,7 @@ export default function EditCustomerPage(props) {
 		else
 			setEditData(targetData);
 	}, [all_customers]);
-
+	console.log(all_customers)
 
 	const onAddContactInfo = () => {
 		let newList = editData.contact_info_list;
@@ -293,7 +304,7 @@ export default function EditCustomerPage(props) {
 										<Select
 											className='w-auto input-label'
 											sx={{ borderRadius: '0.25rem' }} size='small'
-											defaultValue='email' value={each.type} onChange={e => onChangeContactInfoType(index, e.target.value)}
+											defaultValue='email' value={each.type} onChange={e => onChangeContactInfoType(index, formatDate(e.target.value))}
 										>
 											<MenuItem value='email'>Email</MenuItem>
 											<MenuItem value='home'>Home</MenuItem>

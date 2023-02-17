@@ -23,6 +23,8 @@ const LabourRatesPage = lazy(() => import('@pages/setting/labour'));
 const PriceListPage = lazy(() => import('@pages/setting/pricelist'));
 const PriceListAddPage = lazy(() => import('@pages/setting/pricelist/AddPriceList'));
 const PriceListEditPage = lazy(() => import('@pages/setting/pricelist/EditPriceList'));
+const TeamManagePage = lazy(() => import('@pages/setting/team'));
+const TeamAddPage = lazy(() => import('@pages/setting/team/AddTeammate'));
 
 
 const CustomerPage = lazy(() => import('@pages/customer'));
@@ -78,7 +80,7 @@ function App(props) {
                 <Route path="quote" element={<QuotePage />} />
                 <Route path="quote/new" element={<QuoteAddPage />} />
                 <Route path="quote/:id" element={<QuoteEditPage />} />
-                
+
                 <Route path="task" element={<TaskPage />} />
                 <Route path="task/new" element={<TaskAddPage />} />
                 <Route path="task/:id" element={<TaskEditPage />} />
@@ -91,15 +93,17 @@ function App(props) {
                 <Route path="material" element={<MaterialsPage />} />
                 <Route path="labour_rate" element={<LabourRatesPage />} />
                 <Route path="price_list" element={<PriceListPage />} />
+                <Route path="team" element={<TeamManagePage />} />
+
                 <Route index element={<Navigate to={"/setting/material"} replace />} />
                 <Route path="*" element={<Navigate to={"/setting"} replace />} />
               </Route>
               <Route path="price_list/new" element={<PriceListAddPage />} />
               <Route path="price_list/:id" element={<PriceListEditPage />} />
+              <Route path="team/new" element={<TeamAddPage />} />
             </Route>
 
             <Route path="/test" element={<TestComponent />} />
-
             <Route path="*" element={<Navigate to={"/"} replace />} />
           </Routes>
         </div>
