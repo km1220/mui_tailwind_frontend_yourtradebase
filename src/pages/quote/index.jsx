@@ -75,7 +75,7 @@ export default function QuotePage(props) {
     dispatch(LOADING(true));
     axios.get('/quotes').then(res => {
       if (!res.data.quotes) {
-        alert('Getting Price list data Error!');
+        alert('Getting QUOTE data Error!');
         return;
       }
       let all_list = res.data.quotes.map(each => ({

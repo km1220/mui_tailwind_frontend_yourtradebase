@@ -64,7 +64,7 @@ function App(props) {
 
       {isLoading ?
         <div className='flex items-center justify-center w-full min-h-screen'>
-          <ClimbingBoxLoader size='1.5rem' color="#36d7b7" />
+          <ClimbingBoxLoader size='1.5rem' />
         </div>
         :
         <Router>

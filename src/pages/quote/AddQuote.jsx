@@ -226,7 +226,7 @@ export default function AddQuotePage(props) {
 		dispatch(LOADING(true));
 		axios.get('/price_lists').then(res => {
 			if (!res.data.price_lists) {
-				alert('Getting Price list data Error!');
+				alert('Getting QUOTE data Error!');
 				return;
 			}
 			let all_list = res.data.price_lists.map(each => ({

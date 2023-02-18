@@ -72,7 +72,7 @@ export default function TaskPage(props) {
     dispatch(LOADING(true));
     axios.get('/tasks').then(res => {
       if (!res.data.tasks) {
-        alert('Getting Price list data Error!');
+        alert('Getting TASK data Error!');
         return;
       }
       dispatch(SET_TASKS(res.data.tasks));

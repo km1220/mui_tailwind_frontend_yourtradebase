@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "private": true,
-  "homepage": "https://68.178.145.238/",
+  "homepage": "https://68.178.165.197/",
   "version": "0.0.0",
   "scripts": {
     "css-loading-page": "sass .\\src\\components\\LoadingPage\\loading.scss ./src/styles/loading.css",

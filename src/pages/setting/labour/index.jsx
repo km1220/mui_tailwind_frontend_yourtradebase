@@ -83,7 +83,7 @@ export default function LabourPage(props) {
 		axios.get('/labours').then(res => {
 			console.log(res)
 			if (!res.data.labours) {
-				alert('Getting Price list data Error!');
+				alert('Getting LABOUR data Error!');
 				return;
 			}
 			dispatch(SET_LABOURS(res.data.labours));

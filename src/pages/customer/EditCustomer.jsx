@@ -143,7 +143,7 @@ export default function EditCustomerPage(props) {
 		dispatch(LOADING(true));
 		axios.get('/customers').then(res => {
 			if (!res.data.customers) {
-				alert('Getting Price list data Error!');
+				alert('Getting CUSTOMER data Error!');
 				return;
 			}
 			let all_list = res.data.customers.map(each => ({

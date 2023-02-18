@@ -83,7 +83,7 @@ export default function MaterialPage(props) {
 		axios.get('/materials').then(res => {
 			console.log(res)
 			if (!res.data.materials) {
-				alert('Getting Price list data Error!');
+				alert('Getting MATERIAL data Error!');
 				return;
 			}
 			dispatch(SET_MATERIALS(res.data.materials));
