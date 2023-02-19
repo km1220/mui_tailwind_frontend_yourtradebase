@@ -48,7 +48,7 @@ const useInfoBoxStyles = makeStyles(theme => ({
 		border: `1px solid ${theme.palette.divider}`,
 		borderRadius: '0.5rem',
 		background: alpha(theme.palette.background.paper, 0.4),
-		boxShadow: `0 0.25rem 0.5rem 0.1rem ${theme.palette.common.grey}`,
+		boxShadow: `0 0.05rem 0.25rem 0 ${theme.palette.common.grey}`,
 		'& .account-avatar': {
 			marginRight: '1.5rem',
 		},
@@ -64,7 +64,7 @@ const useInfoBoxStyles = makeStyles(theme => ({
 
 const MemberInfoBox = (props) => {
 	const classes = useInfoBoxStyles(props);
-	const { className, data, admin = false, onEdit = () => { }, onDelete = () => { }, ...others } = props;
+	const { className, data, admin = false, onEdit = () => { }, onDelete = () => { }, style, ...others } = props;
 	const role = admin ? 'admin' : 'field-team';
 
 	const [showActionPopover, setShowActionPopover] = useState(false);
@@ -72,7 +72,10 @@ const MemberInfoBox = (props) => {
 
 
 	return (
-		<div id={`member-${role}-${data.id}`} className={clsx(classes.root, role, className)} {...others}>
+		<div id={`member-${role}-${data.id}`} className={clsx(classes.root, role, className)}
+			style={{ backgroundColor: alpha(data.initial_color, 0.05), ...style }}
+			{...others}
+		>
 			<Avatar className="account-avatar" sx={{ backgroundColor: data.initial_color }}>{data.initial_text}</Avatar>
 			<div className="account-content">
 				<Typography className='' variant='subtitle1'>{data.name}</Typography>
