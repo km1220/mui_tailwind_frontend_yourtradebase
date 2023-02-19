@@ -55,6 +55,45 @@ export const theme = createTheme({
         }
       }
     },
+    MUIRichTextEditor: {
+      styleOverrides: {
+        root: {
+          border: `1px solid #c8cfd7`,
+          borderRadius: '0.25rem',
+          marginTop: '1rem',
+          '& ol, ul, menu': {
+            margin: 0,
+            marginLeft: '1rem',
+            padding: 0
+          },
+          '& ul': {
+            listStyle: 'disc !important',
+          },
+          '& ol': {
+            listStyle: 'decimal !important',
+          },
+          '& blockquote': {
+            paddingLeft: '1rem',
+            borderLeft: '4px solid #c8cfd7',
+          }
+        },
+        container: {
+          margin: 0,
+        },
+        toolbar: {
+          borderBottom: "1px solid gray"
+        },
+        editorContainer: {
+          minHeight: '5rem',
+          margin: 0,
+          padding: '1rem',
+        },
+        editor: {
+          backgroundColor: '#F9FAFC',
+          minHeight: '5rem',
+        }
+      }
+    }
   },
   palette: {
     common: {
@@ -96,7 +135,7 @@ export const theme = createTheme({
       // main: '#5ac6ff',
       // light: '#f4fafe',
       // dark: '#009ef1',
-      
+
       // main: '#fd5353',
       // light: '#e33fa1',
       // dark: '#ff0099',

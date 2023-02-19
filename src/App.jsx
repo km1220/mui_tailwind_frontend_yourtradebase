@@ -19,6 +19,9 @@ const DashboardPage = lazy(() => import('@pages/dashboard'));
 const ContactUsPage = lazy(() => import('@pages/ContactUsPage'));
 
 const SettingLayout = lazy(() => import('@layouts/setting/SettingLayout'));
+import ProfilePage from '@pages/setting/user';
+// const ProfilePage = lazy(() => import('@pages/setting/user'));
+
 const MaterialsPage = lazy(() => import('@pages/setting/material'));
 const LabourRatesPage = lazy(() => import('@pages/setting/labour'));
 const PriceListPage = lazy(() => import('@pages/setting/pricelist'));
@@ -101,12 +104,13 @@ function App(props) {
               <Route path="/setting">
                 <Route element={<PrivateRoute />}>
                   <Route element={<SettingLayout />}>
+                    <Route /* index */ path="profile" element={<ProfilePage />} />
                     <Route path="material" element={<MaterialsPage />} />
                     <Route path="labour_rate" element={<LabourRatesPage />} />
                     <Route path="price_list" element={<PriceListPage />} />
                     <Route path="team" element={<TeamManagePage />} />
 
-                    <Route index element={<Navigate to={"/setting/material"} replace />} />
+                    <Route index element={<Navigate to={"/setting/profile"} replace />} />
                     <Route path="*" element={<Navigate to={"/setting"} replace />} />
                   </Route>
                   <Route path="price_list/new" element={<PriceListAddPage />} />

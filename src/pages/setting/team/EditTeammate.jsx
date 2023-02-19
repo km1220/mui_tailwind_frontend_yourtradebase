@@ -429,7 +429,7 @@ export default function EditTeammatePage(props) {
       </div>
 
       <div className='flex justify-center mt-6'>
-        <Button className='mx-4 rounded' color="secondary" variant="contained" onClick={handleUpdateTeammate}>Add this team member</Button>
+        <Button className='mx-4 rounded' color="secondary" variant="contained" onClick={handleUpdateTeammate}>Update this team member</Button>
         <Button className='mx-4 rounded' color="disabled" variant="outlined" onClick={() => navigate('/setting/team')}>Cancel</Button>
       </div>
     </div>
