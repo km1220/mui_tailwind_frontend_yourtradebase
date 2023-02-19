@@ -12,7 +12,7 @@ import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
 import MaterialBox from './MaterialBox';
-import { _generateNewID } from '@utils/price';
+import { _generateNewID } from '@utils';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -78,7 +78,7 @@ export default function MaterialPage(props) {
 	const [newItemData, setNewItemData] = useState(initailItemData);
 	const [updateItemData, setUpdateItemData] = useState(initailItemData);
 
-	const _getAllMaterials = async () => {
+	const _getAllMaterials = () => {
 		dispatch(LOADING(true));
 		axios.get('/materials').then(res => {
 			console.log(res)

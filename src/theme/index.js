@@ -93,6 +93,10 @@ export const theme = createTheme({
       light: '#2b56cd',
       dark: '#14234e',
 
+      // main: '#5ac6ff',
+      // light: '#f4fafe',
+      // dark: '#009ef1',
+      
       // main: '#fd5353',
       // light: '#e33fa1',
       // dark: '#ff0099',
@@ -100,8 +104,8 @@ export const theme = createTheme({
     },
     secondary: {
       main: '#14B8A6',
-      light: '#43C6B7',
-      dark: '#0E8074',
+      light: '#63e9da',
+      dark: '#008777',
 
       // main: '#027e5e',
       // light: '#44814e',
@@ -109,7 +113,7 @@ export const theme = createTheme({
       contrastText: '#FFFFFF'
     },
     success: {
-      main: '#48c15b',
+      main: '#13a538',
       light: '#9fc5a5',
       dark: '#086e1a',
       contrastText: '#FFFFFF'

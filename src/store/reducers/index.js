@@ -9,6 +9,7 @@ import labours from './pricelist/labours';
 import customers from './customers';
 import quotes from './quotes';
 import tasks from './tasks';
+import teammates from './teammates';
 
 const rootReducer = combineReducers({
     user: user_info,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     customers,
     quotes,
     tasks,
+    teammates,
 });
 
 export default rootReducer;

@@ -7,17 +7,7 @@ export const limitDecimal = (num, limit = 2) => {
 	else
 		return Number(num.toFixed(limit));
 }
-export const parseJSON = (str) => {
-	try {
-		let parseResult = JSON.parse(str);
-		if (typeof parseResult === "object")
-			return parseResult;
-		else
-			return [];
-	} catch (e) {
-		return [];
-	}
-}
+
 
 
 

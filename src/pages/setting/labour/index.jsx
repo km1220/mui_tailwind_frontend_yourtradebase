@@ -12,7 +12,7 @@ import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
 import LabourBox from './LabourBox';
-import { _generateNewID } from '@utils/price';
+import { _generateNewID } from '@utils';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -78,7 +78,7 @@ export default function LabourPage(props) {
 	const [newItemData, setNewItemData] = useState(initailItemData);
 	const [updateItemData, setUpdateItemData] = useState(initailItemData);
 
-	const _getAllLabours = async () => {
+	const _getAllLabours = () => {
 		dispatch(LOADING(true));
 		axios.get('/labours').then(res => {
 			console.log(res)

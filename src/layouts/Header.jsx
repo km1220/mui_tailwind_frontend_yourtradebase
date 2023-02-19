@@ -155,7 +155,7 @@ export default function Header(props) {
 			<div className=''>
 				<HeaderBtn to={'/contact_us'} color='secondary' variant="contained">Contact Us</HeaderBtn>
 			</div>
-			{!userData.email_addr ?
+			{!userData.email ?
 				<>
 					<HeaderBtn to={'/login'} className="ml-6">Log In</HeaderBtn>
 					<HeaderBtn to={'/signup'} className="ml-6">Sign Up</HeaderBtn>
@@ -164,21 +164,15 @@ export default function Header(props) {
 				<div>
 					<Button id="user-info" className='' onClick={() => setShowUserInfoList(!showUserInfoList)}>
 						<Avatar>
-							{/* {userData.email_addr} */}EV
+							{/* {userData.email} */}EV
 						</Avatar>
 					</Button>
 					<Popover
 						open={showUserInfoList}
 						anchorEl={document.getElementById('user-info')}
 						onClose={() => setShowUserInfoList(false)}
-						anchorOrigin={{
-							vertical: 'bottom',
-							horizontal: 'right',
-						}}
-						transformOrigin={{
-							vertical: 'top',
-							horizontal: 'right',
-						}}
+						anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+						transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 					>
 						<UserInfoList style={{ padding: 0 }}>
 							<ListItemButton component={Link} to="/setting">

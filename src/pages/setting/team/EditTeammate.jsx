@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { ADD_ITEM_IN_TEAMMATES } from '@store/actions';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { SET_TEAMMATES, UPDATE_ITEM_IN_TEAMMATES, LOADING } from '@store/actions';
 
 import {
   AddCircleOutlined as AddIcon, AddOutlined, SearchOutlined as SearchIcon,
@@ -24,7 +24,7 @@ import PhoneInput from 'react-phone-number-input';
 import ItemComponent from '@components/price_list/ItemComponent';
 // import DraggablePaper from '../DraggablePaper';
 
-import { _generateNewID } from '@utils';
+import { parseJSON } from '@utils';
 
 
 
@@ -148,15 +148,16 @@ const initialData = {
   role: "admin",
   // permissions: '',
 }
-export default function AddTeammatePage(props) {
+export default function EditTeammatePage(props) {
+  const { id: paramID } = useParams();
   const classes = useStyles(props);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { state: { role: paramRole } } = useLocation();
   const theme = useTheme();
   const smUpMatch = useMediaQuery(theme.breakpoints.up('sm'));
 
-  const [newCustomerData, setNewData] = useState(initialData);
+  const all_team_members = useSelector(state => state.teammates);
+  const [editCustomerData, setEditData] = useState(initialData);
   const [permissions, setPermissions] = useState(initailPermissions);
 
   let colorList = ['#b9bac3', '#8f919d', '#4e5062', '#2b56cd', '#14234e', '#5ed9f5', '#14B8A6', '#fd5353', '#e33fa1', '#ff0099',];
@@ -164,43 +165,66 @@ export default function AddTeammatePage(props) {
 
 
 
+  const _getAllTeammates = () => {
+    dispatch(LOADING(true));
+    axios.get('/team_members').then(res => {
+      if (!res.data.team_members) {
+        alert('Getting TEAM members data Error!');
+        return;
+      }
+      let all_list = res.data.team_members.map(each => ({
+        ...each,
+        initialText: each.initial_text,
+        initialColorHex: each.initial_color,
+        role: each.role === 1 ? 'admin' : 'field_team',
+        permissions: parseJSON(each.permissions)
+      }));
+      dispatch(SET_TEAMMATES(all_list));
+      dispatch(LOADING(false));
+    }).catch(err => console.log(err));
+  }
+
   useEffect(() => {
+    if (all_team_members.length === 0) _getAllTeammates();
     return () => {
-      setNewData(initialData);
+      setEditData(initialData);
     }
   }, []);
   useEffect(() => {
-    setNewData({
-      ...newCustomerData,
-      initialText: paramRole === 'admin' ? 'A' : 'F',
-      initialColorHex: paramRole === 'admin' ? '#14234e' : '#2b56cd',
-      role: paramRole
-    });
-  }, [paramRole]);
-
-  const onRoleChange = val => setNewData({ ...newCustomerData, role: val });
-  const handleAddTeammate = () => {
-    const newData = {
-      name: newCustomerData.name,
-      email: newCustomerData.email,
-      initial_text: newCustomerData.initialText,
-      initial_color: newCustomerData.initialColorHex,
-      role: newCustomerData.role === 'admin' ? 1 : 2,
-      permissions: newCustomerData.role === 'admin' ? JSON.stringify(permissions) : ''
+    if (all_team_members.length === 0) return;
+    const targetData = all_team_members.filter(e => e.id === Number(paramID))[0];
+    if (!targetData)
+      navigate('/setting/team');
+    else {
+      const { permissions, ...others } = targetData;
+      setEditData(others);
+      setPermissions(permissions);
     }
-    axios.post('/team_members', newData).then(res => {
+  }, [all_team_members]);
+
+  console.log('all_team_members', all_team_members)
+
+  const onRoleChange = val => setEditData({ ...editCustomerData, role: val });
+  const handleUpdateTeammate = () => {
+    const updateData = {
+      name: editCustomerData.name,
+      email: editCustomerData.email,
+      initial_text: editCustomerData.initialText,
+      initial_color: editCustomerData.initialColorHex,
+      role: editCustomerData.role === 'admin' ? 1 : 2,
+      permissions: editCustomerData.role === 'admin' ? JSON.stringify(permissions) : ''
+    }
+    axios.put(`/team_members/${editCustomerData.id}`, updateData).then(res => {
       if (res.data.affectedRows) {
-        dispatch(ADD_ITEM_IN_TEAMMATES({
-          ...newCustomerData,
-          id: res.data.insertId,
-          initial_text: newCustomerData.initialText,
-          initial_color: newCustomerData.initialColorHex,
-          permissions: newCustomerData.role === 'admin' ? permissions : ''
+        dispatch(UPDATE_ITEM_IN_TEAMMATES({
+          ...editCustomerData,
+          initial_text: editCustomerData.initialText,
+          initial_color: editCustomerData.initialColorHex,
+          permissions: editCustomerData.role === 'admin' ? permissions : ''
         }));
         navigate('/setting/team');
       }
     }).catch(err => {
-      console.log('err: ', err)
       if (err.response.status === 400) alert(err.response.data);
       else if (err.response.status === 403) alert(err.response.data);
     });
@@ -210,8 +234,7 @@ export default function AddTeammatePage(props) {
   return (
     <div className={clsx(classes.root, 'min-h-screen')}>
       <div>
-        <Typography variant='overline'>Manage team</Typography>
-        <Typography variant='h5'>Add a new teammate</Typography>
+        <Typography variant='h5'>Edit this team member</Typography>
         <Divider /> <br />
 
         <div className={classes.inputsWrapper}>
@@ -219,7 +242,7 @@ export default function AddTeammatePage(props) {
             <Typography variant='subtitle2'>Team member name</Typography>
             <ItemComponent>
               <input placeholder='Enter their full name'
-                value={newCustomerData.name} onChange={e => setNewData({ ...newCustomerData, name: e.target.value })}
+                value={editCustomerData.name} onChange={e => setEditData({ ...editCustomerData, name: e.target.value })}
               />
             </ItemComponent>
           </div>
@@ -228,7 +251,7 @@ export default function AddTeammatePage(props) {
             <Typography variant="caption">They'll use this email address to sign in to YourTradebase</Typography>
             <ItemComponent>
               <input placeholder='Enter their email address'
-                value={newCustomerData.email} onChange={e => setNewData({ ...newCustomerData, email: e.target.value })}
+                value={editCustomerData.email} onChange={e => setEditData({ ...editCustomerData, email: e.target.value })}
               />
             </ItemComponent>
           </div>
@@ -238,14 +261,14 @@ export default function AddTeammatePage(props) {
             <div className='flex items-center'>
               <ItemComponent className='w-fit'>
                 <input placeholder='AA' style={{ width: '2rem' }} maxLength={3}
-                  value={newCustomerData.initialText} onChange={e => setNewData({ ...newCustomerData, initialText: e.target.value })}
+                  value={editCustomerData.initialText} onChange={e => setEditData({ ...editCustomerData, initialText: e.target.value })}
                 />
               </ItemComponent>
               <Circle
                 className={classes.colorPicker}
                 colors={colorList}
-                color={newCustomerData.initialColorHex}
-                onChange={(color) => setNewData({ ...newCustomerData, initialColorHex: color.hex })}
+                color={editCustomerData.initialColorHex}
+                onChange={(color) => setEditData({ ...editCustomerData, initialColorHex: color.hex })}
               />
             </div>
           </div>
@@ -256,20 +279,20 @@ export default function AddTeammatePage(props) {
         <Typography variant='h6'>What's their role?</Typography>
 
         <div className='role-wrapper'>
-          <div className={clsx("radio-item-box", newCustomerData.role === "admin" ? 'selected' : '')}
+          <div className={clsx("radio-item-box", editCustomerData.role === "admin" ? 'selected' : '')}
             onClick={() => onRoleChange("admin")}
           >
-            <Radio id='readio-input-admin' checked={newCustomerData.role === "admin"} color="secondary" />
+            <Radio id='readio-input-admin' checked={editCustomerData.role === "admin"} color="secondary" />
             <div className="radio-content">
               <Typography className='' variant='subtitle2'>Admin</Typography>
               <Typography className='' variant='body1'>£15.00 per month</Typography>
             </div>
           </div>
 
-          <div className={clsx("radio-item-box", newCustomerData.role === "field_team" ? 'selected' : '')}
+          <div className={clsx("radio-item-box", editCustomerData.role === "field_team" ? 'selected' : '')}
             onClick={() => onRoleChange("field_team")}
           >
-            <Radio id='readio-input-field-team' checked={newCustomerData.role === "field_team"} color="secondary" />
+            <Radio id='readio-input-field-team' checked={editCustomerData.role === "field_team"} color="secondary" />
             <div className="radio-content">
               <Typography className='' variant='subtitle2'>Field team</Typography>
               <Typography className='' variant='body1'>FREE</Typography>
@@ -279,7 +302,7 @@ export default function AddTeammatePage(props) {
       </div>
 
 
-      {newCustomerData.role === 'admin' ?
+      {editCustomerData.role === 'admin' ?
         <div id="admin-permission">
           <div className={clsx(classes.permissionBox, 'can')}>
             <Typography className='permission-title' variant='h5'>Can...</Typography>
@@ -406,7 +429,7 @@ export default function AddTeammatePage(props) {
       </div>
 
       <div className='flex justify-center mt-6'>
-        <Button className='mx-4 rounded' color="secondary" variant="contained" onClick={handleAddTeammate}>Add this team member</Button>
+        <Button className='mx-4 rounded' color="secondary" variant="contained" onClick={handleUpdateTeammate}>Add this team member</Button>
         <Button className='mx-4 rounded' color="disabled" variant="outlined" onClick={() => navigate('/setting/team')}>Cancel</Button>
       </div>
     </div>

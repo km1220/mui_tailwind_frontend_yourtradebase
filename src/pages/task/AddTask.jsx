@@ -10,7 +10,7 @@ import clsx from 'clsx';
 
 import ItemComponent from '@components/price_list/ItemComponent';
 
-import { _generateNewID } from '@utils/price';
+import { _generateNewID } from '@utils';
 
 const useStyles = makeStyles(theme => ({
   root: {

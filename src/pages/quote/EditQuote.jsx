@@ -30,7 +30,7 @@ import DraggableList from 'react-draggable-list';
 import DraggablePaper from '../setting/DraggablePaper';
 import MaterialLabourDialog from '../setting/MaterialLabourDialog';
 
-import { _generateNewID, limitDecimal, parseJSON } from '@utils/price';
+import { _generateNewID, limitDecimal, parseJSON } from '@utils';
 
 
 
@@ -222,7 +222,7 @@ export default function EditQuotePage(props) {
 	const [searchedPriceLists, setSearchedPriceLists] = useState([]);
 
 
-	const _getAllQuotes = async () => {
+	const _getAllQuotes = () => {
 		dispatch(LOADING(true));
 		axios.get('/quotes').then(res => {
 			if (!res.data.quotes) {
@@ -237,7 +237,7 @@ export default function EditQuotePage(props) {
 			dispatch(LOADING(false));
 		}).catch(err => console.log(err));
 	}
-	const _getAllPriceLists = async () => {
+	const _getAllPriceLists = () => {
 		dispatch(LOADING(true));
 		axios.get('/price_lists').then(res => {
 			if (!res.data.price_lists) {

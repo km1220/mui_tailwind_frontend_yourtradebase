@@ -12,7 +12,7 @@ import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
-import { parseJSON } from '@utils/price';
+import { parseJSON } from '@utils';
 
 
 
@@ -81,7 +81,7 @@ export default function CustomerPage(props) {
   const [showList, setShowList] = useState([]);
 
 
-  const _getAllCustomers = async () => {
+  const _getAllCustomers = () => {
     dispatch(LOADING(true));
     axios.get('/customers').then(res => {
       if (!res.data.customers) {

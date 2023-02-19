@@ -59,7 +59,7 @@ function Dashboard(props) {
 						color: '#000',
 					}}
 				>
-					<Typography variant="h4"> Welcome {userData.email_addr}!</Typography>
+					<Typography variant="h4"> Welcome {userData.email}!</Typography>
 				</Paper>
 			</div>
 		</>

@@ -54,7 +54,12 @@ export const UPDATE_ITEM_IN_TASKS = 'UPDATE_ITEM_IN_TASKS';
 export const REMOVE_ITEM_IN_TASKS = 'REMOVE_ITEM_IN_TASKS';
 // =======================================================================================================
 // =======================================================================================================
-
+export const SET_TEAMMATES = 'SET_TEAMMATES';
+export const ADD_ITEM_IN_TEAMMATES = 'ADD_ITEM_IN_TEAMMATES';
+export const UPDATE_ITEM_IN_TEAMMATES = 'UPDATE_ITEM_IN_TEAMMATES';
+export const REMOVE_ITEM_IN_TEAMMATES = 'REMOVE_ITEM_IN_TEAMMATES';
+// =======================================================================================================
+// =======================================================================================================
 
 
 // ----------------------------------------------------------------------

@@ -1,4 +1,6 @@
 
+export * from './price.js';
+
 export const _strCapitalize = str => {
 	if (str === '' || str === null || str === undefined) return null;
 	return str.charAt(0).toUpperCase() + str.slice(1);
@@ -24,6 +26,31 @@ export const validateEmail = (email) => {
 
 
 
+
+// export const parseJSON = (str, isArray = true) => {
+// 	let result;
+	// try {
+// 		result = JSON.parse(str);
+// 		if (typeof result === "object")
+// 			return result;
+// 		else {
+// 			result = !isArray ? {} : []
+// 			return result;
+// 		}
+	// } catch (e) {
+	// 	return result;
+	// }
+// }
+export const parseJSON = (str, isArray = true) => {
+	try {
+		let result = JSON.parse(str);
+		if (typeof result === "object")
+			return result;
+		return;
+	} catch (e) {
+		return;
+	}
+}
 
 
 

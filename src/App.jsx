@@ -26,6 +26,7 @@ const PriceListAddPage = lazy(() => import('@pages/setting/pricelist/AddPriceLis
 const PriceListEditPage = lazy(() => import('@pages/setting/pricelist/EditPriceList'));
 const TeamManagePage = lazy(() => import('@pages/setting/team'));
 const TeamAddPage = lazy(() => import('@pages/setting/team/AddTeammate'));
+const TeamEditPage = lazy(() => import('@pages/setting/team/EditTeammate'));
 
 
 const CustomerPage = lazy(() => import('@pages/customer'));
@@ -71,7 +72,7 @@ function App(props) {
           <div className={clsx(classes.root)}>
             {/* <AppRouter /> */}
             <Routes>
-              <Route index element={<Navigate to={userData.email_addr ? "/dashboard" : "/home"} replace />} />
+              <Route index element={<Navigate to={userData.email ? "/dashboard" : "/home"} replace />} />
               <Route path="/login" element={<LogInPage />} />
               <Route path="/signup" element={<SignUpPage />} />
 
@@ -111,6 +112,7 @@ function App(props) {
                   <Route path="price_list/new" element={<PriceListAddPage />} />
                   <Route path="price_list/:id" element={<PriceListEditPage />} />
                   <Route path="team/new" element={<TeamAddPage />} />
+                  <Route path="team/:id" element={<TeamEditPage />} />
                 </Route>
               </Route>
 

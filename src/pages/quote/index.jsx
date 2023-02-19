@@ -12,7 +12,7 @@ import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
-import { parseJSON } from '@utils/price';
+import { parseJSON } from '@utils';
 
 
 const useStyles = makeStyles(theme => ({
@@ -71,7 +71,7 @@ export default function QuotePage(props) {
   const [showList, setShowList] = useState([]);
 
 
-  const _getAllQuotes = async () => {
+  const _getAllQuotes = () => {
     dispatch(LOADING(true));
     axios.get('/quotes').then(res => {
       if (!res.data.quotes) {

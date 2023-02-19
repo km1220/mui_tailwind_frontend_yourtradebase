@@ -5,7 +5,7 @@ const PrivateRoute = () => {
 	const userData = useSelector(state => state.user)
 
 	return (
-		userData.email_addr ? <Outlet /> : <Navigate to='/' replace />
+		userData.email ? <Outlet /> : <Navigate to='/' replace />
 	)
 }
 

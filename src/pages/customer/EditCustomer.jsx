@@ -19,7 +19,7 @@ import PhoneInput from 'react-phone-number-input';
 import ItemComponent from '@components/price_list/ItemComponent';
 import DraggablePaper from '../setting/DraggablePaper';
 
-import { _generateNewID, limitDecimal, parseJSON } from '@utils/price';
+import { _generateNewID, limitDecimal, parseJSON } from '@utils';
 
 
 
@@ -139,7 +139,7 @@ export default function EditCustomerPage(props) {
 
 
 
-	const _getAllCustomers = async () => {
+	const _getAllCustomers = () => {
 		dispatch(LOADING(true));
 		axios.get('/customers').then(res => {
 			if (!res.data.customers) {
@@ -220,7 +220,6 @@ export default function EditCustomerPage(props) {
 		}
 		axios.put(`/customers/${editData.id}`, newCustomer).then(res => {
 			if (res.data.affectedRows) {
-				console.log(newCustomer, editData)
 				dispatch(UPDATE_ITEM_IN_CUSTOMERS({ ...editData, id: editData.id }));
 				navigate('/customer');
 			}

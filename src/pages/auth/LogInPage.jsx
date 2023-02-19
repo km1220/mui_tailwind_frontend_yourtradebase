@@ -41,7 +41,7 @@ function LogInPage(props) {
 		console.log(`${email}  and ${pwd}    valid!`)
 		// alert(`${email}  and ${pwd}    valid!`)
 
-		dispatch(SET_ALL_USER_INFO({ email_addr: email }))
+		dispatch(SET_ALL_USER_INFO({ email: email }))
 		navigate('/dashboard')
 	}
 

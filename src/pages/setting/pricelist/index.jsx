@@ -12,7 +12,7 @@ import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
-import { parseJSON } from '@utils/price';
+import { parseJSON } from '@utils';
 
 
 const useStyles = makeStyles(theme => ({
@@ -75,7 +75,7 @@ export default function PriceListPage(props) {
 	const [searchText, setSearchText] = useState('');
 	const [showList, setShowList] = useState([]);
 
-	const _getAllPriceLists = async () => {
+	const _getAllPriceLists = () => {
 		dispatch(LOADING(true));
 		axios.get('/price_lists').then(res => {
 			if (!res.data.price_lists) {

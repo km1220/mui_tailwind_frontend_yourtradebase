@@ -68,7 +68,7 @@ export default function TaskPage(props) {
   const [searchText, setSearchText] = useState('');
   const [showList, setShowList] = useState([]);
 
-  const _getAllTasks = async () => {
+  const _getAllTasks = () => {
     dispatch(LOADING(true));
     axios.get('/tasks').then(res => {
       if (!res.data.tasks) {

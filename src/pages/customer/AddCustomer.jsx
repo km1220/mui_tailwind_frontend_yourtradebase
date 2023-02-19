@@ -16,7 +16,7 @@ import PhoneInput from 'react-phone-number-input';
 import ItemComponent from '@components/price_list/ItemComponent';
 import DraggablePaper from '../setting/DraggablePaper';
 
-import { _generateNewID } from '@utils/price';
+import { _generateNewID } from '@utils';
 
 
 

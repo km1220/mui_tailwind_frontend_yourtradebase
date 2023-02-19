@@ -13,7 +13,7 @@ import { Box, Paper, Divider, Typography, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
-import { _generateNewID, parseJSON } from '@utils/price';
+import { _generateNewID, parseJSON } from '@utils';
 
 import PriceInput from '@components/price_list/PriceInput';
 import PriceItem from '@components/price_list/PriceItem';
@@ -82,7 +82,7 @@ export default function EditPriceListPage(props) {
 	const totalLabour = useRef({ price: 0, markup_price: 0 });
 	const [price, setPrice] = useState(0);
 
-	const _getAllPriceLists = async () => {
+	const _getAllPriceLists = () => {
 		dispatch(LOADING(true));
 		axios.get('/price_lists').then(res => {
 			if (!res.data.price_lists) {

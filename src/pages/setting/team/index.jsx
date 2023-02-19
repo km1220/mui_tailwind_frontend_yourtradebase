@@ -1,18 +1,27 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-// import { SET_PRICE_LISTS, REMOVE_ITEM_IN_PRICE_LISTS } from '@store/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	SET_TEAMMATES, REMOVE_ITEM_IN_TEAMMATES,
+	LOADING
+} from '@store/actions';
 
 import {
-	Box, Typography, Button, List, ListItem, Avatar, Divider,
+	Box, Typography, Button, IconButton, Avatar, Divider,
+	Popover, List, ListItemButton, ListItemIcon, ListItemText,
+	Snackbar, Alert as MuiAlert,
 	alpha,
 } from '@mui/material';
-import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
+
+import {
+	AddCircleOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon, Close,
+} from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
-import { parseJSON } from '@utils/price';
+import MemberInfoBox, { AccountInfoBox } from '@components/team/MemberInfoBox';
+import { parseJSON } from '@utils';
 
 
 const useStyles = makeStyles(theme => ({
@@ -26,36 +35,75 @@ const useStyles = makeStyles(theme => ({
 			},
 		},
 	},
+	addBtn: {
+		padding: '0.25rem 0.5rem !important',
+		borderRadius: '0.25rem !important',
+		marginTop: '1.5rem !important',
+	},
+
 	ownerSection: {
 		// '& > *:not(:first-child)': {
 		// 	marginTop: '1rem',
 		// },
-
-		'& #account-info-box': {
-			display: 'flex',
-			alignItems: 'center',
-			padding: '1.5rem 3rem',
-			border: `1px solid ${theme.palette.divider}`,
-			borderRadius: '0.5rem',
-			background: alpha(theme.palette.background.paper, 0.4),
-			boxShadow: `0 0.25rem 0.5rem 0.1rem ${theme.palette.common.grey}`,
-			'& #account-avatar': {
-				marginRight: '1.5rem',
-			},
-			'& #account-content': {
-				display: 'flex',
-				flexDirection: 'column',
-			},
-		},
 	},
 	adminTeamSection: {},
 	fieldTeamSection: {},
 }));
 export default function ManageTeamPage(props) {
 	const classes = useStyles(props);
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const [forceRerender, setForceRerender] = useState(100);
 	const userData = useSelector(state => state.user)
+	const all_team_members = useSelector(state => state.teammates);
+
+	const adminListRef = useRef([]);
+	const fieldTeamListRef = useRef([]);
+
+	const _forceRerender = () => setForceRerender(forceRerender + 1);
+	const _getAllTeammates = () => {
+		dispatch(LOADING(true));
+		axios.get('/team_members').then(res => {
+			if (!res.data.team_members) {
+				alert('Getting TEAM members data Error!');
+				return;
+			}
+			let all_list = res.data.team_members.map(each => ({
+				...each,
+				role: each.role === 1 ? 'admin' : 'field_team',
+				permissions: parseJSON(each.permissions)
+			}));
+			dispatch(SET_TEAMMATES(all_list));
+			dispatch(LOADING(false));
+		}).catch(err => console.log(err));
+	}
+	useEffect(() => {
+		if (all_team_members.length === 0) _getAllTeammates();
+
+		adminListRef.current = [];
+		fieldTeamListRef.current = [];
+		all_team_members.map(each => {
+			const each_data = {
+				id: each.id, name: each.name, email: each.email,
+				initial_color: each.initial_color, initial_text: each.initial_text
+			};
+			if (each.role === 'admin')
+				adminListRef.current.push(each_data);
+			else if (each.role === 'field_team')
+				fieldTeamListRef.current.push(each_data);
+		});
+		_forceRerender();
+	}, [all_team_members]);
+	console.log(all_team_members)
+
+	const handleDeleteMember = (id) => {
+		if (!confirm(`Do you really want to delete this item ?   ID: ${id}`)) return;
+		axios.delete(`/team_members/${id}`).then(res => {
+			if (res.data.affectedRows) {
+				dispatch(REMOVE_ITEM_IN_TEAMMATES(id));
+			}
+		});
+	}
 
 	return (
 		<div className={classes.root}>
@@ -65,40 +113,52 @@ export default function ManageTeamPage(props) {
 				<PermissionText flag={true}>
 					create and manage everything, including billing.
 				</PermissionText>
-				<div id="account-info-box">
-					<Avatar id="account-avatar">EV</Avatar>
-					<div id="account-content">
-						<Typography className='' variant='subtitle1'>{userData.full_name}</Typography>
-						<Typography className='' variant='body1'>{userData.email_addr}</Typography>
-						<Typography className='' variant='body1'>Last signed in Today at 04:19</Typography>
-					</div>
-				</div>
+				<AccountInfoBox data={userData} />
 			</div>
 
 			<div className={classes.adminTeamSection}>
 				<Typography variant='h5'>Admin team</Typography>
 				<Divider />
-				<PermissionText flag={true}>
-					create and manage all jobs, paperwork and assign work to the field team.
-				</PermissionText>
-				<PermissionText flag={false}>
-					manage billing or cancel the account.
-				</PermissionText>
+				<PermissionText flag={true} text="create and manage all jobs, paperwork and assign work to the field team." />
+				<PermissionText flag={false} text="manage billing or cancel the account." />
+
+				<Button className={classes.addBtn} onClick={() => navigate('/setting/team/new', { state: { role: 'admin' } })} color="secondary">
+					<AddIcon />
+					<p className='ml-2'>Add someone to your admin team</p>
+				</Button>
+				{adminListRef.current.map(each => (
+					<MemberInfoBox key={each.id} data={each} admin={true}
+						onEdit={() => navigate(`/setting/team/${each.id}`)}
+						onDelete={handleDeleteMember}
+					/>
+				))}
 			</div>
 
 			<div className={classes.fieldTeamSection}>
 				<Typography variant='h5'>Field team</Typography>
 				<Divider />
-				<PermissionText flag={true}>
-					view job sheets, events and tasks they've been assigned, receive a daily email with their schedule.
-				</PermissionText>
-				<PermissionText flag={false}>
-					create or update jobs or paperwork, or see any costs or pricing.
-				</PermissionText>
+				<PermissionText flag={true} text="view job sheets, events and tasks they've been assigned, receive a daily email with their schedule." />
+				<PermissionText flag={false} text="create or update jobs or paperwork, or see any costs or pricing." />
+
+				<Button className={classes.addBtn} onClick={() => navigate('/setting/team/new', { state: { role: 'field_team' } })} color="secondary">
+					<AddIcon />
+					<p className='ml-2'>Add someone to your field team</p>
+				</Button>
+
+				{fieldTeamListRef.current.map(each => (
+					<MemberInfoBox key={each.id} data={each} admin={false}
+						onEdit={() => navigate(`/setting/team/${each.id}`)}
+						onDelete={handleDeleteMember}
+					/>
+				))}
 			</div>
 		</div>
 	)
 }
+
+
+
+
 
 
 
@@ -115,13 +175,13 @@ const usePermissionTextStyles = makeStyles(theme => ({
 		},
 	},
 	can: {
-		background: alpha(theme.palette.success.light, 0.2),
+		background: alpha(theme.palette.success.light, 0.1),
 		'& .permission-title': {
 			color: theme.palette.success.dark,
 		},
 	},
 	cant: {
-		background: alpha(theme.palette.error.light, 0.2),
+		background: alpha(theme.palette.error.light, 0.1),
 		'& .permission-title': {
 			color: theme.palette.error.dark,
 		},
@@ -129,7 +189,7 @@ const usePermissionTextStyles = makeStyles(theme => ({
 }))
 const PermissionText = (props) => {
 	const classes = usePermissionTextStyles(props);
-	const { flag, children, ...others } = props;
+	const { flag, text, ...others } = props;
 
 	return (
 		<div className={clsx(classes.permission, !flag ? classes.cant : classes.can)}>
@@ -137,8 +197,13 @@ const PermissionText = (props) => {
 				{!flag ? 'Can\'t... ' : 'Can... '}
 			</Typography>
 			<Typography className='permission-text' variant='body2'>
-				{children}
+				{text}
 			</Typography>
 		</div>
 	);
 }
+
+
+
+
+
