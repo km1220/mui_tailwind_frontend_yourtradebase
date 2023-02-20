@@ -2,19 +2,9 @@ import { SET_USER_INFO, RESET_USER_INFO } from '../actions/ActionTypes';
 
 
 
-const permissions = {
-  quote_unsent: 3,
-  quote_need_follow_up: 7,
-  invoice_unsent: 3,
-  invoice_overdue: 7,
-  summary_daily_email: true,
-  summary_weekly_email: true,
-  all_unsubscribe: false,
-};
 const initialState = {
   id: 0, name: '', email: '',  // password: '',
   fromName: '', reply2email: '', sign: '', TZ: '', lastLoginAt: '',
-  permissions
 };
 const initialState_2 = {
   id: 1, name: 'vladmir rudic', email: 'vlad******@gmail.com',  // password: '123',
@@ -29,7 +19,6 @@ const initialState_2 = {
     _weekStart: 1,
     _today: {}
   },
-  permissions
 };
 
 
@@ -39,8 +28,6 @@ export default function user_info(state = initialState_2, action) {
     case SET_USER_INFO:
       return {
         ...state,
-        // full_name: action.payload.name,
-        // email: action.payload.email,
         ...action.payload
       };
     case RESET_USER_INFO:

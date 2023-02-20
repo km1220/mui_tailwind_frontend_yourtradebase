@@ -25,6 +25,7 @@ const ContactUsPage = lazy(() => import('@pages/ContactUsPage'));
 const SettingLayout = lazy(() => import('@layouts/setting/SettingLayout'));
 const ProfilePage = lazy(() => import('@pages/setting/user'));
 const ChangePwdPage = lazy(() => import('@pages/setting/user/ChangePwd'));
+const ReminderPage = lazy(() => import('@pages/setting/user/Reminder'));
 
 const MaterialsPage = lazy(() => import('@pages/setting/material'));
 const LabourRatesPage = lazy(() => import('@pages/setting/labour'));
@@ -119,6 +120,7 @@ function App(props) {
                     <Route element={<SettingLayout />}>
                       <Route path="profile" /* index */ element={<ProfilePage />} />
                       <Route path="change_password" element={<ChangePwdPage />} />
+                      <Route path="reminder" element={<ReminderPage />} />
 
                       <Route path="material" element={<MaterialsPage />} />
                       <Route path="labour_rate" element={<LabourRatesPage />} />

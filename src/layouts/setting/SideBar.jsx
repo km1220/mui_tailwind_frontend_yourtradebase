@@ -2,7 +2,11 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { Tooltip, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
-import { AccountBoxOutlined, KeyOutlined, CategoryOutlined, EngineeringOutlined, PriceChangeOutlined, GroupOutlined } from '@mui/icons-material';
+import {
+	AccountBoxOutlined, KeyOutlined, NotificationsActiveOutlined,
+	CategoryOutlined, EngineeringOutlined, PriceChangeOutlined,
+	GroupOutlined
+} from '@mui/icons-material';
 import { makeStyles, styled } from '@mui/styles';
 import clsx from 'clsx';
 
@@ -78,6 +82,7 @@ export default function DefaultLayout(props) {
 			<Typography className='nav-header' variant='overline'>You</Typography>
 			<SideBarLink to="/setting/profile" title="Your profile" Icon={AccountBoxOutlined} />
 			<SideBarLink to="/setting/change_password" title="Change password" Icon={KeyOutlined} />
+			<SideBarLink to="/setting/reminder" title="Reminders" Icon={NotificationsActiveOutlined} />
 
 			<Divider />
 			<Typography className='nav-header' variant='overline'>Prices</Typography>

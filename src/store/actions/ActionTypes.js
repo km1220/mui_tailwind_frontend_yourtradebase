@@ -7,6 +7,8 @@ export const RESET_ALERT = 'RESET_ALERT';
 // =======================================================================================================
 export const SET_USER_INFO = 'SET_USER_INFO';
 export const RESET_USER_INFO = 'RESET_USER_INFO';
+export const SET_USER_REMINDERS = 'SET_USER_REMINDERS';
+export const RESET_USER_REMINDERS = 'RESET_USER_REMINDERS';
 // =======================================================================================================
 // =======================================================================================================
 export const SET_PRICE_LISTS = 'SET_PRICE_LISTS';

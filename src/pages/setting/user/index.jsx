@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_USER_INFO, LOADING, SET_ALERT } from '@store/actions';
 
-import { AddCircleOutlined as AddIcon, AddOutlined, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon, DeleteOutlined as DeleteIcon, CheckBox } from '@mui/icons-material';
+import { AddCircleOutlined as AddIcon, AddOutlined, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon, DeleteOutlined as DeleteIcon } from '@mui/icons-material';
 import {
-	Divider, Typography, Button,
+	Divider, Typography, Button, Checkbox,
 	alpha
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -142,6 +142,7 @@ export default function ProfilePage(props) {
 			<div>
 				<div>
 					<Typography variant='h5'>Sending emails</Typography>
+					<Divider />
 					<Typography variant="caption">Use these settings when sending emails from Individual:</Typography>
 				</div>
 				<br />
@@ -171,13 +172,14 @@ export default function ProfilePage(props) {
 			</div>
 			<div className='upgrade-block'>
 				<Typography variant="body1"><span style={{ color: '#0000ff' }}>Upgrade</span> to turn branding off.</Typography>
-				<div className='flex'>
-					<CheckBox className='mr-2' defaultChecked />
+				<div className='flex items-center'>
+					<Checkbox className='py-0' defaultChecked />
 					<Typography variant='body1'>Display "Individual uses YourTradebase" when sending emails</Typography>
 				</div>
 			</div>
 			<div>
 				<Typography variant='h5'>Your timezone</Typography>
+				<Divider />
 				<Typography variant='subtitle1'>Timezone</Typography>
 
 				<TimezoneSelect

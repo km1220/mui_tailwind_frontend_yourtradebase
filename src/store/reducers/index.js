@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import user_info from './user_info';
+import reminders from './reminders';
 
 import loading from './loading';
 import alert from './alert';
@@ -15,6 +16,7 @@ import teammates from './teammates';
 
 const rootReducer = combineReducers({
     user: user_info,
+    reminders,
     loading_status: loading,
     alert: alert,
 

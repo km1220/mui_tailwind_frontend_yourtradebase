@@ -197,7 +197,7 @@ export default function AddTeammatePage(props) {
           id: res.data.insertId,
           initial_text: newCustomerData.initialText,
           initial_color: newCustomerData.initialColorHex,
-          permissions: newCustomerData.role === 'admin' ? permissions : ''
+          permissions: newCustomerData.role === 'admin' ? permissions : initailPermissions
         }));
         navigate('/setting/team');
         dispatch(LOADING(false));

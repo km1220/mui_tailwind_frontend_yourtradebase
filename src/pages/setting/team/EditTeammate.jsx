@@ -219,7 +219,7 @@ export default function EditTeammatePage(props) {
           ...editCustomerData,
           initial_text: editCustomerData.initialText,
           initial_color: editCustomerData.initialColorHex,
-          permissions: editCustomerData.role === 'admin' ? permissions : ''
+          permissions: editCustomerData.role === 'admin' ? permissions : initailPermissions
         }));
         navigate('/setting/team');
         dispatch(LOADING(false));

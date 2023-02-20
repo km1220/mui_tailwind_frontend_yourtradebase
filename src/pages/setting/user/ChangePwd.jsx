@@ -1,6 +1,8 @@
 
+import axios from 'axios';
 import React, { useState, useMemo, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { SET_ALERT } from '@store/actions';
 
 import {
 	Divider, Typography, Button
@@ -35,8 +37,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function ProfilePage(props) {
+export default function ChangePwdPage(props) {
 	const classes = useStyles(props);
+	const dispatch = useDispatch();
 	const userData = useSelector(state => state.user);
 
 	const [oldPwd, setOldPwd] = useState('')
@@ -69,21 +72,16 @@ export default function ProfilePage(props) {
 	const handleChangePwd = () => {
 		if (!validate()) return;
 
-
 		axios.put(`/auth/update_pwd/${userData.id}`, { old_pwd: oldPwd, new_pwd: newPwd })
 			.then(res => {
 				console.log(res);
-				// if (res.data.affectedRows) {
-				// 	dispatch(SET_USER_INFO({ ...userData, ...profileData }));
-				// 	dispatch(LOADING(false));
-				// 	dispatch(SET_ALERT({ type: 'success', message: 'Update your personal information successfully!' }));
-				// }
+				if (res.data.affectedRows) {
+					dispatch(SET_ALERT({ type: 'success', message: 'Changed your password successfully!' }));
+					setOldPwd(''); setNewPwd(''); setConfrirmPwd('');
+				}
 			}).catch(err => {
-				// dispatch(LOADING(false));
-				// dispatch(SET_ALERT({ type: 'error', message: err.response.data }));
+				dispatch(SET_ALERT({ type: 'error', message: err.response.data.message }));
 			});
-
-		alert('success')
 	};
 
 	return (

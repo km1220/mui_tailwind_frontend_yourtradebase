@@ -1,5 +1,7 @@
 
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { SET_ALERT } from '@store/actions';
 import {
 	Typography, IconButton, Avatar, Divider,
 	Popover, List, ListItemButton, ListItemIcon, ListItemText,
@@ -63,6 +65,7 @@ const useInfoBoxStyles = makeStyles(theme => ({
 
 const MemberInfoBox = (props) => {
 	const classes = useInfoBoxStyles(props);
+	const dispatch = useDispatch();
 	const { className, data, admin = false, onEdit = () => { }, onDelete = () => { }, style, ...others } = props;
 	const { id, name, email, initialText, initialColorHex, lastLoginAt } = data;
 	const lastLoginAtDate = lastLoginAt && spacetime(lastLoginAt).unixFmt('yyyy.MM.dd h:mm a');
@@ -79,7 +82,9 @@ const MemberInfoBox = (props) => {
 			<Avatar className="account-avatar" sx={{ backgroundColor: avatarColor }}>{initialText}</Avatar>
 			<div className="account-content">
 				<Typography className='' variant='subtitle1'>Name: {name}</Typography>
-				<Typography className='' variant='body1'>Email Address: {email}</Typography>
+				{email &&
+					<Typography className='' variant='body1'>Email Address: {email}</Typography>
+				}
 				{lastLoginAtDate &&
 					<Typography className='' variant='body1'>Last signed in {lastLoginAtDate}</Typography>
 				}
@@ -97,15 +102,14 @@ const MemberInfoBox = (props) => {
 				transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 			>
 				<MemberActionList style={{ padding: 0 }}>
-					{email ?
+					{email &&
 						<>
-							<ListItemButton onClick={() => setShowSnackbar(true)}>
+							<ListItemButton onClick={() => dispatch(SET_ALERT({ type: 'success', message: `Password reset instructions sent to ${email}!` }))}>
 								<ListItemIcon> <ResetMailIcon /> </ListItemIcon>
 								<ListItemText primary="Send reset password email" />
 							</ListItemButton>
 							<Divider />
 						</>
-						: ''
 					}
 					<ListItemButton onClick={() => onEdit(id)}>
 						<ListItemIcon> <EditIcon /> </ListItemIcon>
