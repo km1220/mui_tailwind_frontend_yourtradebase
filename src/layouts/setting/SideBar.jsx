@@ -5,7 +5,7 @@ import { Tooltip, Divider, List, ListItem, ListItemButton, ListItemIcon, ListIte
 import {
 	AccountBoxOutlined, KeyOutlined, NotificationsActiveOutlined,
 	CategoryOutlined, EngineeringOutlined, PriceChangeOutlined,
-	GroupOutlined
+	GroupOutlined, ManageAccountsOutlined
 } from '@mui/icons-material';
 import { makeStyles, styled } from '@mui/styles';
 import clsx from 'clsx';
@@ -93,6 +93,7 @@ export default function DefaultLayout(props) {
 			<Divider />
 			<Typography className='nav-header' variant='overline'>Account</Typography>
 			<SideBarLink to="/setting/team" title="Manage team" Icon={GroupOutlined} />
+			<SideBarLink to="/setting/account" title="Manage account" Icon={ManageAccountsOutlined} />
 
 			<Divider />
 			<Typography className='nav-header' variant='overline'>TEST</Typography>

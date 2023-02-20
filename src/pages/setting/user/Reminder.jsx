@@ -1,6 +1,7 @@
 
 import axios from 'axios';
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_USER_REMINDERS, SET_ALERT } from '@store/actions';
 
@@ -13,12 +14,17 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    '& > *:not(:first-child)': {
-      marginTop: '2.5rem',
+    '& > div:not(:first-child, :last-child)': {
+      marginBottom: '2.5rem',
     },
     '& > div:not(:last-child)': {
       display: 'flex',
       flexDirection: 'column',
+    },
+
+    '& .change-target-email': {
+      color: theme.palette.primary.main,
+      textDecoration: 'underline',
     },
   },
 }));
@@ -100,6 +106,11 @@ export default function ReminderPage(props) {
 
   return (
     <div className={classes.root}>
+      <Typography variant='body1'>Email reminders are being sent to: {user_data.email}.  
+        <Typography className='change-target-email ml-2' to='/setting/profile' component={Link} variant="subtitle2">
+          Change your email address
+        </Typography>
+      </Typography>
       <div id='quote-section'>
         <Typography variant='h5'>Quote reminders</Typography>
         <Divider />

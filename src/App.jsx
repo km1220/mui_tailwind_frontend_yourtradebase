@@ -35,6 +35,7 @@ const PriceListEditPage = lazy(() => import('@pages/setting/pricelist/EditPriceL
 const TeamManagePage = lazy(() => import('@pages/setting/team'));
 const TeamAddPage = lazy(() => import('@pages/setting/team/AddTeammate'));
 const TeamEditPage = lazy(() => import('@pages/setting/team/EditTeammate'));
+const AccountManagePage = lazy(() => import('@pages/setting/account'));
 
 
 const CustomerPage = lazy(() => import('@pages/customer'));
@@ -126,6 +127,7 @@ function App(props) {
                       <Route path="labour_rate" element={<LabourRatesPage />} />
                       <Route path="price_list" element={<PriceListPage />} />
                       <Route path="team" element={<TeamManagePage />} />
+                      <Route path="account" element={<AccountManagePage />} />
 
                       <Route index element={<Navigate to={"/setting/profile"} replace />} />
                       <Route path="*" element={<Navigate to={"/setting"} replace />} />
