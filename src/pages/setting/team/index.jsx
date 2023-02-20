@@ -110,6 +110,7 @@ export default function ManageTeamPage(props) {
 		});
 	}
 
+
 	return (
 		<div className={classes.root}>
 			<div className={classes.ownerSection}>

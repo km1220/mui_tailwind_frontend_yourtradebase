@@ -12,6 +12,7 @@ import {
 import { makeStyles, styled } from '@mui/styles';
 import clsx from 'clsx';
 
+import spacetime from 'spacetime';
 import AvatarColorList from './avatarColors.js';
 
 
@@ -63,8 +64,8 @@ const useInfoBoxStyles = makeStyles(theme => ({
 const MemberInfoBox = (props) => {
 	const classes = useInfoBoxStyles(props);
 	const { className, data, admin = false, onEdit = () => { }, onDelete = () => { }, style, ...others } = props;
-	const { id, name, email, initialText, initialColorHex } = data;
-	let lastLoginAt = '';
+	const { id, name, email, initialText, initialColorHex, lastLoginAt } = data;
+	const lastLoginAtDate = lastLoginAt && spacetime(lastLoginAt).unixFmt('yyyy.MM.dd h:mm a');
 	let avatarColor = initialColorHex || AvatarColorList[0][0];
 	const role = admin ? 'admin' : 'field-team';
 
@@ -77,9 +78,11 @@ const MemberInfoBox = (props) => {
 		>
 			<Avatar className="account-avatar" sx={{ backgroundColor: avatarColor }}>{initialText}</Avatar>
 			<div className="account-content">
-				<Typography className='' variant='subtitle1'>{name}</Typography>
-				<Typography className='' variant='body1'>{email}</Typography>
-				<Typography className='' variant='body1'>Last signed in {lastLoginAt ? lastLoginAt : formatDate()}</Typography>
+				<Typography className='' variant='subtitle1'>Name: {name}</Typography>
+				<Typography className='' variant='body1'>Email Address: {email}</Typography>
+				{lastLoginAtDate &&
+					<Typography className='' variant='body1'>Last signed in {lastLoginAtDate}</Typography>
+				}
 			</div>
 			<div style={{ flexGrow: 1 }} />
 			<IconButton className='action-bar-btn' onClick={() => setShowActionPopover(true)}>
@@ -121,17 +124,20 @@ export const AccountInfoBox = (props) => {
 	const classes = useInfoBoxStyles(props);
 	const { className, data, ...others } = props;
 	const {
-		id, name, email,
-		// initialText, initialColorHex
-		lastLoginAt = ''
+		id, name, email, // initialText, initialColorHex
+		lastLoginAt
 	} = data;
+	const lastLoginAtDate = lastLoginAt && spacetime(lastLoginAt).unixFmt('yyyy.MM.dd h:mm a');
+
 	return (
 		<div className={clsx(classes.root, className)} {...others}>
 			<Avatar className="account-avatar">EV</Avatar>
 			<div className="account-content">
 				<Typography className='' variant='subtitle1'>{name}</Typography>
 				<Typography className='' variant='body1'>{email}</Typography>
-				<Typography className='' variant='body1'>Last signed in {lastLoginAt ? lastLoginAt : formatDate()}</Typography>
+				{lastLoginAtDate &&
+					<Typography className='' variant='body1'>Last signed in {lastLoginAtDate}</Typography>
+				}
 			</div>
 		</div>
 	)
