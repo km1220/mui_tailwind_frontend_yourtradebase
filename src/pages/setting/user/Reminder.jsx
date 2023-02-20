@@ -17,13 +17,12 @@ const useStyles = makeStyles(theme => ({
     '& > div:not(:first-child, :last-child)': {
       marginBottom: '2.5rem',
     },
-    '& > div:not(:last-child)': {
+    '& > div:not(:first-child, :last-child)': {
       display: 'flex',
       flexDirection: 'column',
     },
 
     '& .change-target-email': {
-      color: theme.palette.primary.main,
       textDecoration: 'underline',
     },
   },
@@ -106,11 +105,13 @@ export default function ReminderPage(props) {
 
   return (
     <div className={classes.root}>
-      <Typography variant='body1'>Email reminders are being sent to: {user_data.email}.
-        <Typography className='change-target-email ml-2' to='/setting/profile' component={Link} variant="subtitle2">
-          Change your email address
+      <div className='flex items-baseline'>
+        <Typography className='flex' variant='body1'>Email reminders are being sent to:
+          <Typography className='ml-2' variant='subtitle1'>{user_data.email}</Typography>
+          .
         </Typography>
-      </Typography>
+        <Typography className='ml-2' to='/setting/profile' component={Link} variant="subtitle2" color='info.dark'>Change your email address</Typography>
+      </div>
       <br />
       <div id='quote-section'>
         <Typography variant='h5'>Quote reminders</Typography>

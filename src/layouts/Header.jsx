@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
-import { RESET_USER_INFO } from '@store/actions'
+import { RESET_USER_INFO, RESET_USER_REMINDERS } from '@store/actions'
 
 import { Button, Typography, Avatar, Popover, List, ListItemButton, ListItemIcon, ListItemText, Collapse } from '@mui/material'
 // import { createTheme } from '@mui/material';
@@ -118,7 +118,10 @@ export default function Header(props) {
 	// const theme = useTheme();
 
 
-	const handleLogout = () => dispatch(RESET_USER_INFO());
+	const handleLogout = () => {
+		dispatch(RESET_USER_INFO());
+		dispatch(RESET_USER_REMINDERS());
+	};
 
 	return (
 		// <ThemeProvider theme={headerTheme}>
