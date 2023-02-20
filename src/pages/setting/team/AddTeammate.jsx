@@ -2,7 +2,10 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { ADD_ITEM_IN_TEAMMATES } from '@store/actions';
+import {
+  ADD_ITEM_IN_TEAMMATES,
+  LOADING, SET_ALERT
+} from '@store/actions';
 
 import {
   AddCircleOutlined as AddIcon, AddOutlined, SearchOutlined as SearchIcon,
@@ -17,14 +20,11 @@ import { makeStyles, useTheme } from '@mui/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import clsx from 'clsx';
 
-import * as EmailValidator from 'email-validator';
-import 'react-phone-number-input/style.css';
-import PhoneInput from 'react-phone-number-input';
-
+// import * as EmailValidator from 'email-validator';
 import ItemComponent from '@components/price_list/ItemComponent';
-// import DraggablePaper from '../DraggablePaper';
 
 import { _generateNewID } from '@utils';
+import AvatarColorList from './avatarColors.js';
 
 
 
@@ -159,8 +159,9 @@ export default function AddTeammatePage(props) {
   const [newCustomerData, setNewData] = useState(initialData);
   const [permissions, setPermissions] = useState(initailPermissions);
 
-  let colorList = ['#b9bac3', '#8f919d', '#4e5062', '#2b56cd', '#14234e', '#5ed9f5', '#14B8A6', '#fd5353', '#e33fa1', '#ff0099',];
-  if (smUpMatch) colorList = colorList.concat(['#44814e', '#004008', /* '#FFB020', '#ff984e', '#ff4a4a', '#880000', */]);
+  let colorList = AvatarColorList[0];
+  colorList = colorList.concat(AvatarColorList[1]);
+  if (smUpMatch) colorList = colorList.concat(AvatarColorList[2]);
 
 
 
@@ -188,6 +189,7 @@ export default function AddTeammatePage(props) {
       role: newCustomerData.role === 'admin' ? 1 : 2,
       permissions: newCustomerData.role === 'admin' ? JSON.stringify(permissions) : ''
     }
+    dispatch(LOADING(true));
     axios.post('/team_members', newData).then(res => {
       if (res.data.affectedRows) {
         dispatch(ADD_ITEM_IN_TEAMMATES({
@@ -198,11 +200,14 @@ export default function AddTeammatePage(props) {
           permissions: newCustomerData.role === 'admin' ? permissions : ''
         }));
         navigate('/setting/team');
+        dispatch(LOADING(false));
+        dispatch(SET_ALERT({ type: 'success', message: 'Add successfully!' }));
       }
     }).catch(err => {
-      console.log('err: ', err)
-      if (err.response.status === 400) alert(err.response.data);
-      else if (err.response.status === 403) alert(err.response.data);
+      // if (err.response.status === 400) alert(err.response.data);
+      // else if (err.response.status === 403) alert(err.response.data);
+      dispatch(LOADING(false));
+      dispatch(SET_ALERT({ type: 'error', message: err.response.data }));
     });
   };
 

@@ -1,14 +1,18 @@
 import React, { lazy, Suspense } from 'react'
 import { useRoutes, BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RESET_ALERT } from '@store/actions';
 
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
 // import AppRouter from './routes';
 
+
+const PublicRoute = lazy(() => import('./layouts/auth/PublicRoute'));
 const PrivateRoute = lazy(() => import('./layouts/auth/PrivateRoute'));
 import Loading from '@components/LoadingPage';
+import Snackbar from '@components/Snackbar';
 import { ClimbingBoxLoader } from 'react-spinners';
 const LogInPage = lazy(() => import('@pages/auth/LogInPage'));
 const SignUpPage = lazy(() => import('@pages/auth/SignUpPage'));
@@ -19,8 +23,8 @@ const DashboardPage = lazy(() => import('@pages/dashboard'));
 const ContactUsPage = lazy(() => import('@pages/ContactUsPage'));
 
 const SettingLayout = lazy(() => import('@layouts/setting/SettingLayout'));
-import ProfilePage from '@pages/setting/user';
-// const ProfilePage = lazy(() => import('@pages/setting/user'));
+const ProfilePage = lazy(() => import('@pages/setting/user'));
+const ChangePwdPage = lazy(() => import('@pages/setting/user/ChangePwd'));
 
 const MaterialsPage = lazy(() => import('@pages/setting/material'));
 const LabourRatesPage = lazy(() => import('@pages/setting/labour'));
@@ -59,9 +63,13 @@ const useStyles = makeStyles(theme => ({
 
 function App(props) {
   const classes = useStyles(props);
-  const userData = useSelector(state => state.user);
-  const isLoading = useSelector(state => state.loading_status);
-  console.log('------------------  ', isLoading);
+  const dispatch = useDispatch();
+  const { userData, isLoading, alert } = useSelector(state => ({
+    userData: state.user,
+    isLoading: state.loading_status,
+    alert: state.alert
+  }));
+  console.log('redux data: ', userData, isLoading, alert);
 
   return (
     <Suspense fallback={<Loading />}>
@@ -71,60 +79,74 @@ function App(props) {
           <ClimbingBoxLoader size='1.5rem' />
         </div>
         :
-        <Router>
-          <div className={clsx(classes.root)}>
-            {/* <AppRouter /> */}
-            <Routes>
-              <Route index element={<Navigate to={userData.email ? "/dashboard" : "/home"} replace />} />
-              <Route path="/login" element={<LogInPage />} />
-              <Route path="/signup" element={<SignUpPage />} />
+        <>
+          <Router>
+            <div className={clsx(classes.root)}>
+              {/* <AppRouter /> */}
+              <Routes>
+                <Route index element={<Navigate to={userData.id ? "/dashboard" : "/home"} replace />} />
 
-
-
-              <Route path="/" element={<DefaultLayout />}>
-                <Route path="home" element={<HomePage />} />
-                <Route element={<PrivateRoute />}>
-                  <Route path="dashboard" element={<DashboardPage />} />
-
-                  <Route path="customer" element={<CustomerPage />} />
-                  <Route path="customer/new" element={<CustomerAddPage />} />
-                  <Route path="customer/:id" element={<CustomerEditPage />} />
-
-                  <Route path="quote" element={<QuotePage />} />
-                  <Route path="quote/new" element={<QuoteAddPage />} />
-                  <Route path="quote/:id" element={<QuoteEditPage />} />
-
-                  <Route path="task" element={<TaskPage />} />
-                  <Route path="task/new" element={<TaskAddPage />} />
-                  <Route path="task/:id" element={<TaskEditPage />} />
-                </Route>
-                <Route path="contact_us" element={<ContactUsPage />} />
-              </Route>
-
-              <Route path="/setting">
-                <Route element={<PrivateRoute />}>
-                  <Route element={<SettingLayout />}>
-                    <Route /* index */ path="profile" element={<ProfilePage />} />
-                    <Route path="material" element={<MaterialsPage />} />
-                    <Route path="labour_rate" element={<LabourRatesPage />} />
-                    <Route path="price_list" element={<PriceListPage />} />
-                    <Route path="team" element={<TeamManagePage />} />
-
-                    <Route index element={<Navigate to={"/setting/profile"} replace />} />
-                    <Route path="*" element={<Navigate to={"/setting"} replace />} />
+                <Route element={<PublicRoute />}>
+                  <Route path="/login" element={<LogInPage />} />
+                  <Route path="/signup" element={<SignUpPage />} />
+                  <Route element={<DefaultLayout />}>
+                    <Route path="home" element={<HomePage />} />
                   </Route>
-                  <Route path="price_list/new" element={<PriceListAddPage />} />
-                  <Route path="price_list/:id" element={<PriceListEditPage />} />
-                  <Route path="team/new" element={<TeamAddPage />} />
-                  <Route path="team/:id" element={<TeamEditPage />} />
                 </Route>
-              </Route>
 
-              <Route path="/test" element={<TestComponent />} />
-              <Route path="*" element={<Navigate to={"/"} replace />} />
-            </Routes>
-          </div>
-        </Router>
+
+                <Route element={<PrivateRoute />}>
+                  <Route element={<DefaultLayout />}>
+                    <Route path="dashboard" element={<DashboardPage />} />
+
+                    <Route path="customer" element={<CustomerPage />} />
+                    <Route path="customer/new" element={<CustomerAddPage />} />
+                    <Route path="customer/:id" element={<CustomerEditPage />} />
+
+                    <Route path="quote" element={<QuotePage />} />
+                    <Route path="quote/new" element={<QuoteAddPage />} />
+                    <Route path="quote/:id" element={<QuoteEditPage />} />
+
+                    <Route path="task" element={<TaskPage />} />
+                    <Route path="task/new" element={<TaskAddPage />} />
+                    <Route path="task/:id" element={<TaskEditPage />} />
+                  </Route>
+                  <Route path="contact_us" element={<ContactUsPage />} />
+                </Route>
+
+                <Route path="/setting">
+                  <Route element={<PrivateRoute />}>
+                    <Route element={<SettingLayout />}>
+                      <Route path="profile" /* index */ element={<ProfilePage />} />
+                      <Route path="change_password" element={<ChangePwdPage />} />
+
+                      <Route path="material" element={<MaterialsPage />} />
+                      <Route path="labour_rate" element={<LabourRatesPage />} />
+                      <Route path="price_list" element={<PriceListPage />} />
+                      <Route path="team" element={<TeamManagePage />} />
+
+                      <Route index element={<Navigate to={"/setting/profile"} replace />} />
+                      <Route path="*" element={<Navigate to={"/setting"} replace />} />
+                    </Route>
+                    <Route path="price_list/new" element={<PriceListAddPage />} />
+                    <Route path="price_list/:id" element={<PriceListEditPage />} />
+                    <Route path="team/new" element={<TeamAddPage />} />
+                    <Route path="team/:id" element={<TeamEditPage />} />
+                  </Route>
+                </Route>
+
+                <Route path="/test" element={<TestComponent />} />
+                <Route path="*" element={<Navigate to={"/"} replace />} />
+              </Routes>
+            </div>
+          </Router>
+
+          {alert.open &&
+            <Snackbar open={alert.open} onClose={() => dispatch(RESET_ALERT())}
+              autoHideDuration={alert.time} severity={alert.type} message={alert.message}
+            />
+          }
+        </>
       }
 
     </Suspense >

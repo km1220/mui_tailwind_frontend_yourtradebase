@@ -1,35 +1,28 @@
+import _ from 'lodash';
 import axios from 'axios';
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { ADD_ITEM_IN_CUSTOMERS } from '@store/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { SET_USER_INFO, LOADING, SET_ALERT } from '@store/actions';
 
-import { AddCircleOutlined as AddIcon, AddOutlined, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon, DeleteOutlined as DeleteIcon } from '@mui/icons-material';
-import { Box, Paper, Divider, Typography, Button, IconButton, Dialog, Select, MenuItem } from '@mui/material';
+import { AddCircleOutlined as AddIcon, AddOutlined, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon, DeleteOutlined as DeleteIcon, CheckBox } from '@mui/icons-material';
+import {
+	Divider, Typography, Button,
+	alpha
+} from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import clsx from 'clsx';
+// import clsx from 'clsx';
 
-import * as EmailValidator from 'email-validator';
-import 'react-phone-number-input/style.css';
-import PhoneInput from 'react-phone-number-input';
+// import * as EmailValidator from 'email-validator';
 import ItemComponent from '@components/price_list/ItemComponent';
 
 import MUIRichTextEditor from "mui-rte";
-import spacetime from "spacetime";
+// import spacetime from "spacetime";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 
-import { _generateNewID } from '@utils';
+import { parseJSON } from '@utils';
 
 
-
-
-const formatDate = (date_str = '') => {
-	let date = new Date(date_str);
-	if (date == 'Invalid Date')
-		date = new Date();
-
-	return date.toISOString().split("T")[0];
-}
 
 
 
@@ -42,6 +35,12 @@ const useStyles = makeStyles(theme => ({
 			display: 'flex',
 			flexDirection: 'column'
 		},
+
+		'& > div.upgrade-block': {
+			background: alpha(theme.palette.secondary.dark, 0.1),
+			padding: '1.5rem',
+			borderRadius: '0.5rem',
+		},
 	},
 
 	addBtn: {
@@ -49,45 +48,66 @@ const useStyles = makeStyles(theme => ({
 		borderRadius: '0.25rem !important',
 		marginTop: '0.5rem !important',
 	},
-
 }));
 
 const initialData = {
-	id: 1,
-	name: 'vladmir rudic',
-	email: 'vlad******@gmail.com',
-	password: '123',
-
-	from_name: 'VR',
-	reply_to_email: '2@2.com',
-	signature: '<h1>vald rudic, signature !!!</h1>',
-	timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-	last_login_at: spacetime.now(),
+	id: 0, name: '', email: '', // password: '',
+	fromName: '', reply2email: '', sign: ``,
+	TZ: Intl.DateTimeFormat().resolvedOptions().timeZone,
+	// lastLoginAt: 'spacetime.now()',
 }
 export default function ProfilePage(props) {
 	const classes = useStyles(props);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const userData = useSelector(state => state.user);
 
-	const [profileData, setNewData] = useState(initialData);
-
-	const isProfileInfoChanged = () => {
-		return true;
-	}
+	const [profileData, setProfileData] = useState(initialData);
 
 	useEffect(() => {
 		return () => {
-			setNewData(initialData);
+			setProfileData(initialData);
 		}
 	}, []);
+	useEffect(() => {
+		setProfileData({ ...profileData, ...userData });
+	}, [userData])
 
-	useMemo(() => {
-		const tzValue = profileData.timezone.value ?? profileData.timezone;
-		setNewData({ ...profileData, last_login_at: profileData.last_login_at.goto(tzValue) });
-	}, [profileData.timezone]);
-	console.log(profileData)
 
-	const handleSave = () => { };
+	// useMemo(() => {
+	// 	const tzValue = profileData.TZ.value ?? profileData.TZ;
+	// 	setNewData({ ...profileData, lastLoginAt: profileData.lastLoginAt.goto(tzValue) });
+	// }, [profileData.TZ]);
+	const isInfoChanged = () => {
+		console.log('====   ===', profileData, userData)
+		if (_.isEqual(userData, profileData))
+			return false;
+		else
+			return true;
+	};
+
+
+	const handleSave = () => {
+		const updateProfileData = {
+			name: profileData.name, email: profileData.email,
+			from_name: profileData.fromName, reply_to_email: profileData.reply2email,
+			signature: profileData.sign, timezone: JSON.stringify(profileData.TZ)
+		}
+
+		dispatch(LOADING(true));
+		axios.put(`/user_profiles/${userData.id}`, updateProfileData)
+			.then(res => {
+				console.log(res);
+				if (res.data.affectedRows) {
+					dispatch(SET_USER_INFO({ ...userData, ...profileData }));
+					dispatch(LOADING(false));
+					dispatch(SET_ALERT({ type: 'success', message: 'Update your personal information successfully!' }));
+				}
+			}).catch(err => {
+				dispatch(LOADING(false));
+				dispatch(SET_ALERT({ type: 'error', message: err.response.data }));
+			});
+	};
 
 	return (
 		<div className={classes.root}>
@@ -95,7 +115,7 @@ export default function ProfilePage(props) {
 				<div className='flex justify-between'>
 					<Typography variant='h5'>Your details</Typography>
 					<div className='flex justify-center'>
-						{isProfileInfoChanged() ?
+						{isInfoChanged() ?
 							<Button className='mx-2 px-6 py-0 rounded' color="success" variant="contained" onClick={handleSave}>Save</Button>
 							: ''
 						}
@@ -107,14 +127,14 @@ export default function ProfilePage(props) {
 				<div>
 					<Typography variant='subtitle1'>Your name</Typography>
 					<ItemComponent>
-						<input value={profileData.name} onChange={e => setNewData({ ...profileData, name: e.target.value })} />
+						<input value={profileData.name} onChange={e => setProfileData({ ...profileData, name: e.target.value })} />
 					</ItemComponent>
 				</div>
 				<br />
 				<div>
 					<Typography variant='subtitle1'>Email address</Typography>
 					<ItemComponent>
-						<input value={profileData.email} onChange={e => setNewData({ ...profileData, email: e.target.value })} />
+						<input value={profileData.email} onChange={e => setProfileData({ ...profileData, email: e.target.value })} />
 					</ItemComponent>
 					<Typography variant="caption">Use this email address to log in.</Typography>
 				</div>
@@ -128,7 +148,7 @@ export default function ProfilePage(props) {
 				<div>
 					<Typography variant='subtitle1'>'From' name</Typography>
 					<ItemComponent>
-						<input value={profileData.from_name} onChange={e => setNewData({ ...profileData, from_name: e.target.value })} />
+						<input value={profileData.fromName} onChange={e => setProfileData({ ...profileData, fromName: e.target.value })} />
 					</ItemComponent>
 					<Typography variant="caption">The name your customer sees when you send them emails.</Typography>
 				</div>
@@ -136,7 +156,7 @@ export default function ProfilePage(props) {
 				<div>
 					<Typography variant='subtitle1'>Send email replies (and bcc) to</Typography>
 					<ItemComponent>
-						<input value={profileData.reply_to_email} onChange={e => setNewData({ ...profileData, reply_to_email: e.target.value })} />
+						<input type="email" value={profileData.reply2email} onChange={e => setProfileData({ ...profileData, reply2email: e.target.value })} />
 					</ItemComponent>
 					<Typography variant="caption">Where should we send customer replies and bcc?</Typography>
 				</div>
@@ -144,8 +164,16 @@ export default function ProfilePage(props) {
 				<div>
 					<Typography variant='subtitle1'>Your email signature</Typography>
 					<MUIRichTextEditor label="Type something here..."
-						onSave={val => setNewData({ ...profileData, signature: val })}
+						value={profileData.sign}
+						onSave={val => setProfileData({ ...profileData, sign: val })}
 					/>
+				</div>
+			</div>
+			<div className='upgrade-block'>
+				<Typography variant="body1"><span style={{ color: '#0000ff' }}>Upgrade</span> to turn branding off.</Typography>
+				<div className='flex'>
+					<CheckBox className='mr-2' defaultChecked />
+					<Typography variant='body1'>Display "Individual uses YourTradebase" when sending emails</Typography>
 				</div>
 			</div>
 			<div>
@@ -153,7 +181,7 @@ export default function ProfilePage(props) {
 				<Typography variant='subtitle1'>Timezone</Typography>
 
 				<TimezoneSelect
-					value={profileData.timezone} onChange={tzVal => setNewData({ ...profileData, timezone: tzVal })}
+					value={profileData.TZ} onChange={tzVal => setProfileData({ ...profileData, TZ: tzVal })}
 					timezones={{
 						...allTimezones,
 						"America/Lima": "Pittsburgh",

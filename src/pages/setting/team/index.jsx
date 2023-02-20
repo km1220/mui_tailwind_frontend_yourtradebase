@@ -8,9 +8,7 @@ import {
 } from '@store/actions';
 
 import {
-	Box, Typography, Button, IconButton, Avatar, Divider,
-	Popover, List, ListItemButton, ListItemIcon, ListItemText,
-	Snackbar, Alert as MuiAlert,
+	Box, Typography, Button, Divider,
 	alpha,
 } from '@mui/material';
 
@@ -20,7 +18,7 @@ import {
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 
-import MemberInfoBox, { AccountInfoBox } from '@components/team/MemberInfoBox';
+import MemberInfoBox, { AccountInfoBox } from './MemberInfoBox';
 import { parseJSON } from '@utils';
 
 
@@ -69,7 +67,11 @@ export default function ManageTeamPage(props) {
 				return;
 			}
 			let all_list = res.data.team_members.map(each => ({
-				...each,
+				id: each.id,
+				name: each.name,
+				email: each.email,
+				initialText: each.initial_text,
+				initialColorHex: each.initial_color,
 				role: each.role === 1 ? 'admin' : 'field_team',
 				permissions: parseJSON(each.permissions)
 			}));
@@ -77,15 +79,19 @@ export default function ManageTeamPage(props) {
 			dispatch(LOADING(false));
 		}).catch(err => console.log(err));
 	}
+
 	useEffect(() => {
 		if (all_team_members.length === 0) _getAllTeammates();
+	}, []);
+	useEffect(() => {
+		if (all_team_members.length === 0) return;
 
 		adminListRef.current = [];
 		fieldTeamListRef.current = [];
 		all_team_members.map(each => {
 			const each_data = {
 				id: each.id, name: each.name, email: each.email,
-				initial_color: each.initial_color, initial_text: each.initial_text
+				initialText: each.initialText, initialColorHex: each.initialColorHex
 			};
 			if (each.role === 'admin')
 				adminListRef.current.push(each_data);
@@ -94,7 +100,6 @@ export default function ManageTeamPage(props) {
 		});
 		_forceRerender();
 	}, [all_team_members]);
-	console.log(all_team_members)
 
 	const handleDeleteMember = (id) => {
 		if (!confirm(`Do you really want to delete this item ?   ID: ${id}`)) return;
@@ -145,7 +150,7 @@ export default function ManageTeamPage(props) {
 					<p className='ml-2'>Add someone to your field team</p>
 				</Button>
 
-				{fieldTeamListRef.current.map(each => (
+				{fieldTeamListRef.current && fieldTeamListRef.current.map(each => (
 					<MemberInfoBox key={each.id} data={each} admin={false}
 						onEdit={() => navigate(`/setting/team/${each.id}`)}
 						onDelete={handleDeleteMember}

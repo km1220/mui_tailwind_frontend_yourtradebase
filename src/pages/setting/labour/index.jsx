@@ -81,7 +81,6 @@ export default function LabourPage(props) {
 	const _getAllLabours = () => {
 		dispatch(LOADING(true));
 		axios.get('/labours').then(res => {
-			console.log(res)
 			if (!res.data.labours) {
 				alert('Getting LABOUR data Error!');
 				return;

@@ -359,11 +359,8 @@ export default function EditQuotePage(props) {
 			pricelist_data_list: JSON.stringify(allPriceListsRef.current)
 		};
 		axios.put(`/quotes/${editData.id}`, updateQuote).then(res => {
-			console.log(res)
-
 			if (res.data.affectedRows) {
 				dispatch(UPDATE_ITEM_IN_QUOTES({ ...updateQuote, id: editData.id }));
-
 				navigate('/quote');
 			}
 		}).catch(err => {

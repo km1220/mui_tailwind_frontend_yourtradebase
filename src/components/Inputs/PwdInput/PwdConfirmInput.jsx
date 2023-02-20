@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { InputAdornment, IconButton, Collapse, Typography } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Visibility, VisibilityOff, CheckCircle as CheckIcon, Cancel as CancelIcon } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx'
 import { _isStrEmpty } from '@utils'
 
-import InputComponent from '@components/inputs/InputComponent'
+import PwdInputComponent from './PwdInputComponent'
 
 
 const useStyles = makeStyles(theme => ({
@@ -44,10 +44,14 @@ function PwdConfirmInput(props) {
 
 	return (
 		<div className={clsx('w-full flex flex-col items-center justify-center', className)}>
-			<div className={clsx(classes.inputBase, 'w-full',
+			{/* <div className={clsx(classes.inputBase, 'w-full',
 				_isStrEmpty(value) ? '' : isValid ? 'success' : 'error')
-			}>
-				<InputComponent
+			}> */}
+			<div className={clsx(
+				classes.inputBase, _isStrEmpty(value) ? '' : !isValid ? 'error' : 'success',
+				'w-full flex items-center'
+			)}>
+				<PwdInputComponent
 					// placeholder={placeholder}
 					value={value} onChange={onChange}
 					type={showPwd ? 'text' : 'password'}
@@ -58,6 +62,7 @@ function PwdConfirmInput(props) {
 								onClick={() => setShowPwd(!showPwd)}
 								onMouseDown={e => e.preventDefault()}
 								edge="end"
+								tabIndex={-1}
 							>
 								{showPwd ? <VisibilityOff /> : <Visibility />}
 							</IconButton>
@@ -65,6 +70,12 @@ function PwdConfirmInput(props) {
 					}
 					{...others}
 				/>
+				{
+					_isStrEmpty(value) ? '' : !isValid ?
+						<CancelIcon className='pl-2 text-3xl sm:text-5xl' />
+						:
+						<CheckIcon className='pl-2 text-3xl sm:text-5xl' />
+				}
 			</div>
 			<Collapse in={!_isStrEmpty(value) && !isValid} component='ul' className={clsx(classes.errorText, 'error')}>
 				{errorText !== '' &&

@@ -81,7 +81,6 @@ export default function MaterialPage(props) {
 	const _getAllMaterials = () => {
 		dispatch(LOADING(true));
 		axios.get('/materials').then(res => {
-			console.log(res)
 			if (!res.data.materials) {
 				alert('Getting MATERIAL data Error!');
 				return;

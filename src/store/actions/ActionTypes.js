@@ -1,9 +1,11 @@
 export const SET_LOADING = 'SET_LOADING';
 export const REMOVE_LOADING = 'REMOVE_LOADING';
+export const SET_ALERT = 'SET_ALERT';
+export const RESET_ALERT = 'RESET_ALERT';
 
 // =======================================================================================================
 // =======================================================================================================
-export const SET_ALL_USER_INFO = 'SET_ALL_USER_INFO';
+export const SET_USER_INFO = 'SET_USER_INFO';
 export const RESET_USER_INFO = 'RESET_USER_INFO';
 // =======================================================================================================
 // =======================================================================================================

@@ -19,5 +19,28 @@ import MUIRichTextEditor from "mui-rte";
 
 
 export default () => {
-  return <MUIRichTextEditor label="Type something here..." />
+  const [state, setState] = useState({
+    key: "defaultKey",
+    value: "defaultContent"
+  })
+
+  let xxx;
+  console.log("xxx ?? '123123'")
+  console.log(xxx ?? '123123')
+  return (
+    <>
+      <button onClick={() => setState({
+        key: "newKey",
+        value: "newContent"
+      })}>
+        Simulate new value arrived
+      </button>
+      <MUIRichTextEditor
+        key={state.key}
+        value={state.value}
+
+        label="Type something here..."
+      />
+    </>
+  )
 }

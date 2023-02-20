@@ -1,28 +1,45 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { InputAdornment, IconButton, Collapse, Typography } from '@mui/material';
+import { OutlinedInput, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { makeStyles } from '@mui/styles';
+import { makeStyles, styled } from '@mui/styles';
 import clsx from 'clsx'
 import { _isStrEmpty } from '@utils'
 
-import InputComponent from '@components/inputs/InputComponent'
 
 
 const useStyles = makeStyles(theme => ({
-	root: {}
+	root: {
+		width: '100%',
+		padding: "0.5rem 1rem",
+		borderRadius: '0.25rem',
+	}
 }))
 
-function PwdInput(props) {
+
+
+const PwdOutlinedInput = styled(OutlinedInput)({
+	'&.MuiOutlinedInput-root': {
+		padding: 0,
+		paddingRight: '1rem',
+	},
+	'& .MuiOutlinedInput-input': {
+		padding: '0.25rem 1.25rem',
+		paddingRight: 0,
+	}
+});
+
+function PwdDefaultInput(props) {
 	const { className, /*placeholder, */ value, onChange, isValid, ...others } = props
 	const classes = useStyles(props)
 	const [showPwd, setShowPwd] = useState(false)
 
 
 	return (
-		<div className={clsx(classes.root, 'w-full flex flex-col items-center justify-center', className)}>
+		// <div className={clsx(classes.root, 'w-full flex flex-col items-center justify-center', className)}>
 
-			<InputComponent
+			<PwdOutlinedInput
+				className={clsx(classes.root, 'xxxxxx', className)}
 				// placeholder={placeholder}
 				value={value} onChange={onChange}
 				type={showPwd ? 'text' : 'password'}
@@ -33,6 +50,7 @@ function PwdInput(props) {
 							onClick={() => setShowPwd(!showPwd)}
 							onMouseDown={e => e.preventDefault()}
 							edge="end"
+							tabIndex={-1}
 						>
 							{showPwd ? <VisibilityOff /> : <Visibility />}
 						</IconButton>
@@ -40,16 +58,21 @@ function PwdInput(props) {
 				}
 				{...others}
 			/>
-		</div>
+		// </div>
 	)
 }
 
-PwdInput.defaultProps = {
-	isValid: true
-}
 
-PwdInput.propTypes = {
+
+PwdDefaultInput.propTypes = {
+	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+	onChange: PropTypes.func,
 	isValid: PropTypes.bool
 }
 
-export default PwdInput
+PwdDefaultInput.defaultProps = {
+	isValid: true
+}
+
+
+export default PwdDefaultInput

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Collapse, Typography } from '@mui/material';
+import { Collapse, Typography, OutlinedInput } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx'
 import { _isStrEmpty, validateEmail } from '@utils'
 
-import InputComponent from '@components/inputs/InputComponent';
+// import InputComponent from '@components/inputs/InputComponent';
 
 
 const useStyles = makeStyles(theme => ({
@@ -30,6 +30,17 @@ const useStyles = makeStyles(theme => ({
 			},
 		},
 	},
+	input: {
+		'& .MuiInputBase-input': {
+			height: 'auto',
+			padding: '8px 6px',
+			paddingRight: '0',
+			[theme.breakpoints.down('sm')]: {
+				padding: '4px 2px',
+				paddingRight: '0',
+			}
+		},
+	},
 	errorText: {
 		'&.error': { color: theme.palette.error.main }
 	}
@@ -51,7 +62,8 @@ function EmailInput(props) {
 			<div className={clsx(classes.inputBase, 'w-full',
 				_isStrEmpty(value) ? '' : emailValid ? 'success' : 'error')
 			}>
-				<InputComponent
+				<OutlinedInput
+					className={clsx(classes.input, `w-full rounded border text-xl sm:px-8 px-4`)}
 					// placeholder={placeholder}
 					value={value}
 					onChange={handleEmailChange}

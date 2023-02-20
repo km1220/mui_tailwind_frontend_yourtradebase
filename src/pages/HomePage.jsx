@@ -7,9 +7,9 @@ import { makeStyles, styled } from '@mui/styles'
 import clsx from 'clsx'
 
 import BGImg1 from '../assets/imgs/bg/marketing-wallpapers-1.jpg';
-import BGImg2 from '../assets/imgs/bg/marketing-wallpapers-2.jpg';
-import BGImg3 from '../assets/imgs/bg/digital-marketing-courses.jpg';
-import BGImg4 from '../assets/imgs/bg/marketing-manager.jpg';
+// import BGImg2 from '../assets/imgs/bg/marketing-wallpapers-2.jpg';
+// import BGImg3 from '../assets/imgs/bg/digital-marketing-courses.jpg';
+// import BGImg4 from '../assets/imgs/bg/marketing-manager.jpg';
 
 
 
@@ -25,27 +25,12 @@ const useStyles = makeStyles(theme => ({
 		flexGrow: 1,
 		justifyContent: 'center',
 		alignItems: 'start',
-		// alignItems: 'center',
 	},
 }))
 
 
-// const CardItem = props => {
-// 	const { className, headIcon = null, title = '', text = '', ...others } = props
-// 	return <Paper className={clsx('p-8', className)} elevation={20}>
-// 		{headIcon && React.createElement(headIcon, {
-// 			className: "sm:text-6xl text-4xl sm:mb-4 mb-2",
-// 		})}
-// 		<Typography className="mb-2 text-lg sm:text-xl sm:mb-4" variant="h4">{title}</Typography>
-// 		<Typography className="mb-8 text-sm sm:text-base sm:mb-12">{text}</Typography>
-// 	</Paper>
-// }
-
-function Dashboard(props) {
+function HomePage(props) {
 	const classes = useStyles(props)
-	// const userData = useSelector(state => state.user)
-	// console.log("data : ", userData)
-
 	return (
 		<>
 			<div className={classes.root}>
@@ -63,4 +48,4 @@ function Dashboard(props) {
 	)
 }
 
-export default Dashboard
+export default HomePage;

@@ -61,7 +61,6 @@ export default function EditTaskPage(props) {
 
   const handleUpdateTask = () => {
     axios.put(`/tasks/${editTargetData.id}`, editTargetData).then(res => {
-      console.log(res);
       if (res.data.affectedRows) {
         dispatch(UPDATE_ITEM_IN_TASKS(editTargetData));
         navigate('/task');

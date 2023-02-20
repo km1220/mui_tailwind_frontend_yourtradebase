@@ -155,7 +155,6 @@ export default function EditPriceListPage(props) {
 			price: price
 		};
 		axios.put(`/price_lists/${editTargetData.id}`, updateData).then(res => {
-			console.log(res)
 			if (res.data.affectedRows) {
 				dispatch(UPDATE_ITEM_IN_PRICE_LISTS({
 					id: editTargetData.id, title: title, content: content,

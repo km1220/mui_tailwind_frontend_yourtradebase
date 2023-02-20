@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 import user_info from './user_info';
+
 import loading from './loading';
+import alert from './alert';
 
 import materialLabourList from './pricelist/material_labour_list';
 import priceLists from './pricelist/price_lists';
@@ -14,6 +16,7 @@ import teammates from './teammates';
 const rootReducer = combineReducers({
     user: user_info,
     loading_status: loading,
+    alert: alert,
 
     material_labour_list: materialLabourList,
     price_lists: priceLists,

@@ -4,9 +4,11 @@ import * as types from './ActionTypes';
 
 
 export const LOADING = (flag = true) => ({ type: flag ? types.SET_LOADING : types.REMOVE_LOADING });
+export const SET_ALERT = (data) => ({ type: types.SET_ALERT, payload: data });
+export const RESET_ALERT = () => ({ type: types.RESET_ALERT });
 // =======================================================================================================
 // =======================================================================================================
-export const SET_ALL_USER_INFO = (data) => ({ type: types.SET_ALL_USER_INFO, payload: data });
+export const SET_USER_INFO = (data) => ({ type: types.SET_USER_INFO, payload: data });
 export const RESET_USER_INFO = () => ({ type: types.RESET_USER_INFO });
 // =======================================================================================================
 // =======================================================================================================

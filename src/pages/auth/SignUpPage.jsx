@@ -1,21 +1,35 @@
-import React, { useState } from 'react'
+import axios from 'axios';
+import React, { useState, useCallback, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Typography, Divider } from '@mui/material'
-import { makeStyles } from '@mui/styles'
-import clsx from 'clsx'
+import { useDispatch } from 'react-redux';
+import {
+	SET_USER_INFO, SET_ALERT,
+	LOADING
+} from '@store/actions';
 
+import { Button, Typography, Divider } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import clsx from 'clsx';
+
+import * as EmailValidator from 'email-validator';
 // import GoogleLogo from '@assets/imgs/social/google.png'
 // import LinkedInLogo from '@assets/imgs/social/linkedin.png'
 // import FacebookLogo from '@assets/imgs/social/facebook.png'
 
 import SelectRolePage from '@components/SelectRolePage'
-import InputComponent from '@components/inputs/InputComponent'
+import InputComponent from '@components/inputs/PwdInput/PwdInputComponent'
 import EmailInput from '@components/inputs/EmailInput'
 import PwdValidInput from '@components/inputs/PwdInput/PwdValidInput'
 import PwdConfirmInput from '@components/inputs/PwdInput/PwdConfirmInput'
 
 const useStyles = makeStyles(theme => ({
 	root: {
+		'& > div': {
+			width: '100%',
+			'& > *:not(:first-child)': {
+				marginTop: '1rem',
+			},
+		}
 	},
 	divider: {
 		fontSize: '1.25rem'
@@ -29,52 +43,76 @@ const useStyles = makeStyles(theme => ({
 
 function SignUpPage(props) {
 	const classes = useStyles(props);
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [email, setEmail] = useState('')
+	const [name, setName] = useState('');
 	const [pwd, setPwd] = useState('')
+	const [isPwdError, setIsPwdError] = useState(false);
 	const [confirmPwd, setConfrirmPwd] = useState('')
+	const isPwdComfirmed = useMemo(() => (pwd === confirmPwd), [pwd, confirmPwd]);
+
+
+	const validate = useCallback(() => {
+		if (!EmailValidator.validate(email)) {
+			console.log(`Your E-mail ${email} is not valid!`); return false;
+		}
+		else if (pwd.length === 0) {
+			console.log(`Password must not be empty!`); return false;
+		}
+		else if (isPwdError) {
+			console.log(`Password is not valid format!`); return false;
+		}
+		else if (!isPwdComfirmed) {
+			console.log(`Confirm password not matchs!`); return false;
+		}
+		return true;
+	}, [email, pwd, isPwdError, confirmPwd]);
 
 	const handleSignUp = () => {
-		navigate('/dashboard')
+		if (!validate()) return;
+
+		dispatch(LOADING(true));
+		axios.post('/auth/signup', { name: name, email: email, pwd: pwd })
+			.then(res => {
+				const result = res.data.user_data;
+				if (!result.id)
+					dispatch(SET_ALERT({ type: 'error', message: 'Sign Up failed!' }));
+				else {
+					navigate('/login');
+					dispatch(SET_ALERT({ type: 'success', message: 'Sign Up success!' }));
+				}
+				dispatch(LOADING(false));
+			}).catch(err => {
+				console.log(err);
+				dispatch(LOADING(false));
+				dispatch(SET_ALERT({ type: 'error', message: err.response.data.message }));
+			});
 	}
 
 	return (
-		<SelectRolePage className={"w-2/5"}>
-			<Typography className='my-10 text-2xl font-extrabold sm:text-4xl'>Welcome</Typography>
-			<EmailInput className='mb-5' placeholder="E-mail*"
-				value={email} onChange={e => setEmail(e.target.value)}
-			/>
-			<InputComponent className='mb-5' placeholder="Full Name*" />
-			<PwdValidInput className="mb-5" placeholder="Password"
-				value={pwd} onChange={e => setPwd(e.target.value)}
-			/>
-			<PwdConfirmInput className="mb-5" placeholder="Confirm Password"
-				value={confirmPwd} onChange={e => setConfrirmPwd(e.target.value)}
-				isValid={pwd === confirmPwd} errorText="Confirmation doesn't match Password"
-			/>
+		<SelectRolePage className={clsx(classes.root, "w-2/5")}>
+			<Typography className='mb-6 text-2xl font-extrabold sm:text-4xl'>Sign Up</Typography>
+			<div>
+				<EmailInput placeholder="E-mail*" value={email} onChange={e => setEmail(e.target.value)} />
+				<InputComponent placeholder="Full Name*" value={name} onChange={e => setName(e.target.value)} />
+				<PwdValidInput placeholder="Password"
+					value={pwd} onChange={e => setPwd(e.target.value)}
+					setIsPwdError={setIsPwdError}
+				/>
+				<PwdConfirmInput placeholder="Confirm Password"
+					value={confirmPwd} onChange={e => setConfrirmPwd(e.target.value)}
+					isValid={isPwdComfirmed} errorText="Confirmation doesn't match Password"
+				/>
+			</div>
+			<br />
 
-			<Button className={'h-12 rounded-full text-xl px-10 py-2 mb-7'}
-				variant='contained' color="primary"
-				onClick={handleSignUp}
-				sx={{ minWidth: '30%' }}
+			<Button className={'h-12 rounded-full text-xl px-10 py-2'} sx={{ minWidth: '30%' }}
+				variant='contained' color="primary" onClick={handleSignUp}
 			>
 				Sign Up
 			</Button>
-
-			{/* <Divider classes={{ root: classes.divider }} className='w-1/4 my-7' >OR</Divider>
-			<div className='flex w-3/4 mb-12 justify-evenly'>
-				<img src={FacebookLogo} alt='FacebookLogo' />
-				<img src={LinkedInLogo} alt='LinkedInLogo' />
-				<img src={GoogleLogo} alt='GoogleLogo' />
-			</div>
-
-			<FormControlLabel
-				className='w-3/5 mb-11'
-				label={<Typography className='text-xs lg:text-sm'>By continuing with Google or Facebook, you are agreeing to our Terms + Conditions</Typography>}
-				control={
-					<Checkbox />
-				}
-			/> */}
+			<br />
 
 			<Divider className="w-3/4" />
 			<Typography className='my-5 font-bold'>

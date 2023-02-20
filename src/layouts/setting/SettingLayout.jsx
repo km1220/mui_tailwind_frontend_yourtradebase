@@ -9,7 +9,7 @@ export default function SettingLayout() {
 		<Header />
 		<div className=''
 			style={{
-				minWidth: '75%',
+				minWidth: '70%',
 				display: 'flex',
 				justifyContent: 'center',
 				flexGrow: 1,

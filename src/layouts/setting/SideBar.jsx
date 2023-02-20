@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { Tooltip, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
-import { CategoryOutlined, EngineeringOutlined, PriceChangeOutlined, GroupOutlined } from '@mui/icons-material';
+import { AccountBoxOutlined, KeyOutlined, CategoryOutlined, EngineeringOutlined, PriceChangeOutlined, GroupOutlined } from '@mui/icons-material';
 import { makeStyles, styled } from '@mui/styles';
 import clsx from 'clsx';
 
@@ -74,6 +74,11 @@ export default function DefaultLayout(props) {
 	const classes = useStyles(props);
 	return <div id="setting-side-bar" className={clsx(classes.root, 'mx-8')}>
 		<SideBarList>
+			<Divider />
+			<Typography className='nav-header' variant='overline'>You</Typography>
+			<SideBarLink to="/setting/profile" title="Your profile" Icon={AccountBoxOutlined} />
+			<SideBarLink to="/setting/change_password" title="Change password" Icon={KeyOutlined} />
+
 			<Divider />
 			<Typography className='nav-header' variant='overline'>Prices</Typography>
 			<SideBarLink to="/setting/material" title="Materials" Icon={CategoryOutlined} />

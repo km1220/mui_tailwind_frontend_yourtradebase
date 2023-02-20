@@ -121,7 +121,6 @@ export default function CustomerPage(props) {
       }
     });
   };
-  console.log(all_customers)
 
   return (
     <div className={classes.root}>

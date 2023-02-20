@@ -3,10 +3,8 @@ import React, { useState } from 'react';
 import {
 	Typography, IconButton, Avatar, Divider,
 	Popover, List, ListItemButton, ListItemIcon, ListItemText,
-	Snackbar, Alert as MuiAlert,
 	alpha,
 } from '@mui/material';
-
 import {
 	MoreHorizOutlined as MoreIcon, EditOutlined as EditIcon, DeleteOutlined as DeleteIcon,
 	EmailOutlined as ResetMailIcon
@@ -14,7 +12,7 @@ import {
 import { makeStyles, styled } from '@mui/styles';
 import clsx from 'clsx';
 
-
+import AvatarColorList from './avatarColors.js';
 
 
 const formatDate = (date_str = '') => {
@@ -65,22 +63,23 @@ const useInfoBoxStyles = makeStyles(theme => ({
 const MemberInfoBox = (props) => {
 	const classes = useInfoBoxStyles(props);
 	const { className, data, admin = false, onEdit = () => { }, onDelete = () => { }, style, ...others } = props;
+	const { id, name, email, initialText, initialColorHex } = data;
+	let lastLoginAt = '';
+	let avatarColor = initialColorHex || AvatarColorList[0][0];
 	const role = admin ? 'admin' : 'field-team';
 
 	const [showActionPopover, setShowActionPopover] = useState(false);
-	const [showSnackbar, setShowSnackbar] = useState(false);
-
 
 	return (
-		<div id={`member-${role}-${data.id}`} className={clsx(classes.root, role, className)}
-			style={{ backgroundColor: alpha(data.initial_color, 0.05), ...style }}
+		<div id={`member-${role}-${id}`} className={clsx(classes.root, role, className)}
+			style={{ backgroundColor: alpha(avatarColor, 0.05), ...style }}
 			{...others}
 		>
-			<Avatar className="account-avatar" sx={{ backgroundColor: data.initial_color }}>{data.initial_text}</Avatar>
+			<Avatar className="account-avatar" sx={{ backgroundColor: avatarColor }}>{initialText}</Avatar>
 			<div className="account-content">
-				<Typography className='' variant='subtitle1'>{data.name}</Typography>
-				<Typography className='' variant='body1'>{data.email}</Typography>
-				<Typography className='' variant='body1'>Last signed in {data.last_login ? data.last_login : formatDate()}</Typography>
+				<Typography className='' variant='subtitle1'>{name}</Typography>
+				<Typography className='' variant='body1'>{email}</Typography>
+				<Typography className='' variant='body1'>Last signed in {lastLoginAt ? lastLoginAt : formatDate()}</Typography>
 			</div>
 			<div style={{ flexGrow: 1 }} />
 			<IconButton className='action-bar-btn' onClick={() => setShowActionPopover(true)}>
@@ -89,13 +88,13 @@ const MemberInfoBox = (props) => {
 
 			<Popover
 				open={showActionPopover}
-				anchorEl={document.querySelector(`#member-${role}-${data.id} .action-bar-btn`)}
+				anchorEl={document.querySelector(`#member-${role}-${id} .action-bar-btn`)}
 				onClose={() => setShowActionPopover(false)}
 				anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
 				transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 			>
 				<MemberActionList style={{ padding: 0 }}>
-					{data.email ?
+					{email ?
 						<>
 							<ListItemButton onClick={() => setShowSnackbar(true)}>
 								<ListItemIcon> <ResetMailIcon /> </ListItemIcon>
@@ -105,32 +104,34 @@ const MemberInfoBox = (props) => {
 						</>
 						: ''
 					}
-					<ListItemButton onClick={() => onEdit(data.id)}>
+					<ListItemButton onClick={() => onEdit(id)}>
 						<ListItemIcon> <EditIcon /> </ListItemIcon>
 						<ListItemText primary="Edit" />
 					</ListItemButton>
-					<ListItemButton onClick={() => onDelete(data.id)}>
+					<ListItemButton onClick={() => onDelete(id)}>
 						<ListItemIcon> <DeleteIcon color='error' /> </ListItemIcon>
 						<ListItemText primary="Remove member" primaryTypographyProps={{ color: 'error' }} />
 					</ListItemButton>
 				</MemberActionList>
 			</Popover>
-			<Snackbar open={showSnackbar} autoHideDuration={300000} onClose={() => setShowSnackbar(false)}>
-				<Alert severity="success" >Password reset instructions sent to ${data.email}</Alert>
-			</Snackbar >
 		</div >
 	)
 }
 export const AccountInfoBox = (props) => {
 	const classes = useInfoBoxStyles(props);
 	const { className, data, ...others } = props;
+	const {
+		id, name, email,
+		// initialText, initialColorHex
+		lastLoginAt = ''
+	} = data;
 	return (
 		<div className={clsx(classes.root, className)} {...others}>
 			<Avatar className="account-avatar">EV</Avatar>
 			<div className="account-content">
-				<Typography className='' variant='subtitle1'>{data.name}</Typography>
-				<Typography className='' variant='body1'>{data.email}</Typography>
-				<Typography className='' variant='body1'>Last signed in {data.last_login ? data.last_login : formatDate()}</Typography>
+				<Typography className='' variant='subtitle1'>{name}</Typography>
+				<Typography className='' variant='body1'>{email}</Typography>
+				<Typography className='' variant='body1'>Last signed in {lastLoginAt ? lastLoginAt : formatDate()}</Typography>
 			</div>
 		</div>
 	)

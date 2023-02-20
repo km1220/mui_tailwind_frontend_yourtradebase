@@ -58,14 +58,6 @@ const HeaderBtn = props => {
 		children
 	)
 }
-// const LinkBtn = styled(Button)(({ theme }) => ({
-// 	'& .MuiButton-root': {
-// 		padding: '0.25rem 1.25rem',
-// 		[theme.breakpoints.down('md')]: {
-// 			padding: '0.25rem',
-// 		}
-// 	}
-// }));
 const HeaderLink = ({ title, Icon, to }) => {
 	return <Button className='flex flex-col' component={Link} to={to}>
 		<Icon className='text-sl' />
@@ -119,14 +111,13 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 export default function Header(props) {
-	const classes = useStyles(props)
-	const dispatch = useDispatch()
-	const userData = useSelector(state => state.user)
+	const classes = useStyles(props);
+	const dispatch = useDispatch();
+	const userData = useSelector(state => state.user);
 	const [showUserInfoList, setShowUserInfoList] = useState(false);
-	// const theme = useTheme()
+	// const theme = useTheme();
 
 
-	console.log('redux user data: ', userData);
 	const handleLogout = () => dispatch(RESET_USER_INFO());
 
 	return (
@@ -155,10 +146,10 @@ export default function Header(props) {
 			<div className=''>
 				<HeaderBtn to={'/contact_us'} color='secondary' variant="contained">Contact Us</HeaderBtn>
 			</div>
-			{!userData.email ?
+			{!userData.id ?
 				<>
-					<HeaderBtn to={'/login'} className="ml-6">Log In</HeaderBtn>
-					<HeaderBtn to={'/signup'} className="ml-6">Sign Up</HeaderBtn>
+					<HeaderBtn to={'/login'} className="ml-2">Log In</HeaderBtn>
+					<HeaderBtn to={'/signup'} className="ml-2 mr-4">Sign Up</HeaderBtn>
 				</>
 				:
 				<div>
@@ -183,20 +174,15 @@ export default function Header(props) {
 								<ListItemIcon> <GroupOutlined /> </ListItemIcon>
 								<ListItemText primary="Manage Team" />
 							</ListItemButton>
-							<ListItemButton component={Link} to="/account">
+							<ListItemButton component={Link} to="/setting/profile">
 								<ListItemIcon> <AccountCircleOutlined /> </ListItemIcon>
 								<ListItemText primary="Manage Account" />
 							</ListItemButton>
 							<ListItemButton onClick={handleLogout}>
 								<ListItemIcon> <LogoutOutlined /> </ListItemIcon>
-								{/* <HeaderBtn className="ml-6" >Log out</HeaderBtn> */}
 								<ListItemText primary="Log out" />
 							</ListItemButton>
 						</UserInfoList>
-						{/* <Collapse in={true} >
-							jkdslkjfldkl
-						</Collapse> */}
-
 					</Popover>
 				</div>
 			}

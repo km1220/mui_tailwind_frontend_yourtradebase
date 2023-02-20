@@ -169,7 +169,6 @@ export default function EditCustomerPage(props) {
 		else
 			setEditData(targetData);
 	}, [all_customers]);
-	console.log(all_customers)
 
 	const onAddContactInfo = () => {
 		let newList = editData.contact_info_list;
@@ -245,7 +244,6 @@ export default function EditCustomerPage(props) {
 				return <input value={data.data} onChange={e => onChangeContactInfoData(index, e.target.value)} />;
 		}
 	}
-	console.log(editData)
 
 	return (
 		<>

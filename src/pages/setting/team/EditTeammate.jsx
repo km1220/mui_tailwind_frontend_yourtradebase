@@ -2,14 +2,14 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_TEAMMATES, UPDATE_ITEM_IN_TEAMMATES, LOADING } from '@store/actions';
+import {
+  SET_TEAMMATES, UPDATE_ITEM_IN_TEAMMATES,
+  LOADING, SET_ALERT
+} from '@store/actions';
 
+import { CheckCircleOutlined as CheckIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
 import {
-  AddCircleOutlined as AddIcon, AddOutlined, SearchOutlined as SearchIcon,
-  CheckCircleOutlined as CheckIcon, CancelOutlined as CancelIcon, DeleteOutlined as DeleteIcon
-} from '@mui/icons-material';
-import {
-  Box, Paper, Divider, Typography, Button, IconButton, Dialog, Select, MenuItem,
+  Divider, Typography, Button,
   Radio, Checkbox,
   alpha
 } from '@mui/material';
@@ -17,15 +17,11 @@ import { makeStyles, useTheme } from '@mui/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import clsx from 'clsx';
 
-import * as EmailValidator from 'email-validator';
-import 'react-phone-number-input/style.css';
-import PhoneInput from 'react-phone-number-input';
-
+// import * as EmailValidator from 'email-validator';
 import ItemComponent from '@components/price_list/ItemComponent';
-// import DraggablePaper from '../DraggablePaper';
 
 import { parseJSON } from '@utils';
-
+import AvatarColorList from './avatarColors.js';
 
 
 import Circle from '@uiw/react-color-circle';
@@ -160,8 +156,9 @@ export default function EditTeammatePage(props) {
   const [editCustomerData, setEditData] = useState(initialData);
   const [permissions, setPermissions] = useState(initailPermissions);
 
-  let colorList = ['#b9bac3', '#8f919d', '#4e5062', '#2b56cd', '#14234e', '#5ed9f5', '#14B8A6', '#fd5353', '#e33fa1', '#ff0099',];
-  if (smUpMatch) colorList = colorList.concat(['#44814e', '#004008', /* '#FFB020', '#ff984e', '#ff4a4a', '#880000', */]);
+  let colorList = AvatarColorList[0];
+  colorList = colorList.concat(AvatarColorList[1]);
+  if (smUpMatch) colorList = colorList.concat(AvatarColorList[2]);
 
 
 
@@ -173,7 +170,9 @@ export default function EditTeammatePage(props) {
         return;
       }
       let all_list = res.data.team_members.map(each => ({
-        ...each,
+        id: each.id,
+        name: each.name,
+        email: each.email,
         initialText: each.initial_text,
         initialColorHex: each.initial_color,
         role: each.role === 1 ? 'admin' : 'field_team',
@@ -202,7 +201,6 @@ export default function EditTeammatePage(props) {
     }
   }, [all_team_members]);
 
-  console.log('all_team_members', all_team_members)
 
   const onRoleChange = val => setEditData({ ...editCustomerData, role: val });
   const handleUpdateTeammate = () => {
@@ -214,6 +212,7 @@ export default function EditTeammatePage(props) {
       role: editCustomerData.role === 'admin' ? 1 : 2,
       permissions: editCustomerData.role === 'admin' ? JSON.stringify(permissions) : ''
     }
+    dispatch(LOADING(true));
     axios.put(`/team_members/${editCustomerData.id}`, updateData).then(res => {
       if (res.data.affectedRows) {
         dispatch(UPDATE_ITEM_IN_TEAMMATES({
@@ -223,10 +222,12 @@ export default function EditTeammatePage(props) {
           permissions: editCustomerData.role === 'admin' ? permissions : ''
         }));
         navigate('/setting/team');
+        dispatch(LOADING(false));
+        dispatch(SET_ALERT({ type: 'success', message: 'Update successfully!' }));
       }
     }).catch(err => {
-      if (err.response.status === 400) alert(err.response.data);
-      else if (err.response.status === 403) alert(err.response.data);
+      dispatch(LOADING(false));
+      dispatch(SET_ALERT({ type: 'error', message: err.response.data }));
     });
   };
 

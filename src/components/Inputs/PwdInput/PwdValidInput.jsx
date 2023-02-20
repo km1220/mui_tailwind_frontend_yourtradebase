@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import PropTypes from 'prop-types'
 import { Typography, InputAdornment, IconButton, Collapse } from '@mui/material';
-import { Visibility, VisibilityOff, CheckCircle as CheckCircleIcon, Cancel as CancelIcon } from '@mui/icons-material';
+import { Visibility, VisibilityOff, CheckCircle as CheckIcon, Cancel as CancelIcon } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { _isStrEmpty } from '@utils'
 
-import InputComponent from '@components/inputs/InputComponent'
+import PwdInputComponent from './PwdInputComponent'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -52,11 +52,16 @@ const ErrorItem = (props) => {
 }
 
 function PwdValidInput(props) {
-	const { className, /*placeholder, */ value, onChange, ...others } = props
+	const { className, /*placeholder, */ value, onChange, setIsPwdError = () => { }, ...others } = props
 	const classes = useStyles(props)
 	const [showPwd, setShowPwd] = useState(false)
 	const [ruleError, setRuleError] = useState(false)
 	const [errorLists, setErrorLists] = useState([])
+
+	useEffect(() => {
+		setIsPwdError(ruleError);
+	}, [ruleError]);
+
 
 	const handlePwdChange = e => {
 		onChange(e)
@@ -94,7 +99,7 @@ function PwdValidInput(props) {
 				classes.inputBase, _isStrEmpty(value) ? '' : ruleError ? 'error' : 'success',
 				'w-full flex items-center'
 			)}>
-				<InputComponent
+				<PwdInputComponent
 					value={value}
 					onChange={handlePwdChange}
 					type={showPwd ? 'text' : 'password'}
@@ -106,6 +111,7 @@ function PwdValidInput(props) {
 								onClick={() => setShowPwd(!showPwd)}
 								onMouseDown={e => e.preventDefault()}
 								edge="end"
+								tabIndex={-1}
 							>
 								{showPwd ? <VisibilityOff /> : <Visibility />}
 							</IconButton>
@@ -117,7 +123,7 @@ function PwdValidInput(props) {
 					_isStrEmpty(value) ? '' : ruleError ?
 						<CancelIcon className='pl-2 text-3xl sm:text-5xl' />
 						:
-						<CheckCircleIcon className='pl-2 text-3xl sm:text-5xl' />
+						<CheckIcon className='pl-2 text-3xl sm:text-5xl' />
 				}
 			</div>
 			<Collapse in={ruleError} component='ul' className={clsx(classes.errorLists)}>
