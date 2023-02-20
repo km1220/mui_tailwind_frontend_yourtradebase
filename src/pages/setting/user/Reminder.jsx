@@ -106,11 +106,12 @@ export default function ReminderPage(props) {
 
   return (
     <div className={classes.root}>
-      <Typography variant='body1'>Email reminders are being sent to: {user_data.email}.  
+      <Typography variant='body1'>Email reminders are being sent to: {user_data.email}.
         <Typography className='change-target-email ml-2' to='/setting/profile' component={Link} variant="subtitle2">
           Change your email address
         </Typography>
       </Typography>
+      <br />
       <div id='quote-section'>
         <Typography variant='h5'>Quote reminders</Typography>
         <Divider />

@@ -114,7 +114,7 @@ export default function ManageTeamPage(props) {
 	return (
 		<div className={classes.root}>
 			<div className={classes.ownerSection}>
-				<Typography variant='h5'>Owner</Typography>
+				<Typography variant='h4'>Owner</Typography>
 				<Divider />
 				<PermissionText flag={true}>
 					create and manage everything, including billing.

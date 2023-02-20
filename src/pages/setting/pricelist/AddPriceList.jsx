@@ -150,7 +150,7 @@ export default function AddPriceListPage(props) {
 		<>
 			<Box className={clsx(classes.root, 'min-h-screen')}>
 				<Typography variant='overline'>Price list</Typography>
-				<Typography variant='h5'>Add a price list item</Typography>
+				<Typography variant='h4'>Add a price list item</Typography>
 				<Typography variant='subtitle2'>Save work you do regularly to cost work faster.</Typography>
 				<Divider />
 

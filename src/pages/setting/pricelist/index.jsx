@@ -7,7 +7,7 @@ import {
 	LOADING
 } from '@store/actions';
 
-import { Button, List, ListItem, Typography } from '@mui/material';
+import { Button, List, ListItem, Typography, Divider } from '@mui/material';
 import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
@@ -123,6 +123,8 @@ export default function PriceListPage(props) {
 	return (
 		<>
 			<div>
+				<Typography variant='h4'>Price list</Typography>
+				<Divider /> <br />
 				<Button className='px-4 py-1 mb-4 rounded' onClick={() => navigate('/setting/price_list/new')} variant="contained" >
 					<AddIcon />Add a price list item
 				</Button>

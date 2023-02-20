@@ -6,7 +6,7 @@ import {
 	LOADING
 } from '@store/actions';
 
-import { Collapse, Button, List, ListItem, Typography } from '@mui/material';
+import { Collapse, Button, List, ListItem, Typography, Divider } from '@mui/material';
 import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
@@ -153,7 +153,9 @@ export default function LabourPage(props) {
 	return (
 		<>
 			<div>
-				<Collapse className='mb-4' in={showAddBox}>
+				<Typography variant='h4'>Labour rates</Typography>
+				<Divider /> <br />
+				<Collapse in={showAddBox}>
 					<LabourBox className={classes.itemDataBox}
 						itemData={newItemData} setItemData={setNewItemData}
 						saveBtnTitle="Add this labour rates" handleSave={handleAdd}
@@ -168,7 +170,7 @@ export default function LabourPage(props) {
 					:
 					""
 				}
-				<Collapse className='mb-4' in={showUpdateBox}>
+				<Collapse in={showUpdateBox}>
 					<LabourBox className={classes.itemDataBox}
 						itemData={updateItemData} setItemData={setUpdateItemData}
 						saveBtnTitle="Update this labour rates" handleSave={handleUpdate}

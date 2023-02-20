@@ -6,7 +6,7 @@ import {
 	LOADING
 } from '@store/actions';
 
-import { Collapse, Button, List, ListItem, Typography } from '@mui/material';
+import { Collapse, Button, List, ListItem, Typography, Divider } from '@mui/material';
 import { AddOutlined as AddIcon, SearchOutlined as SearchIcon, CancelOutlined as CancelIcon } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
@@ -153,7 +153,9 @@ export default function MaterialPage(props) {
 	return (
 		<>
 			<div>
-				<Collapse className='mb-4' in={showAddBox}>
+				<Typography variant='h4'>Materials</Typography>
+				<Divider /> <br />
+				<Collapse in={showAddBox}>
 					<MaterialBox className={classes.itemDataBox}
 						itemData={newItemData} setItemData={setNewItemData}
 						saveBtnTitle="Add this material" handleSave={handleAdd}
@@ -168,7 +170,7 @@ export default function MaterialPage(props) {
 					:
 					""
 				}
-				<Collapse className='mb-4' in={showUpdateBox}>
+				<Collapse in={showUpdateBox}>
 					<MaterialBox className={classes.itemDataBox}
 						itemData={updateItemData} setItemData={setUpdateItemData}
 						saveBtnTitle="Update this material" handleSave={handleUpdate}

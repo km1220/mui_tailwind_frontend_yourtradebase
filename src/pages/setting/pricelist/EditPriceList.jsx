@@ -176,7 +176,7 @@ export default function EditPriceListPage(props) {
 		<>
 			<Box className={clsx(classes.root, 'min-h-screen')}>
 				<Typography variant='overline'>Price list</Typography>
-				<Typography variant='h5'>Update a price list item</Typography>
+				<Typography variant='h4'>Update a price list item</Typography>
 				<Typography variant='subtitle2'>Save work you do regularly to cost work faster.</Typography>
 				<Divider />
 
