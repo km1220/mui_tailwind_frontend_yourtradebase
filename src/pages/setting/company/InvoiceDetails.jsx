@@ -30,8 +30,7 @@ const useStyles = makeStyles(theme => ({
 		'& > div:not(:last-child)': {
 			marginBottom: '2.5rem',
 		},
-	},
-	muiEditorRoot: { width: '100%' },
+	}
 }));
 
 export default function InvoiceDetailsPage(props) {

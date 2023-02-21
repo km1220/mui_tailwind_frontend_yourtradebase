@@ -32,6 +32,10 @@ const LogosPage = lazy(() => import('@pages/setting/company/Logos'));
 const QuoteDetailsPage = lazy(() => import('@pages/setting/company/QuoteDetails'));
 const InvoiceDetailsPage = lazy(() => import('@pages/setting/company/InvoiceDetails'));
 const ExtraCustomerInfoPage = lazy(() => import('@pages/setting/company/customer'));
+const EmailTemplatesPage = lazy(() => import('@pages/setting/template/email'));
+const AddEmailTemplatePage = lazy(() => import('@pages/setting/template/email/AddEmailTemplate'));
+const EditEmailTemplatePage = lazy(() => import('@pages/setting/template/email/EditEmailTemplate'));
+const NotificationsPage = lazy(() => import('@pages/setting/template/email')); ////////////////////////////////////////// !
 
 const MaterialsPage = lazy(() => import('@pages/setting/material'));
 const LabourRatesPage = lazy(() => import('@pages/setting/labour'));
@@ -104,7 +108,6 @@ function App(props) {
                   </Route>
                 </Route>
 
-
                 <Route element={<PrivateRoute />}>
                   <Route element={<DefaultLayout />}>
                     <Route path="dashboard" element={<DashboardPage />} />
@@ -136,6 +139,8 @@ function App(props) {
                       <Route path="quote" element={<QuoteDetailsPage />} />
                       <Route path="invoice" element={<InvoiceDetailsPage />} />
                       <Route path="customer/extra_info" element={<ExtraCustomerInfoPage />} />
+                      <Route path="template/email" element={<EmailTemplatesPage />} />
+                      <Route path="notification" element={<NotificationsPage />} />
 
                       <Route path="material" element={<MaterialsPage />} />
                       <Route path="labour_rate" element={<LabourRatesPage />} />
@@ -150,6 +155,8 @@ function App(props) {
                     <Route path="price_list/:id" element={<PriceListEditPage />} />
                     <Route path="team/new" element={<TeamAddPage />} />
                     <Route path="team/:id" element={<TeamEditPage />} />
+                    <Route path="template/email/new" element={<AddEmailTemplatePage />} />
+                    <Route path="template/email/:id" element={<EditEmailTemplatePage />} />
                   </Route>
                 </Route>
 

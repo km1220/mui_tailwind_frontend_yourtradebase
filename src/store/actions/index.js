@@ -75,6 +75,13 @@ export const ADD_ITEM_IN_TEAMMATES = (item) => ({ type: types.ADD_ITEM_IN_TEAMMA
 export const UPDATE_ITEM_IN_TEAMMATES = (item) => ({ type: types.UPDATE_ITEM_IN_TEAMMATES, payload: item });
 export const REMOVE_ITEM_IN_TEAMMATES = (id) => ({ type: types.REMOVE_ITEM_IN_TEAMMATES, payload: id });
 // =======================================================================================================
+
+// =======================================================================================================
+export const SET_TEMPLATE_EMAILS = (all_list) => ({ type: types.SET_TEMPLATE_EMAILS, payload: all_list });
+export const ADD_ITEM_IN_TEMPLATE_EMAILS = (item) => ({ type: types.ADD_ITEM_IN_TEMPLATE_EMAILS, payload: item });
+export const UPDATE_ITEM_IN_TEMPLATE_EMAILS = (item) => ({ type: types.UPDATE_ITEM_IN_TEMPLATE_EMAILS, payload: item });
+export const REMOVE_ITEM_IN_TEMPLATE_EMAILS = (id) => ({ type: types.REMOVE_ITEM_IN_TEMPLATE_EMAILS, payload: id });
+// =======================================================================================================
 // =======================================================================================================
 
 

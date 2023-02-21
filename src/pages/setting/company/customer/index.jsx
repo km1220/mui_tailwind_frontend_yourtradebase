@@ -163,8 +163,7 @@ export default function ExtraCustomerInfoPage(props) {
 	return (
 		<div className={classes.root}>
 			<div>
-				<Typography variant='h4'>Extra customer info</Typography>
-				<Divider />
+				<Typography variant='h5'>Extra customer info</Typography>
 				<Typography variant='body1' color='text.secondary'>Extra customer info lets you store custom details about your customers.</Typography>
 				<BadgeComponent text='Find out how'>
 					<Typography variant='body1' color='text.secondary'>This info can be added when you create/edit a customer and is shown in the customer's profile.</Typography>

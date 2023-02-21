@@ -47,12 +47,12 @@ export default function ReminderPage(props) {
   const _getUserReminders = () => {
     axios.get(`/reminders/${user_data.id}/`).then(res => {
       console.log(res);
-      if (!res.data.id) {
+      if (!res.data.user_id) {
         alert('Getting REMINDERs data Error!');
         return;
       }
       let resultData = {
-        id: res.data.id,
+        id: res.data.user_id,
         quoteUnsent: res.data.quote_unsent, quoteNeedFollowUp: res.data.quote_need_follow_up,
         invoiceUnsent: res.data.invoice_unsent, invoiceOverdue: res.data.invoice_overdue,
         summaryDailyEmail: res.data.summary_daily_email ? true : false,

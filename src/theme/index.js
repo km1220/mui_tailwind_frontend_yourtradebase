@@ -60,6 +60,10 @@ export const theme = createTheme({
         root: {
           border: `1px solid #c8cfd7`,
           borderRadius: '0.25rem',
+          '& #mui-rte-Save-button': {
+            border: '3px solid',
+            borderRadius: '0.25rem'
+          },
           '& ol, ul, menu': {
             margin: 0,
             marginLeft: '1rem',

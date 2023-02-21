@@ -71,6 +71,13 @@ export const ADD_ITEM_IN_TEAMMATES = 'ADD_ITEM_IN_TEAMMATES';
 export const UPDATE_ITEM_IN_TEAMMATES = 'UPDATE_ITEM_IN_TEAMMATES';
 export const REMOVE_ITEM_IN_TEAMMATES = 'REMOVE_ITEM_IN_TEAMMATES';
 // =======================================================================================================
+
+// =======================================================================================================
+export const SET_TEMPLATE_EMAILS = 'SET_TEMPLATE_EMAILS';
+export const ADD_ITEM_IN_TEMPLATE_EMAILS = 'ADD_ITEM_IN_TEMPLATE_EMAILS';
+export const UPDATE_ITEM_IN_TEMPLATE_EMAILS = 'UPDATE_ITEM_IN_TEMPLATE_EMAILS';
+export const REMOVE_ITEM_IN_TEMPLATE_EMAILS = 'REMOVE_ITEM_IN_TEMPLATE_EMAILS';
+// =======================================================================================================
 // =======================================================================================================
 
 
