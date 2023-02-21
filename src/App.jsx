@@ -27,14 +27,19 @@ const ProfilePage = lazy(() => import('@pages/setting/user'));
 const ChangePwdPage = lazy(() => import('@pages/setting/user/ChangePwd'));
 const ReminderPage = lazy(() => import('@pages/setting/user/Reminder'));
 
+const CompanyTaxPage = lazy(() => import('@pages/setting/company/CompanyTax'));
+const LogosPage = lazy(() => import('@pages/setting/company/Logos'));
+
 const MaterialsPage = lazy(() => import('@pages/setting/material'));
 const LabourRatesPage = lazy(() => import('@pages/setting/labour'));
 const PriceListPage = lazy(() => import('@pages/setting/pricelist'));
 const PriceListAddPage = lazy(() => import('@pages/setting/pricelist/AddPriceList'));
 const PriceListEditPage = lazy(() => import('@pages/setting/pricelist/EditPriceList'));
+
 const TeamManagePage = lazy(() => import('@pages/setting/team'));
 const TeamAddPage = lazy(() => import('@pages/setting/team/AddTeammate'));
 const TeamEditPage = lazy(() => import('@pages/setting/team/EditTeammate'));
+
 const AccountManagePage = lazy(() => import('@pages/setting/account'));
 
 
@@ -122,6 +127,9 @@ function App(props) {
                       <Route path="profile" /* index */ element={<ProfilePage />} />
                       <Route path="change_password" element={<ChangePwdPage />} />
                       <Route path="reminder" element={<ReminderPage />} />
+
+                      <Route path="company_tax" element={<CompanyTaxPage />} />
+                      <Route path="logo" element={<LogosPage />} />
 
                       <Route path="material" element={<MaterialsPage />} />
                       <Route path="labour_rate" element={<LabourRatesPage />} />

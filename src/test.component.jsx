@@ -1,46 +1,27 @@
-import React, { useState } from 'react';
-// import { Editor, EditorState } from 'draft-js';
+import React from 'react';
+import {useDropzone} from 'react-dropzone';
 
-// const SimpleEditorExample = () => {
-//   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-//   return (
-//     <div>
-//       <h1>dsaf ksad sl jdl</h1>
-//       <Editor
-//         editorState={editorState}
-//         onChange={setEditorState}
-//       />
-//     </div>
-//   );
-// }
-// export default SimpleEditorExample
+function Basic(props) {
+  const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
+  
+  const files = acceptedFiles.map(file => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
+  ));
 
-import MUIRichTextEditor from "mui-rte";
-
-
-export default () => {
-  const [state, setState] = useState({
-    key: "defaultKey",
-    value: "defaultContent"
-  })
-
-  let xxx;
-  console.log("xxx ?? '123123'")
-  console.log(xxx ?? '123123')
   return (
-    <>
-      <button onClick={() => setState({
-        key: "newKey",
-        value: "newContent"
-      })}>
-        Simulate new value arrived
-      </button>
-      <MUIRichTextEditor
-        key={state.key}
-        value={state.value}
-
-        label="Type something here..."
-      />
-    </>
-  )
+    <section className="container">
+      <div {...getRootProps({className: 'dropzone'})}>
+        <input {...getInputProps()} />
+        <p>Drag 'n' drop some files here, or click to select files</p>
+      </div>
+      <aside>
+        <h4>Files</h4>
+        <ul>{files}</ul>
+      </aside>
+    </section>
+  );
 }
+
+export default Basic

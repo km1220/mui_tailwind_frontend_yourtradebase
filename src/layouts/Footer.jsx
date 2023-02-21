@@ -7,7 +7,7 @@ import { Button, Typography, Divider } from '@mui/material'
 import { makeStyles, styled } from '@mui/styles'
 import clsx from 'clsx'
 
-import Logo from '@assets/imgs/app-logo.png'
+// import Logo from '@assets/imgs/app-logo.png'
 
 const useStyles = makeStyles(theme => ({
 	root: {

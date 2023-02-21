@@ -14,7 +14,7 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    '& > div:not(:first-child, :last-child)': {
+    '& > *:not(:first-child, :last-child)': {
       marginBottom: '2.5rem',
     },
     '& > div:not(:first-child, :last-child)': {
@@ -106,10 +106,8 @@ export default function ReminderPage(props) {
   return (
     <div className={classes.root}>
       <div className='flex items-baseline'>
-        <Typography className='flex' variant='body1'>Email reminders are being sent to:
-          <Typography className='ml-2' variant='subtitle1'>{user_data.email}</Typography>
-          .
-        </Typography>
+        <Typography className='flex' variant='body1'>Email reminders are being sent to: </Typography>
+        <Typography className='ml-2' variant='subtitle1'>{user_data.email}</Typography>
         <Typography className='ml-2' to='/setting/profile' component={Link} variant="subtitle2" color='info.dark'>Change your email address</Typography>
       </div>
       <br />
