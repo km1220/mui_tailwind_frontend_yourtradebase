@@ -202,7 +202,7 @@ const PermissionText = (props) => {
 			<Typography className='permission-title' variant='subtitle1'>
 				{!flag ? 'Can\'t... ' : 'Can... '}
 			</Typography>
-			<Typography className='permission-text' variant='body2'>
+			<Typography className='permission-text' variant='body2' color="text.secondary">
 				{text}
 			</Typography>
 		</div>

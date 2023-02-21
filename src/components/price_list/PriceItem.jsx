@@ -21,7 +21,7 @@ const PriceItem = ({ className, label, onClick, children, ...others }) => {
 
 	return (
 		<div className={clsx(classes.root, className)} onClick={onClick}>
-			<Typography variant='body2'>{label}</Typography>
+			<Typography variant='body2' color="text.secondary">{label}</Typography>
 			<div style={{ flexGrow: 1 }} />
 
 			{children}

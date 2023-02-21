@@ -63,7 +63,7 @@ export default function CompanyTax(props) {
 				<Typography variant='subtitle2'>Company name</Typography>
 				<ItemComponent>
 					<input
-					// value={oldPwd} onChange={e => setOldPwd(e.target.value)} 
+					
 					/>
 				</ItemComponent>
 			</div>

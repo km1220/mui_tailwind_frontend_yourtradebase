@@ -425,7 +425,7 @@ export default function EditTeammatePage(props) {
           <Checkbox size='large' defaultChecked sx={{ p: 0, pr: 1 }} />
           <Typography variant='h6'>Email an invite to this team member</Typography>
         </span>
-        <Typography variant='body2'>An invite allows this team member to choose a password and sign in to your account.
+        <Typography variant='body2' color="text.secondary">An invite allows this team member to choose a password and sign in to your account.
           You can also send (or re-send) invites later.</Typography>
       </div>
 

@@ -156,8 +156,8 @@ export default function CustomerPage(props) {
               <ListItem className={classes.customerItem} key={each.id}>
                 <div className='flex flex-col'>
                   <Typography variant='h5'>Friendly name: {each.friendly_name} <Typography variant='caption'>Full name: {each.full_name}</Typography></Typography>
-                  <Typography variant='body2'>Company: {each.company_name}</Typography>
-                  <Typography variant='body2'>Address: {each.address} <Typography variant='caption'>Postcode: {each.post_code}</Typography></Typography>
+                  <Typography variant='body2' color="text.secondary">Company: {each.company_name}</Typography>
+                  <Typography variant='body2' color="text.secondary">Address: {each.address} <Typography variant='caption'>Postcode: {each.post_code}</Typography></Typography>
                 </div>
                 <div style={{ flexGrow: 1 }} />
                 <div className='flex flex-col self-end'>

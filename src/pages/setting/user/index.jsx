@@ -164,7 +164,7 @@ export default function ProfilePage(props) {
 				<br />
 				<div>
 					<Typography variant='subtitle1'>Your email signature</Typography>
-					<MUIRichTextEditor label="Type something here..."
+					<MUIRichTextEditor label="Type your signature here..."
 						value={profileData.sign}
 						onSave={val => setProfileData({ ...profileData, sign: val })}
 					/>

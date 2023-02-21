@@ -29,6 +29,9 @@ const ReminderPage = lazy(() => import('@pages/setting/user/Reminder'));
 
 const CompanyTaxPage = lazy(() => import('@pages/setting/company/CompanyTax'));
 const LogosPage = lazy(() => import('@pages/setting/company/Logos'));
+const QuoteDetailsPage = lazy(() => import('@pages/setting/company/QuoteDetails'));
+const InvoiceDetailsPage = lazy(() => import('@pages/setting/company/InvoiceDetails'));
+const ExtraCustomerInfoPage = lazy(() => import('@pages/setting/company/customer'));
 
 const MaterialsPage = lazy(() => import('@pages/setting/material'));
 const LabourRatesPage = lazy(() => import('@pages/setting/labour'));
@@ -130,6 +133,9 @@ function App(props) {
 
                       <Route path="company_tax" element={<CompanyTaxPage />} />
                       <Route path="logo" element={<LogosPage />} />
+                      <Route path="quote" element={<QuoteDetailsPage />} />
+                      <Route path="invoice" element={<InvoiceDetailsPage />} />
+                      <Route path="customer/extra_info" element={<ExtraCustomerInfoPage />} />
 
                       <Route path="material" element={<MaterialsPage />} />
                       <Route path="labour_rate" element={<LabourRatesPage />} />

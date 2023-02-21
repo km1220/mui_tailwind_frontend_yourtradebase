@@ -155,7 +155,7 @@ export default function LabourPage(props) {
 			<div>
 				<Typography variant='h4'>Labour rates</Typography>
 				<Divider /> <br />
-				<Collapse in={showAddBox}>
+				<Collapse in={showAddBox} className='pb-8'>
 					<LabourBox className={classes.itemDataBox}
 						itemData={newItemData} setItemData={setNewItemData}
 						saveBtnTitle="Add this labour rates" handleSave={handleAdd}

@@ -60,7 +60,6 @@ export const theme = createTheme({
         root: {
           border: `1px solid #c8cfd7`,
           borderRadius: '0.25rem',
-          marginTop: '1rem',
           '& ol, ul, menu': {
             margin: 0,
             marginLeft: '1rem',
@@ -231,7 +230,7 @@ export const theme = createTheme({
       lineHeight: 1.5
     },
     body2: {
-      fontFamily: 'monospace',
+      fontFamily: 'system-ui, san-serif',
       fontSize: '0.875rem',
       fontWeight: 400,
       lineHeight: 1.57

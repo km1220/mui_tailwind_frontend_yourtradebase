@@ -15,6 +15,7 @@ import clsx from 'clsx';
 import { useDropzone } from 'react-dropzone';
 import DraggablePaper from '../DraggablePaper';
 import ImageUploadBox from '@components/ImageUploadDropzone';
+import BadgeComponent from '@components/BadgeComponent';
 
 
 const useStyles = makeStyles(theme => ({
@@ -129,12 +130,9 @@ export default function Logos(props) {
 			<div className=''>
 				<Typography variant='subtitle1'>Compnay logo</Typography>
 				<Typography variant='body1'>Drag and drop a logo below or click to upload a logo from your computer.</Typography>
-				<div className='flex'>
+				<BadgeComponent text='Need help?'>
 					<Typography variant='body1'>Your logo appears on all paperwork.</Typography>
-					<Typography className='flex items-center' variant='subtitle2' sx={{ backgroundColor: 'info.light', px: 0.25, py: 0, borderRadius: 0.5, ml: 1 }}>
-						<DescriptionOutlined fontSize='1' sx={{ mr: 0.5 }} /> Need help?
-					</Typography>
-				</div>
+				</BadgeComponent>
 			</div>
 			<div className='flex flex-col justify-center items-center w-fit'>
 				<div className={classes.uploadDropzone}

@@ -155,7 +155,7 @@ export default function MaterialPage(props) {
 			<div>
 				<Typography variant='h4'>Materials</Typography>
 				<Divider /> <br />
-				<Collapse in={showAddBox}>
+				<Collapse in={showAddBox} className='pb-8'>
 					<MaterialBox className={classes.itemDataBox}
 						itemData={newItemData} setItemData={setNewItemData}
 						saveBtnTitle="Add this material" handleSave={handleAdd}

@@ -145,7 +145,7 @@ export default function QuotePage(props) {
               <ListItem className={classes.quoteItem} key={each.id}>
                 <div className='flex flex-col'>
                   <Typography variant="subtitle1">Company: {each.company_name}</Typography>
-                  <Typography variant='body2'>Building number: {each.building_number} <Typography variant='caption'>Postcode: {each.post_code}</Typography></Typography>
+                  <Typography variant='body2' color="text.secondary">Building number: {each.building_number} <Typography variant='caption'>Postcode: {each.post_code}</Typography></Typography>
                 </div>
                 <div style={{ flexGrow: 1 }} />
                 <div className='flex flex-col self-end'>

@@ -30,6 +30,7 @@ const SideBarList = styled(List)(({ theme }) => ({
 		background: theme.palette.common.black,
 	},
 	'& .MuiListItemButton-root': {
+		fontFamily: '-apple-system',
 		padding: '0.5rem 1.5rem',
 		[theme.breakpoints.down('md')]: {
 			padding: '0.5rem',
@@ -93,7 +94,7 @@ export default function DefaultLayout(props) {
 			<SideBarLink to="/setting/logo" title="Logos" Icon={FitbitOutlined} />
 			<SideBarLink to="/setting/quote" title="Quotes" Icon={DraftsOutlined} />
 			<SideBarLink to="/setting/invoice" title="Invoices" Icon={DescriptionOutlined} />
-			<SideBarLink to="/setting/customer" title="Customers" Icon={WcOutlined} />
+			<SideBarLink to="/setting/customer/extra_info" title="Customers" Icon={WcOutlined} />
 			<SideBarLink to="/setting/email_template" title="Email templates" Icon={AttachEmailOutlined} />
 			<SideBarLink to="/setting/notification" title="Notifications" Icon={MessageOutlined} />
 
