@@ -90,7 +90,7 @@ export default function ExtraCustomerInfoPage(props) {
 		dispatch(LOADING(true));
 		axios.get('/customer/extra_infos').then(res => {
 			if (!res.data.extra_infos) {
-				alert('Getting LABOUR data Error!');
+				alert('Getting Extra Infos data Error!');
 				return;
 			}
 			dispatch(SET_CUSTOMER_EXTRA_INFOS(res.data.extra_infos));

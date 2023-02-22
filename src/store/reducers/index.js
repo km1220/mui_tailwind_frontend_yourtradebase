@@ -2,8 +2,9 @@ import { combineReducers } from 'redux';
 import loading from './loading';
 import alert from './alert';
 
-import user_info from './user_info';
-import reminders from './reminders';
+import user_info from './user/user_info';
+import reminders from './user/reminders';
+import notifications from './user/notifications';
 
 import materialLabourList from './pricelist/material_labour_list';
 import priceLists from './pricelist/price_lists';
@@ -22,15 +23,16 @@ import email_templates from './template/email.js';
 const rootReducer = combineReducers({
     loading_status: loading,
     alert: alert,
-    
+
     user: user_info,
     reminders,
+    notifications,
 
     material_labour_list: materialLabourList,
     price_lists: priceLists,
     materials,
     labours,
-    
+
     customers,
     customer_extra_infos: extra_infos,
 

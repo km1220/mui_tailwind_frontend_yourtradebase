@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
-import { RESET_USER_INFO, RESET_USER_REMINDERS } from '@store/actions'
+import { RESET_USER_INFO, RESET_USER_NOTIFICATIONS, RESET_USER_REMINDERS } from '@store/actions'
 
 import { Button, Typography, Avatar, Popover, List, ListItemButton, ListItemIcon, ListItemText, Collapse } from '@mui/material'
 // import { createTheme } from '@mui/material';
@@ -121,6 +121,7 @@ export default function Header(props) {
 	const handleLogout = () => {
 		dispatch(RESET_USER_INFO());
 		dispatch(RESET_USER_REMINDERS());
+		dispatch(RESET_USER_NOTIFICATIONS());
 	};
 
 	return (
@@ -177,7 +178,7 @@ export default function Header(props) {
 								<ListItemIcon> <GroupOutlined /> </ListItemIcon>
 								<ListItemText primary="Manage Team" />
 							</ListItemButton>
-							<ListItemButton component={Link} to="/setting/profile">
+							<ListItemButton component={Link} to="/setting/account">
 								<ListItemIcon> <AccountCircleOutlined /> </ListItemIcon>
 								<ListItemText primary="Manage Account" />
 							</ListItemButton>

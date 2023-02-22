@@ -35,7 +35,7 @@ const ExtraCustomerInfoPage = lazy(() => import('@pages/setting/company/customer
 const EmailTemplatesPage = lazy(() => import('@pages/setting/template/email'));
 const AddEmailTemplatePage = lazy(() => import('@pages/setting/template/email/AddEmailTemplate'));
 const EditEmailTemplatePage = lazy(() => import('@pages/setting/template/email/EditEmailTemplate'));
-const NotificationsPage = lazy(() => import('@pages/setting/template/email')); ////////////////////////////////////////// !
+const NotificationsPage = lazy(() => import('@pages/setting/company/notification')); ////////////////////////////////////////// !
 
 const MaterialsPage = lazy(() => import('@pages/setting/material'));
 const LabourRatesPage = lazy(() => import('@pages/setting/labour'));
@@ -83,7 +83,7 @@ function App(props) {
     isLoading: state.loading_status,
     alert: state.alert
   }));
-  console.log('redux data: ', userData, isLoading, alert);
+  // console.log('redux data: ', userData, isLoading, alert);
 
   return (
     <Suspense fallback={<Loading />}>

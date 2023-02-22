@@ -1,4 +1,4 @@
-import { SET_USER_REMINDERS, RESET_USER_REMINDERS } from '../actions/ActionTypes';
+import { SET_USER_REMINDERS, RESET_USER_REMINDERS } from '../../actions/ActionTypes';
 
 
 const initialState = {
@@ -13,7 +13,7 @@ const initialState = {
 
 
 
-export default function user_info(state = initialState, action) {
+export default (state = initialState, action) => {
   switch (action.type) {
     case SET_USER_REMINDERS:
       return {

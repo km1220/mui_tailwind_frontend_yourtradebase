@@ -155,9 +155,13 @@ export const theme = createTheme({
       contrastText: '#FFFFFF'
     },
     success: {
-      main: '#13a538',
-      light: '#9fc5a5',
-      dark: '#086e1a',
+      main: '#33cf4d',
+      light: '#65C466',
+      dark: '#2ECA45',
+
+      // main: '#13a538',
+      // light: '#9fc5a5',
+      // dark: '#086e1a', 
       contrastText: '#FFFFFF'
     },
     info: {
@@ -189,7 +193,11 @@ export const theme = createTheme({
       primary: '#121828',
       secondary: '#65748B',
       disabled: 'rgba(55, 65, 81, 0.48)'
-    }
+    },
+    role: {
+      admin: '#1F2937',
+      fieldTeam: '#D1D5DB',
+    },
   },
   shape: {
     borderRadius: 8

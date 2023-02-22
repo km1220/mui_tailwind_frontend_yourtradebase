@@ -1,4 +1,5 @@
 
+export * from './avatar.js';
 export * from './price.js';
 
 export const _strCapitalize = str => {
@@ -29,7 +30,7 @@ export const validateEmail = (email) => {
 
 // export const parseJSON = (str, isArray = true) => {
 // 	let result;
-	// try {
+// try {
 // 		result = JSON.parse(str);
 // 		if (typeof result === "object")
 // 			return result;
@@ -37,9 +38,9 @@ export const validateEmail = (email) => {
 // 			result = !isArray ? {} : []
 // 			return result;
 // 		}
-	// } catch (e) {
-	// 	return result;
-	// }
+// } catch (e) {
+// 	return result;
+// }
 // }
 export const parseJSON = (str, isArray = true) => {
 	try {

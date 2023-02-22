@@ -73,7 +73,7 @@ export default function EmailTemplatePage(props) {
 		dispatch(LOADING(true));
 		axios.get('/templates/email').then(res => {
 			if (!res.data.email_templates) {
-				alert('Getting Price list data Error!');
+				alert('Getting EMAIL Templates data Error!');
 				return;
 			}
 			let all_list = res.data.email_templates.map(each => ({

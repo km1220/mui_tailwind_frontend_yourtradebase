@@ -17,7 +17,7 @@ import clsx from 'clsx';
 const useStyles = makeStyles(theme => ({
 	root: {
 		'& .nav-header': {
-			padding: '0 1.5rem',
+
 		}
 	}
 }));
@@ -28,6 +28,12 @@ const SideBarList = styled(List)(({ theme }) => ({
 		borderColor: theme.palette.common.black,
 		color: theme.palette.common.black,
 		background: theme.palette.common.black,
+	},
+	'& .nav-header': {
+		padding: '0 1.5rem',
+		[theme.breakpoints.down('md')]: {
+			display: 'none',
+		},
 	},
 	'& .MuiListItemButton-root': {
 		fontFamily: '-apple-system',
@@ -80,7 +86,8 @@ const SideBarLink = ({ to, Icon, title, children }) => {
 
 export default function DefaultLayout(props) {
 	const classes = useStyles(props);
-	return <div id="setting-side-bar" className={clsx(classes.root, 'mx-8')}>
+	const { className, ...others } = props;
+	return <div id="setting-side-bar" className={clsx(classes.root, className)} {...others}>
 		<SideBarList>
 			<Divider />
 			<Typography className='nav-header' variant='overline'>You</Typography>

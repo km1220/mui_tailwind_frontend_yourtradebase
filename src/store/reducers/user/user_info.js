@@ -1,4 +1,4 @@
-import { SET_USER_INFO, RESET_USER_INFO } from '../actions/ActionTypes';
+import { SET_USER_INFO, RESET_USER_INFO } from '../../actions/ActionTypes';
 
 
 
@@ -23,7 +23,7 @@ const initialState_2 = {
 
 
 
-export default function user_info(state = initialState_2, action) {
+export default (state = initialState_2, action) => {
   switch (action.type) {
     case SET_USER_INFO:
       return {

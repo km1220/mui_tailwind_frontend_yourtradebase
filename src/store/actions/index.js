@@ -12,8 +12,12 @@ export const RESET_ALERT = () => ({ type: types.RESET_ALERT });
 // =======================================================================================================
 export const SET_USER_INFO = (data) => ({ type: types.SET_USER_INFO, payload: data });
 export const RESET_USER_INFO = () => ({ type: types.RESET_USER_INFO });
+// -------------------------------------------------------------------------------------------------------
 export const SET_USER_REMINDERS = (data) => ({ type: types.SET_USER_REMINDERS, payload: data });
 export const RESET_USER_REMINDERS = () => ({ type: types.RESET_USER_REMINDERS });
+// -------------------------------------------------------------------------------------------------------
+export const SET_USER_NOTIFICATIONS = (data) => ({ type: types.SET_USER_NOTIFICATIONS, payload: data });
+export const RESET_USER_NOTIFICATIONS = () => ({ type: types.RESET_USER_NOTIFICATIONS });
 // =======================================================================================================
 
 

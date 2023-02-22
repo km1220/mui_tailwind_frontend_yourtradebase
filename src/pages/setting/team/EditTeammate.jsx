@@ -164,7 +164,7 @@ export default function EditTeammatePage(props) {
 
   const _getAllTeammates = () => {
     dispatch(LOADING(true));
-    axios.get('/team_members').then(res => {
+    axios.get('/team_members', { params: { user_id: userData.id } }).then(res => {
       if (!res.data.team_members) {
         alert('Getting TEAM members data Error!');
         return;
