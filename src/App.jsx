@@ -35,7 +35,7 @@ const ExtraCustomerInfoPage = lazy(() => import('@pages/setting/company/customer
 const EmailTemplatesPage = lazy(() => import('@pages/setting/template/email'));
 const AddEmailTemplatePage = lazy(() => import('@pages/setting/template/email/AddEmailTemplate'));
 const EditEmailTemplatePage = lazy(() => import('@pages/setting/template/email/EditEmailTemplate'));
-const NotificationsPage = lazy(() => import('@pages/setting/company/notification')); ////////////////////////////////////////// !
+const NotificationsPage = lazy(() => import('@pages/setting/company/notification'));
 
 const MaterialsPage = lazy(() => import('@pages/setting/material'));
 const LabourRatesPage = lazy(() => import('@pages/setting/labour'));
@@ -43,10 +43,15 @@ const PriceListPage = lazy(() => import('@pages/setting/pricelist'));
 const PriceListAddPage = lazy(() => import('@pages/setting/pricelist/AddPriceList'));
 const PriceListEditPage = lazy(() => import('@pages/setting/pricelist/EditPriceList'));
 
+const AutoMsgsPage = lazy(() => import('@pages/setting/powerup/AutoMsgs'));
+const StripePage = lazy(() => import('@pages/setting/powerup/Stripe'));
+const XeroPage = lazy(() => import('@pages/setting/powerup/Xero'));
+const QuickBooksPage = lazy(() => import('@pages/setting/powerup/QuickBooks'));
+
+
 const TeamManagePage = lazy(() => import('@pages/setting/team'));
 const TeamAddPage = lazy(() => import('@pages/setting/team/AddTeammate'));
 const TeamEditPage = lazy(() => import('@pages/setting/team/EditTeammate'));
-
 const AccountManagePage = lazy(() => import('@pages/setting/account'));
 
 
@@ -145,6 +150,13 @@ function App(props) {
                       <Route path="material" element={<MaterialsPage />} />
                       <Route path="labour_rate" element={<LabourRatesPage />} />
                       <Route path="price_list" element={<PriceListPage />} />
+
+                      <Route path="automation_categories" element={<AutoMsgsPage />} />
+                      <Route path="stripe/connection" element={<StripePage />} />
+                      <Route path="xero/connection" element={<XeroPage />} />
+                      <Route path="quickbooks/connection" element={<QuickBooksPage />} />
+
+
                       <Route path="team" element={<TeamManagePage />} />
                       <Route path="account" element={<AccountManagePage />} />
 

@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 
 
 const SideBarList = styled(List)(({ theme }) => ({
+	'&.MuiList-root': { padding: 0 },
 	'& .MuiDivider-root': {
 		borderColor: theme.palette.common.black,
 		color: theme.palette.common.black,

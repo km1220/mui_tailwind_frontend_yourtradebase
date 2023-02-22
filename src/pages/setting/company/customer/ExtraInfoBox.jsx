@@ -49,7 +49,7 @@ function ExtraCustomerInfoBox(props) {
 					<Typography variant='h5'>Want to add some extra customer info? Here goes.</Typography>
 					<br />
 					<Typography variant='subtitle1'>Choose a name for this extra info</Typography>
-					<Typography variant='body1' color='text.secondary'>What extra info do you want to capture for your customers? For example: Referral source</Typography>
+					<Typography variant='body1'>What extra info do you want to capture for your customers? For example: Referral source</Typography>
 				</div>
 				<ItemComponent className="w-full">
 					<textarea value={itemData.data} onChange={(e) => setItemData({ ...itemData, data: e.target.value })} />

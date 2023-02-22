@@ -108,9 +108,9 @@ export default function EmailTemplatePage(props) {
 		<div className={classes.root}>
 			<div>
 				<Typography variant='h5'>Your email templates</Typography>
-				<Typography variant='body1' color='text.secondary'>Email templates make it really quick to write the emails you regularly send.</Typography>
+				<Typography variant='body1'>Email templates make it really quick to write the emails you regularly send.</Typography>
 				<BadgeComponent text='View tags'>
-					<Typography variant='body1' color='text.secondary'>Use <b className='tags'>{`{{tags}}`}</b> to add details to emails automatically.</Typography>
+					<Typography variant='body1'>Use <b className='tags'>{`{{tags}}`}</b> to add details to emails automatically.</Typography>
 				</BadgeComponent>
 			</div>
 
@@ -125,7 +125,7 @@ export default function EmailTemplatePage(props) {
 							<ListItem className={classes.emailTemplateItem} key={each.id}>
 								<div className='flex flex-col grow'>
 									<Typography variant="h6">{each.name}</Typography>
-									<Typography variant="body1">{each.subject}</Typography>
+									{/* <Typography variant="body1">{each.subject}</Typography> */}
 								</div>
 
 								<div className={classes.actionBar}>

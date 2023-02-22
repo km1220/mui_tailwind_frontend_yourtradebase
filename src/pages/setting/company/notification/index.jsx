@@ -138,8 +138,8 @@ export default function NotificationsPage(props) {
 		<div className={classes.root}>
 			<div>
 				<Typography variant='h5'>Who receives notifications?</Typography>
-				<Typography variant='body1' color='text.secondary'>Choose which admin team members are notified when certain actions happen.</Typography>
-				<Typography variant='body1' color='text.secondary'><LockOutlined fontSize='1' /> Only account owners can make changes to notifications.</Typography>
+				<Typography variant='body1'>Choose which admin team members are notified when certain actions happen.</Typography>
+				<Typography variant='body1'><LockOutlined fontSize='1' /> Only account owners can make changes to notifications.</Typography>
 				<BadgeComponent text='More about notifications' style={{ margin: '0', marginTop: '0.5rem' }} />
 			</div>
 

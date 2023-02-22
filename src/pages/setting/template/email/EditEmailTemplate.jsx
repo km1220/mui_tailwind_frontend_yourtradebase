@@ -94,7 +94,7 @@ export default function EditEmailTemplate(props) {
 			<div>
 				<Typography variant='h5'>Edit this email template</Typography>
 				<BadgeComponent text='View tags'>
-					<Typography variant='body1' color='text.secondary'>Use <b className='tags'>{`{{tags}}`}</b> to add details to emails automatically.</Typography>
+					<Typography variant='body1'>Use <b className='tags'>{`{{tags}}`}</b> to add details to emails automatically.</Typography>
 				</BadgeComponent>
 			</div>
 

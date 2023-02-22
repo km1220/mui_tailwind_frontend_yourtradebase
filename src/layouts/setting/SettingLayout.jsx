@@ -10,6 +10,8 @@ import clsx from 'clsx';
 const useStyles = makeStyles(theme => ({
 	body: {
 		minWidth: '70%',
+		// height: `calc(100vh - 56px)`,
+
 		display: 'flex',
 		justifyContent: 'center',
 		flexGrow: 1,
@@ -17,10 +19,18 @@ const useStyles = makeStyles(theme => ({
 	},
 	settingSideBar: {
 		maxWidth: '25vw',
+		height: `calc(100vh - 56px - 64px)`,
+		overflow: 'auto',
+
 		marginRight: '3rem',
 		[theme.breakpoints.down('md')]: {
 			marginRight: '2rem',
-		}
+		},
+
+		'&::-webkit-scrollbar': { width: '1px', height: '1px' },
+		'&::-webkit-scrollbar-track': { background: '#bbb' },
+		'&::-webkit-scrollbar-thumb': { background: '#004008' },
+		'&::-webkit-scrollbar-thumb:hover': { background: '#333' },
 	},
 	settingContent: {
 		maxWidth: '65vw',

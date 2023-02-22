@@ -154,6 +154,12 @@ export const theme = createTheme({
       // dark: '#004008',
       contrastText: '#FFFFFF'
     },
+    tertiary: {
+      main: '#5c3383',
+      light: '#9b31ff',
+      dark: '#41007e',
+      contrastText: '#FFFFFF'
+    },
     success: {
       main: '#33cf4d',
       light: '#65C466',
@@ -237,6 +243,7 @@ export const theme = createTheme({
     // fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
     body1: {
       fontFamily: 'system-ui, san-serif',
+      color: '#65748B',
       fontSize: '1rem',
       fontWeight: 400,
       lineHeight: 1.5
@@ -265,7 +272,7 @@ export const theme = createTheme({
       textTransform: 'uppercase'
     },
     caption: {
-      color: '#3d4b59',
+      color: '#484c52',
       fontSize: '0.75rem',
       fontWeight: 400,
       lineHeight: 1.66
