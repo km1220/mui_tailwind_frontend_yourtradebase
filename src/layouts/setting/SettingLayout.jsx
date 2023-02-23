@@ -19,8 +19,8 @@ const useStyles = makeStyles(theme => ({
 	},
 	settingSideBar: {
 		maxWidth: '25vw',
-		height: `calc(100vh - 56px - 64px)`,
-		overflow: 'auto',
+		// height: `calc(100vh - 56px - 64px)`,
+		// overflow: 'auto',
 
 		marginRight: '3rem',
 		[theme.breakpoints.down('md')]: {

@@ -46,7 +46,7 @@ import Logo from '@assets/imgs/app-logo.svg';
 const HeaderBtn = props => {
 	const { className, style, children, ...others } = props
 	return React.createElement(Button, {
-		className: clsx("px-2 py-1 md:px-4 md:py-2 text-xs", className), component: props.to ? Link : 'button',
+		className: clsx("whitespace-nowrap px-2 py-1 md:px-4 md:py-2 text-xs", className), component: props.to ? Link : 'button',
 		variant: "outlined", color: "inherit",
 		style: {
 			fontFamily: 'revert',
