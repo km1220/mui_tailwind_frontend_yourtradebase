@@ -1,7 +1,6 @@
 {
   "name": "frontend",
   "private": true,
-  "homepage": "https://68.178.165.197/",
   "version": "0.0.0",
   "scripts": {
     "css-loading-page": "sass .\\src\\components\\LoadingPage\\loading.scss ./src/styles/loading.css",
@@ -10,10 +9,11 @@
     "build:tailwind": "postcss ./src/styles/index.css -o ./src/styles/tailwind.css --env production",
     "build": "cross-env NODE_ENV=production rimraf ./build && vite build",
     "preview": "vite preview",
-    "dev": "vite",
+    "dev": "vite --host",
     "craco:build": "rimraf ./build && craco build",
     "craco:dev": "craco start",
-    "start": "craco start"
+    "start": "craco start",
+    "server": "serve ./build -p 8080"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
