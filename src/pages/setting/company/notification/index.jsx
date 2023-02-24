@@ -35,12 +35,25 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
+const initialNotificationData = {
+	quoteAccepted: [],
+	onlinePaymentReceived: [],
+	quoteReplyReceived: [],
+	invoiceReplyReceived: [],
+	jobReplyReceived: [],
+	customerReplyReceived: [],
+	fieldTeamCreatesNote: [],
+	fieldTeamUploadsFile: [],
+	fieldTeamCapturesJobSignature: [],
+};
 export default function NotificationsPage(props) {
 	const classes = useStyles(props);
 	const dispatch = useDispatch();
 	const userData = useSelector(state => state.user);
 	const notifications = useSelector(state => state.notifications);
 	const all_team_members = useSelector(state => state.teammates);
+
+	// const [showData, setShowData] = useState();
 
 
 	const _getMyNotifications = () => {
@@ -62,9 +75,14 @@ export default function NotificationsPage(props) {
 				fieldTeamUploadsFile: parseJSON(result.field_team_uploads_a_file) || [],
 				fieldTeamCapturesJobSignature: parseJSON(result.field_team_captures_a_job_signature) || [],
 			};
+			console.log('*********************',result, newNotifications)
 			dispatch(SET_USER_NOTIFICATIONS(newNotifications));
 			dispatch(LOADING(false));
-		}).catch(err => console.log(err));
+		}).catch(err => {
+			console.log(err);
+			dispatch(SET_USER_NOTIFICATIONS(initialNotificationData));
+			dispatch(LOADING(false));
+		});
 	}
 
 	const _getAllMyTeammates = () => {
@@ -85,14 +103,27 @@ export default function NotificationsPage(props) {
 			}));
 			dispatch(SET_TEAMMATES(all_list));
 			dispatch(LOADING(false));
-		}).catch(err => console.log(err));
+		}).catch(err => {
+			console.log(err);
+			dispatch(SET_TEAMMATES([]));
+			dispatch(LOADING(false));
+		});
 	}
 
 	useEffect(() => {
-		const hasAnyValue = _.some(notifications, e => !_.isEmpty(e));
-		if (!hasAnyValue) _getMyNotifications();
-		if (all_team_members.length === 0) _getAllMyTeammates();
-	}, []);
+		if (notifications === null) _getMyNotifications();
+		// const hasAnyValue = _.some(notifications, e => !_.isEmpty(e));
+		// if (!hasAnyValue) _getMyNotifications();
+		if (all_team_members === null) _getAllMyTeammates();
+		console.log(userData)
+	}, [userData]);
+	// useEffect(() => {
+	// 	_getMyNotifications();
+	// 	_getAllMyTeammates();
+	// }, [userData]);
+	// useEffect(() => {
+	// 	setShowData(notifications);
+	// }, [notifications]);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);

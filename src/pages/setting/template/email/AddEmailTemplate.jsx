@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { ADD_ITEM_IN_TEMPLATE_EMAILS } from '@store/actions';
+import { ADD_ITEM_IN_TEMPLATE_EMAILS, SET_ALERT } from '@store/actions';
 
 import { Button, Typography, Divider, Select, MenuItem, Avatar, Popover, List, ListItemButton, ListItemIcon, ListItemText, Collapse } from '@mui/material';
 // import { createTheme } from '@mui/material';

@@ -75,6 +75,7 @@ export const UPDATE_ITEM_IN_TASKS = (item) => ({ type: types.UPDATE_ITEM_IN_TASK
 export const REMOVE_ITEM_IN_TASKS = (id) => ({ type: types.REMOVE_ITEM_IN_TASKS, payload: id });
 // -------------------------------------------------------------------------------------------------------
 export const SET_TEAMMATES = (all_list) => ({ type: types.SET_TEAMMATES, payload: all_list });
+export const RESET_TEAMMATES = () => ({ type: types.RESET_TEAMMATES });
 export const ADD_ITEM_IN_TEAMMATES = (item) => ({ type: types.ADD_ITEM_IN_TEAMMATES, payload: item });
 export const UPDATE_ITEM_IN_TEAMMATES = (item) => ({ type: types.UPDATE_ITEM_IN_TEAMMATES, payload: item });
 export const REMOVE_ITEM_IN_TEAMMATES = (id) => ({ type: types.REMOVE_ITEM_IN_TEAMMATES, payload: id });

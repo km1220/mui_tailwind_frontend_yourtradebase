@@ -112,7 +112,7 @@ const NotificationCard = (props) => {
 
 	useEffect(() => {
 		let buffFlags = {};
-		all_team_members.map(each => {
+		all_team_members?.map(each => {
 			buffFlags[each.id] = checkMemberExist(each) ? true : false;
 			// console.log(checkMemberExist(each) ? true : false, 'memberStatusList.current', memberStatusList.current);
 		});
@@ -149,10 +149,12 @@ const NotificationCard = (props) => {
 						</Avatar>
 					</Tooltip>
 					{
-						all_team_members.map(each => (
+						all_team_members?.map(each => (
 							checkMemberExist(each) ?						// * check whether [each.team_member] is exist in [notificaion_array]
 								<Tooltip key={each.id} title={`Notify ${each.name}`}>
-									<Avatar sx={{ bgcolor: each.initialColorHex || stringToColor(each.name) }}>{stringAvatar(each.name)}</Avatar>
+									<Avatar sx={{ bgcolor: each.initialColorHex || stringToColor(each.name) }}>
+										{each.initialText || stringAvatar(each.name)}
+									</Avatar>
 								</Tooltip>
 								:
 								''
@@ -181,7 +183,7 @@ const NotificationCard = (props) => {
 							<Switch size='large' checked style={{ opacity: 0.3 }} color='secondary' />
 						</ListItem>
 						{
-							all_team_members.map(each =>
+							all_team_members?.map(each =>
 								<ListItem key={each.id} className='member-item'>
 									{/* <Avatar sx={{ bgcolor: each.initialColorHex || stringToColor(each.name) }}>{stringAvatar(each.name)}</Avatar> */}
 									<Avatar sx={{ bgcolor: each.initialColorHex || stringToColor(each.name) }}>

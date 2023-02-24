@@ -21,9 +21,7 @@ export default (state = initialState, action) => {
         ...action.payload
       };
     case RESET_USER_REMINDERS:
-      return {
-        ...initialState
-      };
+      return initialState;
 
 
     default:

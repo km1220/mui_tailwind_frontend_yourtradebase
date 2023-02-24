@@ -23,7 +23,7 @@ const initialState_2 = {
 
 
 
-export default (state = initialState_2, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case SET_USER_INFO:
       return {
@@ -31,9 +31,7 @@ export default (state = initialState_2, action) => {
         ...action.payload
       };
     case RESET_USER_INFO:
-      return {
-        ...initialState
-      };
+      return initialState;
 
 
     default:

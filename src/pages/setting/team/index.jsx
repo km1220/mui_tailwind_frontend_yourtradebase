@@ -77,18 +77,23 @@ export default function ManageTeamPage(props) {
 			}));
 			dispatch(SET_TEAMMATES(all_list));
 			dispatch(LOADING(false));
-		}).catch(err => console.log(err));
+		}).catch(err => {
+			console.log(err);
+			dispatch(SET_TEAMMATES([]));
+			dispatch(LOADING(false));
+		});
 	}
 
 	useEffect(() => {
-		if (all_team_members.length === 0) _getAllTeammates();
-	}, []);
+		if (!all_team_members) _getAllTeammates();
+		// console.log('all_team_members', all_team_members, userData)
+	}, [userData]);
 	useEffect(() => {
-		if (all_team_members.length === 0) return;
+		if (all_team_members?.length === 0) return;
 
 		adminListRef.current = [];
 		fieldTeamListRef.current = [];
-		all_team_members.map(each => {
+		all_team_members?.map(each => {
 			const each_data = {
 				id: each.id, name: each.name, email: each.email,
 				initialText: each.initialText, initialColorHex: each.initialColorHex
@@ -101,6 +106,7 @@ export default function ManageTeamPage(props) {
 		_forceRerender();
 	}, [all_team_members]);
 
+
 	const handleDeleteMember = (id) => {
 		if (!confirm(`Do you really want to delete this item ?   ID: ${id}`)) return;
 		axios.delete(`/team_members/${id}`).then(res => {
@@ -109,7 +115,6 @@ export default function ManageTeamPage(props) {
 			}
 		});
 	}
-
 
 	return (
 		<div className={classes.root}>

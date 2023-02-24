@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   ADD_ITEM_IN_TEAMMATES,
   LOADING, SET_ALERT
@@ -150,13 +150,14 @@ const initialData = {
 }
 export default function AddTeammatePage(props) {
   const classes = useStyles(props);
+  const theme = useTheme();
+  const smUpMatch = useMediaQuery(theme.breakpoints.up('sm'));
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state: { role: paramRole } } = useLocation();
-  const theme = useTheme();
-  const smUpMatch = useMediaQuery(theme.breakpoints.up('sm'));
+  const userData = useSelector(state => state.user);
 
-  const [newCustomerData, setNewData] = useState(initialData);
+  const [newMemberData, setNewData] = useState(initialData);
   const [permissions, setPermissions] = useState(initailPermissions);
 
   let colorList = AvatarColorList[0];
@@ -172,32 +173,33 @@ export default function AddTeammatePage(props) {
   }, []);
   useEffect(() => {
     setNewData({
-      ...newCustomerData,
+      ...newMemberData,
       initialText: paramRole === 'admin' ? 'A' : 'F',
       initialColorHex: paramRole === 'admin' ? '#14234e' : '#2b56cd',
       role: paramRole
     });
   }, [paramRole]);
 
-  const onRoleChange = val => setNewData({ ...newCustomerData, role: val });
+  const onRoleChange = val => setNewData({ ...newMemberData, role: val });
   const handleAddTeammate = () => {
     const newData = {
-      name: newCustomerData.name,
-      email: newCustomerData.email,
-      initial_text: newCustomerData.initialText,
-      initial_color: newCustomerData.initialColorHex,
-      role: newCustomerData.role === 'admin' ? 1 : 2,
-      permissions: newCustomerData.role === 'admin' ? JSON.stringify(permissions) : ''
+      user_id: userData.id,
+      name: newMemberData.name,
+      email: newMemberData.email,
+      initial_text: newMemberData.initialText,
+      initial_color: newMemberData.initialColorHex,
+      role: newMemberData.role === 'admin' ? 1 : 2,
+      permissions: newMemberData.role === 'admin' ? JSON.stringify(permissions) : ''
     }
     dispatch(LOADING(true));
     axios.post('/team_members', newData).then(res => {
       if (res.data.affectedRows) {
         dispatch(ADD_ITEM_IN_TEAMMATES({
-          ...newCustomerData,
+          ...newMemberData,
           id: res.data.insertId,
-          initial_text: newCustomerData.initialText,
-          initial_color: newCustomerData.initialColorHex,
-          permissions: newCustomerData.role === 'admin' ? permissions : initailPermissions
+          initial_text: newMemberData.initialText,
+          initial_color: newMemberData.initialColorHex,
+          permissions: newMemberData.role === 'admin' ? permissions : initailPermissions
         }));
         navigate('/setting/team');
         dispatch(LOADING(false));
@@ -224,7 +226,7 @@ export default function AddTeammatePage(props) {
             <Typography variant='subtitle2'>Team member name</Typography>
             <ItemComponent>
               <input placeholder='Enter their full name'
-                value={newCustomerData.name} onChange={e => setNewData({ ...newCustomerData, name: e.target.value })}
+                value={newMemberData.name} onChange={e => setNewData({ ...newMemberData, name: e.target.value })}
               />
             </ItemComponent>
           </div>
@@ -233,7 +235,7 @@ export default function AddTeammatePage(props) {
             <Typography variant="caption">They'll use this email address to sign in to YourTradebase</Typography>
             <ItemComponent>
               <input placeholder='Enter their email address'
-                value={newCustomerData.email} onChange={e => setNewData({ ...newCustomerData, email: e.target.value })}
+                value={newMemberData.email} onChange={e => setNewData({ ...newMemberData, email: e.target.value })}
               />
             </ItemComponent>
           </div>
@@ -243,14 +245,14 @@ export default function AddTeammatePage(props) {
             <div className='flex items-center'>
               <ItemComponent className='w-fit'>
                 <input placeholder='AA' style={{ width: '2rem' }} maxLength={3}
-                  value={newCustomerData.initialText} onChange={e => setNewData({ ...newCustomerData, initialText: e.target.value })}
+                  value={newMemberData.initialText} onChange={e => setNewData({ ...newMemberData, initialText: e.target.value })}
                 />
               </ItemComponent>
               <Circle
                 className={classes.colorPicker}
                 colors={colorList}
-                color={newCustomerData.initialColorHex}
-                onChange={(color) => setNewData({ ...newCustomerData, initialColorHex: color.hex })}
+                color={newMemberData.initialColorHex}
+                onChange={(color) => setNewData({ ...newMemberData, initialColorHex: color.hex })}
               />
             </div>
           </div>
@@ -261,20 +263,20 @@ export default function AddTeammatePage(props) {
         <Typography variant='h6'>What's their role?</Typography>
 
         <div className='role-wrapper'>
-          <div className={clsx("radio-item-box", newCustomerData.role === "admin" ? 'selected' : '')}
+          <div className={clsx("radio-item-box", newMemberData.role === "admin" ? 'selected' : '')}
             onClick={() => onRoleChange("admin")}
           >
-            <Radio id='readio-input-admin' checked={newCustomerData.role === "admin"} color="secondary" />
+            <Radio id='readio-input-admin' checked={newMemberData.role === "admin"} color="secondary" />
             <div className="radio-content">
               <Typography className='' variant='subtitle2'>Admin</Typography>
               <Typography className='' variant='body1'>£15.00 per month</Typography>
             </div>
           </div>
 
-          <div className={clsx("radio-item-box", newCustomerData.role === "field_team" ? 'selected' : '')}
+          <div className={clsx("radio-item-box", newMemberData.role === "field_team" ? 'selected' : '')}
             onClick={() => onRoleChange("field_team")}
           >
-            <Radio id='readio-input-field-team' checked={newCustomerData.role === "field_team"} color="secondary" />
+            <Radio id='readio-input-field-team' checked={newMemberData.role === "field_team"} color="secondary" />
             <div className="radio-content">
               <Typography className='' variant='subtitle2'>Field team</Typography>
               <Typography className='' variant='body1'>FREE</Typography>
@@ -284,7 +286,7 @@ export default function AddTeammatePage(props) {
       </div>
 
 
-      {newCustomerData.role === 'admin' ?
+      {newMemberData.role === 'admin' ?
         <div id="admin-permission">
           <div className={clsx(classes.permissionBox, 'can')}>
             <Typography className='permission-title' variant='h5'>Can...</Typography>

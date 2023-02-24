@@ -1,6 +1,6 @@
-import { SET_TEAMMATES, ADD_ITEM_IN_TEAMMATES, UPDATE_ITEM_IN_TEAMMATES, REMOVE_ITEM_IN_TEAMMATES } from '@store/actions/ActionTypes';
+import { SET_TEAMMATES, RESET_TEAMMATES, ADD_ITEM_IN_TEAMMATES, UPDATE_ITEM_IN_TEAMMATES, REMOVE_ITEM_IN_TEAMMATES } from '@store/actions/ActionTypes';
 
-const initialState = [];
+const initialState = null;
 
 let buffAddedList;
 let buffUpdatedList;
@@ -8,6 +8,8 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case SET_TEAMMATES:
       return [...action.payload];
+    case RESET_TEAMMATES:
+      return initialState;
     case ADD_ITEM_IN_TEAMMATES:
       buffAddedList = state;
       buffAddedList.push(action.payload);

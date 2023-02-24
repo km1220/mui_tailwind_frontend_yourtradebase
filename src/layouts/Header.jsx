@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
-import { RESET_USER_INFO, RESET_USER_NOTIFICATIONS, RESET_USER_REMINDERS } from '@store/actions'
+import { RESET_USER_INFO, RESET_USER_NOTIFICATIONS, RESET_USER_REMINDERS, RESET_TEAMMATES } from '@store/actions'
 
 import { Button, Typography, Avatar, Popover, List, ListItemButton, ListItemIcon, ListItemText, Collapse } from '@mui/material'
 // import { createTheme } from '@mui/material';
@@ -122,6 +122,7 @@ export default function Header(props) {
 		dispatch(RESET_USER_INFO());
 		dispatch(RESET_USER_REMINDERS());
 		dispatch(RESET_USER_NOTIFICATIONS());
+		dispatch(RESET_TEAMMATES());
 	};
 
 	return (

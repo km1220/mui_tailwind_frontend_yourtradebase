@@ -184,13 +184,13 @@ export default function EditTeammatePage(props) {
   }
 
   useEffect(() => {
-    if (all_team_members.length === 0) _getAllTeammates();
+    if (all_team_members?.length === 0) _getAllTeammates();
     return () => {
       setEditData(initialData);
     }
   }, []);
   useEffect(() => {
-    if (all_team_members.length === 0) return;
+    if (all_team_members?.length === 0) return;
     const targetData = all_team_members.filter(e => e.id === Number(paramID))[0];
     if (!targetData)
       navigate('/setting/team');
