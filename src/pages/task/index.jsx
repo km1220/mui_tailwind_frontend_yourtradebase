@@ -119,7 +119,7 @@ export default function TaskPage(props) {
           <>
             <ListItem className={classes.searchBar}>
               <SearchIcon onClick={() => handleSearch()} style={{ cursor: 'pointer' }} />
-              <input placeholder='Seach material...' type='text'
+              <input placeholder='Search material...' type='text'
                 value={searchText} onChange={e => setSearchText(e.target.value)}
                 onKeyDown={e => e.key === "Enter" ? handleSearch() : null}
               />

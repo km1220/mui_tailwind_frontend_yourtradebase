@@ -61,7 +61,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function QuotePage(props) {
+export default function QuoteList(props) {
   const classes = useStyles(props);
   const navigate = useNavigate();
   const dispatch = useDispatch();

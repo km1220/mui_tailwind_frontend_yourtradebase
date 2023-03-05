@@ -239,7 +239,6 @@ export default function AddQuotePage(props) {
 		}).catch(err => console.log(err));
 	}
 	useEffect(() => {
-		dispatch(SET_PRICE_LISTS([]));
 		if (price_lists.length === 0) _getAllPriceLists();
 		return () => {
 			dispatch(SET_PRICE_LISTS([]));
@@ -559,7 +558,7 @@ export default function AddQuotePage(props) {
 							<IconButton style={{ cursor: 'pointer' }} disableRipple disableFocusRipple >
 								<SearchIcon />
 							</IconButton>
-							<input placeholder='Seach price list...' type='text'
+							<input placeholder='Search price list...' type='text'
 								value={searchText} onChange={e => setSearchText(e.target.value)}
 								onKeyDown={e => e.key === "Enter" ? handlePriceListSearch() : null}
 							/>

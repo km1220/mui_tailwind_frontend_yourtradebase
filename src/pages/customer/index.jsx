@@ -139,7 +139,7 @@ export default function CustomerPage(props) {
               <IconButton style={{ cursor: 'pointer' }} disableRipple disableFocusRipple >
                 <SearchIcon />
               </IconButton>
-              <input placeholder='Seach material...' type='text'
+              <input placeholder='Search material...' type='text'
                 value={searchText} onChange={e => setSearchText(e.target.value)}
                 onKeyDown={e => e.key === "Enter" ? handleSearch() : null}
               />

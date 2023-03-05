@@ -15,32 +15,36 @@ import customers from './customer/customers';
 import extra_infos from './customer/extra_infos';
 
 import quotes from './quotes';
+import invoices from './invoices';
+import jobs from './jobs';
 import tasks from './tasks';
 import teammates from './teammates';
 
 import email_templates from './template/email.js';
 
 const rootReducer = combineReducers({
-    loading_status: loading,
-    alert: alert,
+	loading_status: loading,
+	alert: alert,
 
-    user: user_info,
-    reminders,
-    notifications,
+	user: user_info,
+	reminders,
+	notifications,
 
-    material_labour_list: materialLabourList,
-    price_lists: priceLists,
-    materials,
-    labours,
+	material_labour_list: materialLabourList,
+	price_lists: priceLists,
+	materials,
+	labours,
 
-    customers,
-    customer_extra_infos: extra_infos,
+	customers,
+	customer_extra_infos: extra_infos,
 
-    quotes,
-    tasks,
-    teammates,
+	quotes,
+	invoices,
+	jobs,
+	tasks,
+	teammates,
 
-    email_templates,
+	email_templates,
 });
 
 export default rootReducer;

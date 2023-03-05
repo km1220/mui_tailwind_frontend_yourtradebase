@@ -64,130 +64,145 @@ const QuoteEditPage = lazy(() => import('@pages/quote/EditQuote'));
 const TaskPage = lazy(() => import('@pages/task'));
 const TaskAddPage = lazy(() => import('@pages/task/AddTask'));
 const TaskEditPage = lazy(() => import('@pages/task/EditTask'));
+const JobPage = lazy(() => import('@pages/job'));
+const JobAddPage = lazy(() => import('@pages/job/AddJob'));
+// const JobEditPage = lazy(() => import('@pages/task/EditJob'));
+const InvoicePage = lazy(() => import('@pages/invoice'));
+const InvoiceAddPage = lazy(() => import('@pages/invoice/AddInvoice'));
+// const JobEditPage = lazy(() => import('@pages/task/EditJob'));
 import TestComponent from './test.component';
 
 
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    // width: '100vw',
-    minHeight: '100vh',
-    backgroundColor: '#f0f0f0',
-    // backgroundColor: theme.palette.background.default,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  }
+	root: {
+		// width: '100vw',
+		minHeight: '100vh',
+		backgroundColor: '#f0f0f0',
+		// backgroundColor: theme.palette.background.default,
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+	}
 }))
 
 function App(props) {
-  const classes = useStyles(props);
-  const dispatch = useDispatch();
-  const { userData, isLoading, alert } = useSelector(state => ({
-    userData: state.user,
-    isLoading: state.loading_status,
-    alert: state.alert
-  }));
-  // console.log('redux data: ', userData, isLoading, alert);
+	const classes = useStyles(props);
+	const dispatch = useDispatch();
+	const { userData, isLoading, alert } = useSelector(state => ({
+		userData: state.user,
+		isLoading: state.loading_status,
+		alert: state.alert
+	}));
+	// console.log('redux data: ', userData, isLoading, alert);
 
-  return (
-    <Suspense fallback={<Loading />}>
+	return (
+		<Suspense fallback={<Loading />}>
 
-      {isLoading ?
-        <div className='flex items-center justify-center w-full min-h-screen'>
-          <ClimbingBoxLoader size='1.5rem' />
-        </div>
-        :
-        <>
-          <Router>
-            <div className={clsx(classes.root)}>
-              {/* <AppRouter /> */}
-              <Routes>
-                <Route index element={<Navigate to={userData.id ? "/dashboard" : "/home"} replace />} />
+			{isLoading ?
+				<div className='flex items-center justify-center w-full min-h-screen'>
+					{/* <ClimbingBoxLoader size='1.5rem' /> */}
+					<Loading />
+				</div>
+				:
+				<>
+					<Router>
+						<div className={clsx(classes.root)}>
+							{/* <AppRouter /> */}
+							<Routes>
+								<Route index element={<Navigate to={userData.id ? "/dashboard" : "/home"} replace />} />
 
-                <Route element={<PublicRoute />}>
-                  <Route path="/login" element={<LogInPage />} />
-                  <Route path="/signup" element={<SignUpPage />} />
-                  <Route element={<DefaultLayout />}>
-                    <Route path="home" element={<HomePage />} />
-                  </Route>
-                </Route>
+								<Route element={<PublicRoute />}>
+									<Route path="/login" element={<LogInPage />} />
+									<Route path="/signup" element={<SignUpPage />} />
+									<Route element={<DefaultLayout />}>
+										<Route path="home" element={<HomePage />} />
+									</Route>
+								</Route>
 
-                <Route element={<PrivateRoute />}>
-                  <Route element={<DefaultLayout />}>
-                    <Route path="dashboard" element={<DashboardPage />} />
+								<Route element={<PrivateRoute />}>
+									<Route element={<DefaultLayout />}>
+										<Route path="dashboard" element={<DashboardPage />} />
 
-                    <Route path="customer" element={<CustomerPage />} />
-                    <Route path="customer/new" element={<CustomerAddPage />} />
-                    <Route path="customer/:id" element={<CustomerEditPage />} />
+										<Route path="customer" element={<CustomerPage />} />
+										<Route path="customer/new" element={<CustomerAddPage />} />
+										<Route path="customer/:id" element={<CustomerEditPage />} />
 
-                    <Route path="quote" element={<QuotePage />} />
-                    <Route path="quote/new" element={<QuoteAddPage />} />
-                    <Route path="quote/:id" element={<QuoteEditPage />} />
+										<Route path="quote" element={<QuotePage />} />
+										<Route path="quote/new" element={<QuoteAddPage />} />
+										<Route path="quote/:id" element={<QuoteEditPage />} />
 
-                    <Route path="task" element={<TaskPage />} />
-                    <Route path="task/new" element={<TaskAddPage />} />
-                    <Route path="task/:id" element={<TaskEditPage />} />
-                  </Route>
-                  <Route path="contact_us" element={<ContactUsPage />} />
-                </Route>
+										<Route path="job" element={<JobPage />} />
+										<Route path="job/new" element={<JobAddPage />} />
+										{/* <Route path="job/:id" element={<JobEditPage />} /> */}
 
-                <Route path="/setting">
-                  <Route element={<PrivateRoute />}>
-                    <Route element={<SettingLayout />}>
-                      <Route path="profile" /* index */ element={<ProfilePage />} />
-                      <Route path="change_password" element={<ChangePwdPage />} />
-                      <Route path="reminder" element={<ReminderPage />} />
+										<Route path="invoice" element={<InvoicePage />} />
+										<Route path="invoice/new" element={<InvoiceAddPage />} />
+										{/* <Route path="job/:id" element={<JobEditPage />} /> */}
 
-                      <Route path="company_tax" element={<CompanyTaxPage />} />
-                      <Route path="logo" element={<LogosPage />} />
-                      <Route path="quote" element={<QuoteDetailsPage />} />
-                      <Route path="invoice" element={<InvoiceDetailsPage />} />
-                      <Route path="customer/extra_info" element={<ExtraCustomerInfoPage />} />
-                      <Route path="template/email" element={<EmailTemplatesPage />} />
-                      <Route path="notification" element={<NotificationsPage />} />
+										<Route path="task" element={<TaskPage />} />
+										<Route path="task/new" element={<TaskAddPage />} />
+										<Route path="task/:id" element={<TaskEditPage />} />
+									</Route>
+									<Route path="contact_us" element={<ContactUsPage />} />
+								</Route>
 
-                      <Route path="material" element={<MaterialsPage />} />
-                      <Route path="labour_rate" element={<LabourRatesPage />} />
-                      <Route path="price_list" element={<PriceListPage />} />
+								<Route path="/setting">
+									<Route element={<PrivateRoute />}>
+										<Route element={<SettingLayout />}>
+											<Route path="profile" /* index */ element={<ProfilePage />} />
+											<Route path="change_password" element={<ChangePwdPage />} />
+											<Route path="reminder" element={<ReminderPage />} />
 
-                      <Route path="automation_categories" element={<AutoMsgsPage />} />
-                      <Route path="stripe/connection" element={<StripePage />} />
-                      <Route path="xero/connection" element={<XeroPage />} />
-                      <Route path="quickbooks/connection" element={<QuickBooksPage />} />
+											<Route path="company_tax" element={<CompanyTaxPage />} />
+											<Route path="logo" element={<LogosPage />} />
+											<Route path="quote" element={<QuoteDetailsPage />} />
+											<Route path="invoice" element={<InvoiceDetailsPage />} />
+											<Route path="customer/extra_info" element={<ExtraCustomerInfoPage />} />
+											<Route path="template/email" element={<EmailTemplatesPage />} />
+											<Route path="notification" element={<NotificationsPage />} />
+
+											<Route path="material" element={<MaterialsPage />} />
+											<Route path="labour_rate" element={<LabourRatesPage />} />
+											<Route path="price_list" element={<PriceListPage />} />
+
+											<Route path="automation_categories" element={<AutoMsgsPage />} />
+											<Route path="stripe/connection" element={<StripePage />} />
+											<Route path="xero/connection" element={<XeroPage />} />
+											<Route path="quickbooks/connection" element={<QuickBooksPage />} />
 
 
-                      <Route path="team" element={<TeamManagePage />} />
-                      <Route path="account" element={<AccountManagePage />} />
+											<Route path="team" element={<TeamManagePage />} />
+											<Route path="account" element={<AccountManagePage />} />
 
-                      <Route index element={<Navigate to={"/setting/profile"} replace />} />
-                      <Route path="*" element={<Navigate to={"/setting"} replace />} />
-                    </Route>
-                    <Route path="price_list/new" element={<PriceListAddPage />} />
-                    <Route path="price_list/:id" element={<PriceListEditPage />} />
-                    <Route path="team/new" element={<TeamAddPage />} />
-                    <Route path="team/:id" element={<TeamEditPage />} />
-                    <Route path="template/email/new" element={<AddEmailTemplatePage />} />
-                    <Route path="template/email/:id" element={<EditEmailTemplatePage />} />
-                  </Route>
-                </Route>
+											<Route index element={<Navigate to={"/setting/profile"} replace />} />
+											<Route path="*" element={<Navigate to={"/setting"} replace />} />
+										</Route>
+										<Route path="price_list/new" element={<PriceListAddPage />} />
+										<Route path="price_list/:id" element={<PriceListEditPage />} />
+										<Route path="team/new" element={<TeamAddPage />} />
+										<Route path="team/:id" element={<TeamEditPage />} />
+										<Route path="template/email/new" element={<AddEmailTemplatePage />} />
+										<Route path="template/email/:id" element={<EditEmailTemplatePage />} />
+									</Route>
+								</Route>
 
-                <Route path="/test" element={<TestComponent />} />
-                <Route path="*" element={<Navigate to={"/"} replace />} />
-              </Routes>
-            </div>
-          </Router>
+								<Route path="/test" element={<TestComponent />} />
+								<Route path="*" element={<Navigate to={"/"} replace />} />
+							</Routes>
+						</div>
+					</Router>
 
-          {alert.open &&
-            <Snackbar open={alert.open} onClose={() => dispatch(RESET_ALERT())}
-              autoHideDuration={alert.time} severity={alert.type} message={alert.message}
-            />
-          }
-        </>
-      }
+					{alert.open &&
+						<Snackbar open={alert.open} onClose={() => dispatch(RESET_ALERT())}
+							autoHideDuration={alert.time} severity={alert.type} message={alert.message}
+						/>
+					}
+				</>
+			}
 
-    </Suspense >
-  );
+		</Suspense >
+	);
 }
 
 export default App;

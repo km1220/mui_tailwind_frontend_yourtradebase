@@ -183,7 +183,7 @@ export default function MaterialPage(props) {
 						<List className={clsx(classes.dataList, 'mb-4')}>
 							<ListItem key='search-bar' className={classes.searchBar}>
 								<SearchIcon onClick={() => handleSearch()} style={{ cursor: 'pointer' }} />
-								<input placeholder='Seach material...' type='text'
+								<input placeholder='Search material...' type='text'
 									value={searchText} onChange={e => setSearchText(e.target.value)}
 									onKeyDown={e => e.key === "Enter" ? handleSearch() : null}
 								/>

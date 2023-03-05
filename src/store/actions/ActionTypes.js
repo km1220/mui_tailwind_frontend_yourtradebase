@@ -75,6 +75,18 @@ export const RESET_TEAMMATES = 'RESET_TEAMMATES';
 export const ADD_ITEM_IN_TEAMMATES = 'ADD_ITEM_IN_TEAMMATES';
 export const UPDATE_ITEM_IN_TEAMMATES = 'UPDATE_ITEM_IN_TEAMMATES';
 export const REMOVE_ITEM_IN_TEAMMATES = 'REMOVE_ITEM_IN_TEAMMATES';
+// -------------------------------------------------------------------------------------------------------
+export const SET_JOBS = 'SET_JOBS';
+export const RESET_JOBS = 'RESET_JOBS';
+export const ADD_ITEM_IN_JOBS = 'ADD_ITEM_IN_JOBS';
+export const UPDATE_ITEM_IN_JOBS = 'UPDATE_ITEM_IN_JOBS';
+export const REMOVE_ITEM_IN_JOBS = 'REMOVE_ITEM_IN_JOBS';
+// -------------------------------------------------------------------------------------------------------
+export const SET_INVOICES = 'SET_INVOICES';
+export const RESET_INVOICES = 'RESET_INVOICES';
+export const ADD_ITEM_IN_INVOICES = 'ADD_ITEM_IN_INVOICES';
+export const UPDATE_ITEM_IN_INVOICES = 'UPDATE_ITEM_IN_INVOICES';
+export const REMOVE_ITEM_IN_INVOICES = 'REMOVE_ITEM_IN_INVOICES';
 // =======================================================================================================
 
 // =======================================================================================================

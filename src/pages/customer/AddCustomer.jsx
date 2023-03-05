@@ -16,19 +16,8 @@ import PhoneInput from 'react-phone-number-input';
 import ItemComponent from '@components/price_list/ItemComponent';
 import DraggablePaper from '../setting/DraggablePaper';
 
-import { _generateNewID } from '@utils';
+import { _generateNewID, formatDate } from '@utils';
 
-
-
-
-
-const formatDate = (date_str = '') => {
-	let date = new Date(date_str);
-	if (date == 'Invalid Date')
-		date = new Date();
-
-	return date.toISOString().split("T")[0];
-}
 
 
 

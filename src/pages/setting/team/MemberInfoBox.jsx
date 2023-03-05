@@ -17,14 +17,10 @@ import clsx from 'clsx';
 import spacetime from 'spacetime';
 import AvatarColorList from './avatarColors.js';
 
+import { formatDate } from '@utils';
 
-const formatDate = (date_str = '') => {
-	let date = new Date(date_str);
-	if (date == 'Invalid Date')
-		date = new Date();
 
-	return date.toISOString().split("T")[0];
-}
+
 
 const Alert = React.forwardRef(function Alert(props, ref) {
 	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;

@@ -506,7 +506,7 @@ export default function EditQuotePage(props) {
 							<IconButton style={{ cursor: 'pointer' }} disableRipple disableFocusRipple >
 								<SearchIcon />
 							</IconButton>
-							<input placeholder='Seach price list...' type='text'
+							<input placeholder='Search price list...' type='text'
 								value={searchText} onChange={e => setSearchText(e.target.value)}
 								onKeyDown={e => e.key === "Enter" ? handlePriceListSearch() : null}
 							/>

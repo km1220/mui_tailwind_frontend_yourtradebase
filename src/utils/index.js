@@ -1,6 +1,7 @@
 
 export * from './avatar.js';
 export * from './price.js';
+export * from './date.js';
 
 export const _strCapitalize = str => {
 	if (str === '' || str === null || str === undefined) return null;

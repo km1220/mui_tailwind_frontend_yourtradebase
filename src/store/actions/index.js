@@ -79,6 +79,18 @@ export const RESET_TEAMMATES = () => ({ type: types.RESET_TEAMMATES });
 export const ADD_ITEM_IN_TEAMMATES = (item) => ({ type: types.ADD_ITEM_IN_TEAMMATES, payload: item });
 export const UPDATE_ITEM_IN_TEAMMATES = (item) => ({ type: types.UPDATE_ITEM_IN_TEAMMATES, payload: item });
 export const REMOVE_ITEM_IN_TEAMMATES = (id) => ({ type: types.REMOVE_ITEM_IN_TEAMMATES, payload: id });
+// -------------------------------------------------------------------------------------------------------
+export const SET_JOBS = (all_list) => ({ type: types.SET_JOBS, payload: all_list });
+export const RESET_JOBS = () => ({ type: types.RESET_JOBS });
+export const ADD_ITEM_IN_JOBS = (item) => ({ type: types.ADD_ITEM_IN_JOBS, payload: item });
+export const UPDATE_ITEM_IN_JOBS = (item) => ({ type: types.UPDATE_ITEM_IN_JOBS, payload: item });
+export const REMOVE_ITEM_IN_JOBS = (id) => ({ type: types.REMOVE_ITEM_IN_JOBS, payload: id });
+// -------------------------------------------------------------------------------------------------------
+export const SET_INVOICES = (all_list) => ({ type: types.SET_INVOICES, payload: all_list });
+export const RESET_INVOICES = () => ({ type: types.RESET_INVOICES });
+export const ADD_ITEM_IN_INVOICES = (item) => ({ type: types.ADD_ITEM_IN_INVOICES, payload: item });
+export const UPDATE_ITEM_IN_INVOICES = (item) => ({ type: types.UPDATE_ITEM_IN_INVOICES, payload: item });
+export const REMOVE_ITEM_IN_INVOICES = (id) => ({ type: types.REMOVE_ITEM_IN_INVOICES, payload: id });
 // =======================================================================================================
 
 // =======================================================================================================
@@ -97,10 +109,10 @@ export const REMOVE_ITEM_IN_TEMPLATE_EMAILS = (id) => ({ type: types.REMOVE_ITEM
 
 
 export const SET_ALALYZED_DATA = (results, stats) => ({
-  type: types.SET_ALALYZED_DATA,
-  payload: { results: results, stats: stats }
+	type: types.SET_ALALYZED_DATA,
+	payload: { results: results, stats: stats }
 });
 export const SET_RESULT_TABLE_TITLES = (title_list) => ({
-  type: types.SET_RESULT_TABLE_TITLES,
-  payload: title_list
+	type: types.SET_RESULT_TABLE_TITLES,
+	payload: title_list
 });

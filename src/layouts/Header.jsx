@@ -138,11 +138,9 @@ export default function Header(props) {
 				<HeaderLink to={"/customer"} title="Customers" Icon={WcOutlined} />
 				<HeaderLink to={"/quote"} title="Quotes" Icon={DraftsOutlined} />
 
-				{/* <HeaderLink to={"/job"} title="Jobs" Icon={WorkOutline} />
+				<HeaderLink to={"/job"} title="Jobs" Icon={WorkOutline} />
 				<HeaderLink to={"/invoice"} title="Invoices" Icon={DescriptionOutlined} />
-				<HeaderLink to={"/schedule"} title="Schedule" Icon={CalendarMonthOutlined} /> */}
-				<HeaderLink title="Jobs" Icon={WorkOutline} />
-				<HeaderLink title="Invoices" Icon={DescriptionOutlined} />
+				{/* <HeaderLink to={"/schedule"} title="Schedule" Icon={CalendarMonthOutlined} /> */}
 				<HeaderLink title="Schedule" Icon={CalendarMonthOutlined} />
 
 				<HeaderLink to={"/task"} title="Tasks" Icon={FormatListBulletedOutlined} />

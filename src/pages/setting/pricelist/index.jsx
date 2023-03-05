@@ -133,7 +133,7 @@ export default function PriceListPage(props) {
 					<List className={clsx(classes.dataList, 'mb-4')}>
 						<ListItem key='search-bar' className={classes.searchBar}>
 							<SearchIcon onClick={() => handleSearch()} style={{ cursor: 'pointer' }} />
-							<input placeholder='Seach price list...' type='text'
+							<input placeholder='Search price list...' type='text'
 								value={searchText} onChange={e => setSearchText(e.target.value)}
 								onKeyDown={e => e.key === "Enter" ? handleSearch() : null}
 							/>
